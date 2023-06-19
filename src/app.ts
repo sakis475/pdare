@@ -1,0 +1,25 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import { Request, Response } from 'express';
+import { errorHandler } from './error_handler/error-handler';
+import cors from 'cors';
+import { api } from './routes/api.routes';
+
+const app = express();
+
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
+app.use(cors());
+
+app.use('/api/v1', api);
+
+//express custom error handler
+app.use(errorHandler);
+
+export { app };
