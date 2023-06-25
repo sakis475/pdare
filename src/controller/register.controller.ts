@@ -28,5 +28,7 @@ export async function postRegister(
     passwordHashed
   });
 
-  res.json({ username });
+  delete newuser['passwordHashed'];
+
+  res.json(generateAuthToken(newuser));
 }
