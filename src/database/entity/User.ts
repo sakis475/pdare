@@ -12,8 +12,14 @@ export class User {
   id?: number;
 
   @Column('text')
+  username: string;
+
+  @Column('text')
   firstName: string;
 
   @Column('text')
   lastName: string;
+
+  @Column('text')
+  passwordHashed: string;
 }

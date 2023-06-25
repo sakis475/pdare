@@ -6,6 +6,7 @@ import { Request, Response } from 'express';
 import { errorHandler } from './error_handler/error-handler';
 import cors from 'cors';
 import { api } from './routes/api.routes';
+import morgan from 'morgan';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(
   })
 );
 app.use(cors());
+app.use(morgan('tiny'));
 
 app.use('/api/v1', api);
 

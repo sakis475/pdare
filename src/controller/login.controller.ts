@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ErrorCode } from '../error_handler/error-code';
 import { ErrorException } from '../error_handler/error-exception';
 import { comparePassword } from '../auth/password-hash';
@@ -7,19 +7,18 @@ import { UserModel } from '../database/model/user.model';
 // import { usersDB } from '../model/db/users.db';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
-export async function postLogin(req: Request, res: Response, next: any) {
-  const { name, password } = req.body;
+export async function postLogin(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { username, password } = req.body;
 
-  if (!name || !password) {
+  if (!username || !password) {
     return next(new ErrorException(ErrorCode.NoNameOrPassword));
   }
   const userModel = new UserModel();
   const user = await userModel.getUserByID(1);
-
-  const newuser = await userModel.saveUser({
-    firstName: 'Thanos',
-    lastName: 'Piplikatsis'
-  });
 
   // const userExists = await usersDB.getUser(name);
 
@@ -33,5 +32,5 @@ export async function postLogin(req: Request, res: Response, next: any) {
   // }
 
   // res.json({ token: generateAuthToken(userExists[0]) });
-  res.json(newuser);
+  res.json(user);
 }
