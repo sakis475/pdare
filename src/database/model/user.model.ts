@@ -16,6 +16,13 @@ export class UserModel {
     return user;
   }
 
+  public async getUserByUsername(username: string) {
+    const user = await this.userRepository.findOneBy({
+      username
+    });
+    return user;
+  }
+
   public async saveUser(user: User) {
     return await this.userRepository.save(user);
   }

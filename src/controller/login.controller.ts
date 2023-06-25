@@ -18,19 +18,15 @@ export async function postLogin(
     return next(new ErrorException(ErrorCode.NoNameOrPassword));
   }
   const userModel = new UserModel();
-  const user = await userModel.getUserByID(1);
+  const user = await userModel.getUserByUsername(username);
 
-  // const userExists = await usersDB.getUser(name);
+  if (!user) {
+    return next(new ErrorException(ErrorCode.NoUserFoundError));
+  }
 
-  // if (!userExists || !userExists[0]) {
-  //   return next(new ErrorException(ErrorCode.NoUserFoundError));
-  // }
+  if (!comparePassword(password, user.passwordHashed)) {
+    return next(new ErrorException(ErrorCode.WrongPasswordError));
+  }
 
-  // const validPassword = comparePassword(password, userExists[0].password);
-  // if (!validPassword) {
-  //   return next(new ErrorException(ErrorCode.WrongPasswordError));
-  // }
-
-  // res.json({ token: generateAuthToken(userExists[0]) });
-  res.json(user);
+  res.json(generateAuthToken(user));
 }
