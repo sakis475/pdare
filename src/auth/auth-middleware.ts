@@ -1,13 +1,16 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { ErrorCode } from '../error_handler/error-code';
 import { ErrorException } from '../error_handler/error-exception';
 import { verifyToken } from './jwt';
 
-export const authMiddleware = (req: Request, res: Response, next: any) => {
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const auth = req.headers.authorization;
-
-  if (auth && auth.startsWith('Bearer')) {
+  if (auth && auth.startsWith('Bearer') && auth.split(' ').length > 1) {
     const token = auth.split(' ')[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
 
     try {

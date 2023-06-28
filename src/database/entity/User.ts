@@ -5,6 +5,7 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
+import { UserType } from '../interfaces';
 
 @Entity()
 export class User {
@@ -19,6 +20,13 @@ export class User {
 
   @Column('text')
   lastName: string;
+
+  @Column({
+    type: 'text',
+    enum: UserType,
+    default: UserType.WAITER
+  })
+  role?: UserType;
 
   @Column('text')
   passwordHashed: string;

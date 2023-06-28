@@ -16,10 +16,9 @@ export const generateAuthToken = (user: Partial<User>): string => {
   return token;
 };
 
-export const verifyToken = (token: string): { _id: string; name: string } => {
+export const verifyToken = (token: string) => {
   try {
-    const tokenData = jwt.verify(token, jwtKey);
-    return tokenData as { _id: string; name: string };
+    jwt.verify(token, jwtKey);
   } catch (error) {
     throw new ErrorException(ErrorCode.Unauthorized);
   }
