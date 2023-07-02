@@ -1,12 +1,5 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { UserType } from '../interfaces';
-import { Order } from './Order';
 
 @Entity()
 export class User {
