@@ -2,17 +2,18 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { UserType } from '../interfaces';
+import { Order } from './Order';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column('text')
+  @Column({ type: 'text', unique: true })
   username: string;
 
   @Column('text')
@@ -22,7 +23,7 @@ export class User {
   lastName: string;
 
   @Column({
-    type: 'text',
+    type: 'enum',
     enum: UserType,
     default: UserType.WAITER
   })

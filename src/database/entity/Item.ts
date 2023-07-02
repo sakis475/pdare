@@ -3,14 +3,13 @@ import {
   Entity,
   JoinColumn,
   JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { Category } from './Category';
-import { ItemProperties } from './ItemProperties';
+import { ItemProperty } from './ItemProperty';
 
 @Entity()
 export class Item {
@@ -20,11 +19,9 @@ export class Item {
   @Column('text')
   title: string;
 
-  @ManyToMany(() => Category)
-  @JoinColumn()
+  @ManyToOne(() => Category)
   category: Category;
 
-  @ManyToMany(() => ItemProperties)
-  @JoinColumn()
-  properties: ItemProperties;
+  @OneToMany(() => ItemProperty, (itemProperty) => itemProperty.item)
+  itemProperty?: ItemProperty[];
 }

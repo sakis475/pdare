@@ -1,6 +1,10 @@
 import { DataSource } from 'typeorm';
 import { User } from './entity/User';
 import { Order } from './entity/Order';
+import { OrderItem } from './entity/OrderItem';
+import { Item } from './entity/Item';
+import { ItemProperty } from './entity/ItemProperty';
+import { Category } from './entity/Category';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -9,7 +13,7 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME!,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE!,
-  entities: [User, Order],
+  entities: [User, Order, OrderItem, Item, ItemProperty, Category],
   migrations: ['./migrations/*.ts'],
   synchronize: true
 });

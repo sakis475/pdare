@@ -1,7 +1,7 @@
 import jwt, { Secret } from 'jsonwebtoken';
 import { ErrorException } from '../error_handler/error-exception';
 import { ErrorCode } from '../error_handler/error-code';
-import { User } from 'src/database/entity/User';
+import { User } from '../database/entity/User';
 
 const jwtKey = process.env.JWT_PRIVATE_KEY as Secret;
 

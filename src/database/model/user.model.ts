@@ -10,7 +10,7 @@ export class UserModel {
 
   public async getUserByID(id: number): Promise<User> {
     const user = await this.userRepository.findOneBy({
-      id: 1
+      id
     });
 
     return user;
@@ -23,7 +23,7 @@ export class UserModel {
     return user;
   }
 
-  public async saveUser(user: User) {
+  public async saveUser(user: User): Promise<User> {
     return await this.userRepository.save(user);
   }
 }

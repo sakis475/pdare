@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { postOrder } from '../../controller/orders.controller';
+import { getOrder } from '../../controller/orders.controller';
 import { authMiddleware } from '../../auth/auth-middleware';
+import { catchWrapper } from '../../error_handler/error-handler';
 
-export const tablesRouter = Router();
+export const orderRouter = Router();
 
-tablesRouter.get('/', authMiddleware, postOrder);
+orderRouter.get('/', catchWrapper(getOrder));
