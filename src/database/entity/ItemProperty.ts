@@ -1,25 +1,28 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Item } from './Item';
-import { PropertyDataType } from '../interfaces';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Item } from "./Item";
+import { PropertyDataType } from "../interfaces";
 
 @Entity()
 export class ItemProperty {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column('text')
+  @Column({
+    type: "text",
+    unique: true,
+  })
   title: string;
 
   @Column({
-    type: 'text',
+    type: "text",
     enum: PropertyDataType,
-    default: PropertyDataType.SINGLESELECT
+    default: PropertyDataType.SINGLESELECT,
   })
   dataType: PropertyDataType;
 
   @ManyToOne(() => Item, (item) => item.itemProperty)
   item?: Item;
 
-  @Column('text', { array: true })
+  @Column("text", { array: true })
   values: string[];
 }

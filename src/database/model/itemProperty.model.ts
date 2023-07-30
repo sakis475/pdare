@@ -1,6 +1,6 @@
-import { Repository } from 'typeorm';
-import { AppDataSource } from '../dataSource';
-import { ItemProperty } from '../entity/ItemProperty';
+import { Repository } from "typeorm";
+import { AppDataSource } from "../dataSource";
+import { ItemProperty } from "../entity/ItemProperty";
 
 export class ItemPropertyModel {
   itemPropertyRepository: Repository<ItemProperty>;
@@ -9,10 +9,16 @@ export class ItemPropertyModel {
   }
 
   public async getItemPropertyById(id: number): Promise<ItemProperty> {
-    const user = await this.itemPropertyRepository.findOneBy({
-      id
+    const temProperty = await this.itemPropertyRepository.findOneBy({
+      id,
     });
-    return user;
+    return temProperty;
+  }
+  public async getItemPropertyByTitle(title: string): Promise<ItemProperty> {
+    const temProperty = await this.itemPropertyRepository.findOneBy({
+      title,
+    });
+    return temProperty;
   }
 
   public async saveItemProperty(itemProperty: ItemProperty) {

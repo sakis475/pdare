@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
-import { ErrorCode } from '../error_handler/error-code';
-import { ErrorException } from '../error_handler/error-exception';
-import { comparePassword, passwordHash } from '../auth/password-hash';
-import { generateAuthToken } from '../auth/jwt';
-import { UserModel } from '../database/model/user.model';
+import { NextFunction, Request, Response } from "express";
+import { ErrorCode } from "../error_handler/error-code";
+import { comparePassword, passwordHash } from "../auth/password-hash";
+import { generateAuthToken } from "../auth/jwt";
+import { UserModel } from "../database/model/user.model";
+import { ErrorException } from "../error_handler/error-exception";
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function postRegister(
@@ -20,14 +20,16 @@ export async function postRegister(
 
   const passwordHashed = passwordHash(password);
 
+  const newUserData = { username, firstName, lastName, passwordHashed };
+
+  const token = generateAuthToken(newUserData);
+
   const newuser = await userModel.saveUser({
-    username,
-    firstName,
-    lastName,
-    passwordHashed
+    ...newUserData,
+    token,
   });
 
-  delete newuser['passwordHashed'];
+  delete newuser["passwordHashed"];
 
   res.json(generateAuthToken(newuser));
 }

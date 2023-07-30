@@ -1,4 +1,4 @@
-export interface ErrorModel {
-  code: string;
-  status: number;
+export class ErrorModel {
+  message: string;
+  code: number;
 }

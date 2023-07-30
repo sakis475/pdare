@@ -3,17 +3,17 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm';
-import { Category } from './Category';
-import { ItemProperty } from './ItemProperty';
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Category } from "./Category";
+import { ItemProperty } from "./ItemProperty";
 
 @Entity()
 export class Item {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column('text')
+  @Column({ type: "text", unique: true })
   title: string;
 
   @ManyToOne(() => Category)

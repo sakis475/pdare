@@ -7,10 +7,10 @@ import {
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm';
-import { OrderItem } from './OrderItem';
-import { User } from './User';
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { OrderItem } from "./OrderItem";
+import { User } from "./User";
 
 @Entity()
 export class Order {
@@ -24,13 +24,13 @@ export class Order {
   createdAt?: Date;
 
   @Column({
-    type: 'date',
-    nullable: true
+    type: "date",
+    nullable: true,
   })
   closedAt?: Date;
 
   @OneToMany(() => OrderItem, (OrderItem) => OrderItem.order, {
-    eager: true
+    eager: true,
   })
-  OrderItem?: OrderItem[];
+  orderItems?: OrderItem[];
 }

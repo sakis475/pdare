@@ -1,21 +1,21 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Item } from './Item';
-import { Order } from './Order';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Item } from "./Item";
+import { Order } from "./Order";
 
 @Entity()
 export class OrderItem {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @ManyToOne(() => Order, (order) => order.OrderItem)
+  @ManyToOne(() => Order, (order) => order.orderItems)
   order: Order;
 
   @ManyToOne(() => Item)
   item: Item;
 
-  @Column('text', { array: true })
+  @Column("text", { array: true })
   itemProperties: string[];
 
-  @Column({ type: 'integer' })
+  @Column({ type: "integer" })
   quantity: number;
 }

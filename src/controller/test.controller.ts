@@ -1,18 +1,17 @@
-import { NextFunction, Request, Response } from 'express';
-import { ErrorCode } from '../error_handler/error-code';
-import { ErrorException } from '../error_handler/error-exception';
-import { comparePassword } from '../auth/password-hash';
-import { generateAuthToken } from '../auth/jwt';
-import { UserModel } from '../database/model/user.model';
-import { User } from '../database/entity/User';
-import { PropertyDataType, UserType } from '../database/interfaces';
-import { CategoryModel } from '../database/model/category.model';
-import { ItemModel } from '../database/model/item.model';
-import { ItemPropertyModel } from '../database/model/itemProperty.model';
-import { AppDataSource } from 'src/database/dataSource';
-import { OrderModel } from '../database/model/order.model';
-import { OrderItemModel } from '../database/model/orderItem.model';
-import { OrderItem } from '../database/entity/OrderItem';
+import { NextFunction, Request, Response } from "express";
+import { ErrorCode } from "../error_handler/error-code";
+import { comparePassword } from "../auth/password-hash";
+import { generateAuthToken } from "../auth/jwt";
+import { UserModel } from "../database/model/user.model";
+import { User } from "../database/entity/User";
+import { PropertyDataType, UserType } from "../database/interfaces";
+import { CategoryModel } from "../database/model/category.model";
+import { ItemModel } from "../database/model/item.model";
+import { ItemPropertyModel } from "../database/model/itemProperty.model";
+import { AppDataSource } from "src/database/dataSource";
+import { OrderModel } from "../database/model/order.model";
+import { OrderItemModel } from "../database/model/orderItem.model";
+import { OrderItem } from "../database/entity/OrderItem";
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function populateData(
@@ -24,33 +23,33 @@ export async function populateData(
 
   try {
     await userModel.saveUser({
-      username: 'sakis',
-      firstName: 'thanos',
-      lastName: 'pip',
+      username: "sakis",
+      firstName: "thanos",
+      lastName: "pip",
       role: UserType.ADMIN,
-      passwordHashed: 'asd'
+      passwordHashed: "asd",
     });
   } catch (error) {}
 
-  const user = await userModel.getUserByUsername('sakis');
+  const user = await userModel.getUserByUsername("sakis");
 
   const categoryModel = new CategoryModel();
   await categoryModel.saveCategory({
-    title: 'Coffee'
+    title: "Coffee",
   });
   await categoryModel.saveCategory({
-    title: 'Tea'
+    title: "Tea",
   });
   await categoryModel.saveCategory({
-    title: 'Bevarage'
+    title: "Bevarage",
   });
 
   const itemPropertyModel = new ItemPropertyModel();
 
   const itemProperty = await itemPropertyModel.saveItemProperty({
-    title: 'sugar',
+    title: "sugar",
     dataType: PropertyDataType.SINGLESELECT,
-    values: ['Sketos', 'Metrios', 'Glikos']
+    values: ["Sketos", "Metrios", "Glikos"],
   });
 
   const itemModel = new ItemModel();
@@ -58,15 +57,15 @@ export async function populateData(
   const coffeeCategory = await categoryModel.getCategoryById(1);
 
   const item = await itemModel.saveItem({
-    title: 'Espresso',
+    title: "Espresso",
     category: coffeeCategory,
-    itemProperty: [itemProperty]
+    itemProperty: [itemProperty],
   });
 
   const orderModel = new OrderModel();
 
   const order = await orderModel.saveOrder({
-    user: user
+    user: user,
   });
 
   const orderItemModel = new OrderItemModel();
@@ -74,9 +73,9 @@ export async function populateData(
   const orderItem = await orderItemModel.saveOrderItem({
     order: order,
     item: item,
-    itemProperties: ['Sketos'],
-    quantity: 2
+    itemProperties: ["Sketos"],
+    quantity: 2,
   });
 
-  res.json('ok');
+  res.json("ok");
 }
