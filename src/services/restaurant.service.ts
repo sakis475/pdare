@@ -1,0 +1,22 @@
+import { Repository } from 'typeorm';
+import { AppDataSource } from '../database/dataSource';
+import { Restaurant } from '../database/entity/Restaurant.entity';
+
+export class RestaurantService {
+  restaurantRepository: Repository<Restaurant>;
+  constructor() {
+    this.restaurantRepository = AppDataSource.getRepository(Restaurant);
+  }
+
+  public async getRestaurantById(id: number): Promise<Restaurant> {
+    const user = await this.restaurantRepository.findOneBy({
+      id
+    });
+
+    return user;
+  }
+
+  public async saveRestaurant(restaurant: Restaurant) {
+    return await this.restaurantRepository.save(restaurant);
+  }
+}

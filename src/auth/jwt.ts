@@ -1,6 +1,6 @@
-import jwt, { Secret } from "jsonwebtoken";
-import { ErrorCode } from "../error_handler/error-code";
-import { User } from "../database/entity/User";
+import jwt, { Secret } from 'jsonwebtoken';
+import { ErrorCode } from '../error_handler/error-code';
+import { User } from '../database/entity/User.entity';
 
 const jwtKey = process.env.JWT_PRIVATE_KEY as Secret;
 
@@ -10,11 +10,11 @@ export const generateAuthToken = (user: Partial<User>): string => {
       username: user.username,
       firstName: user.firstName,
       role: user.role,
-      lastName: user.lastName,
+      lastName: user.lastName
     },
     jwtKey,
     {
-      expiresIn: "12h",
+      expiresIn: '12h'
     }
   );
   return token;

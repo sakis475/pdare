@@ -1,17 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { comparePassword } from "../auth/password-hash";
-import { generateAuthToken } from "../auth/jwt";
-import { UserModel } from "../database/model/user.model";
-import { User } from "../database/entity/User";
-import { PropertyDataType, UserType } from "../database/interfaces";
-import { CategoryModel } from "../database/model/category.model";
-import { ItemModel } from "../database/model/item.model";
-import { ItemPropertyModel } from "../database/model/itemProperty.model";
-import { AppDataSource } from "src/database/dataSource";
-import { OrderModel } from "../database/model/order.model";
-import { OrderItemModel } from "../database/model/orderItem.model";
-import { OrderItem } from "../database/entity/OrderItem";
+import { NextFunction, Request, Response } from 'express';
+import { UserService } from '../services/user.service';
+import { PropertyDataType, UserType } from '../database/interfaces';
+import { CategoryService } from '../services/category.service';
+import { ItemService } from '../services/item.service';
+import { ItemPropertyService } from '../services/itemProperty.service';
+import { OrderService } from '../services/order.service';
+import { OrderItemService } from '../services/orderItem.service';
+
+import { TableService } from '../services/table.service';
+import { RestaurantService } from '../services/restaurant.service';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function populateData(
@@ -19,63 +16,77 @@ export async function populateData(
   res: Response,
   next: NextFunction
 ) {
-  const userModel = new UserModel();
+  const restaurantService = new RestaurantService();
 
+  const restaurant = await restaurantService.saveRestaurant({
+    restaurantName: 'touThanash'
+  });
+
+  const userService = new UserService();
   try {
-    await userModel.saveUser({
-      username: "sakis",
-      firstName: "thanos",
-      lastName: "pip",
+    await userService.saveUser({
+      username: 'sakis',
+      firstName: 'thanos',
+      lastName: 'pip',
       role: UserType.ADMIN,
-      passwordHashed: "asd",
+      passwordHashed: 'asd',
+      restaurant
     });
   } catch (error) {}
-
-  const user = await userModel.getUserByUsername("sakis");
-
-  const categoryModel = new CategoryModel();
-  await categoryModel.saveCategory({
-    title: "Coffee",
+  const user = await userService.getUserByUsername('sakis');
+  const orderService = new OrderService();
+  const tableService = new TableService();
+  const table = await tableService.saveTable({
+    tableName: 'a1',
+    status: 'open',
+    restaurant
   });
-  await categoryModel.saveCategory({
-    title: "Tea",
+  const order = await orderService.saveOrder({ user });
+  const categoryService = new CategoryService();
+  const coffeeCategory = await categoryService.saveCategory({
+    title: 'Coffee',
+    restaurant
   });
-  await categoryModel.saveCategory({
-    title: "Bevarage",
+  await categoryService.saveCategory({
+    title: 'Tea',
+    restaurant
   });
-
-  const itemPropertyModel = new ItemPropertyModel();
-
-  const itemProperty = await itemPropertyModel.saveItemProperty({
-    title: "sugar",
-    dataType: PropertyDataType.SINGLESELECT,
-    values: ["Sketos", "Metrios", "Glikos"],
+  await categoryService.saveCategory({
+    title: 'Bevarage',
+    restaurant
   });
-
-  const itemModel = new ItemModel();
-
-  const coffeeCategory = await categoryModel.getCategoryById(1);
-
-  const item = await itemModel.saveItem({
-    title: "Espresso",
+  const itemService = new ItemService();
+  const item = await itemService.saveItem({
+    title: 'Espresso',
+    cost: 3.2,
     category: coffeeCategory,
-    itemProperty: [itemProperty],
+    restaurant
   });
-
-  const orderModel = new OrderModel();
-
-  const order = await orderModel.saveOrder({
-    user: user,
+  const itemPropertyService = new ItemPropertyService();
+  const itemProperty1 = await itemPropertyService.saveItemProperty({
+    propertyName: 'sugar',
+    propertyType: PropertyDataType.SINGLESELECT,
+    propertyValue: 'sketos',
+    item
   });
-
-  const orderItemModel = new OrderItemModel();
-
-  const orderItem = await orderItemModel.saveOrderItem({
+  const itemProperty2 = await itemPropertyService.saveItemProperty({
+    propertyName: 'sugar',
+    propertyType: PropertyDataType.SINGLESELECT,
+    propertyValue: 'metrios',
+    item
+  });
+  const itemProperty3 = await itemPropertyService.saveItemProperty({
+    propertyName: 'sugar',
+    propertyType: PropertyDataType.SINGLESELECT,
+    propertyValue: 'glikos',
+    item
+  });
+  const orderItemService = new OrderItemService();
+  const orderItem = await orderItemService.saveOrderItem({
     order: order,
     item: item,
-    itemProperties: ["Sketos"],
-    quantity: 2,
+    itemProperty: itemProperty1,
+    quantity: 2
   });
-
-  res.json("ok");
+  res.json('ok');
 }

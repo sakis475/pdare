@@ -1,12 +1,12 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import { ErrorCode } from "../error_handler/error-code";
-import { verifyToken } from "./jwt";
-import { User } from "../database/entity/User";
-import { OrderModel } from "../database/model/order.model";
-import { UserModel } from "../database/model/user.model";
-import { catchWrapper } from "../error_handler/error-handler";
-import { ErrorException } from "../error_handler/error-exception";
+import { ErrorCode } from '../error_handler/error-code';
+import { verifyToken } from './jwt';
+import { User } from '../database/entity/User.entity';
+import { OrderService } from '../services/order.service';
+import { UserService } from '../services/user.service';
+import { catchWrapper } from '../error_handler/error-handler';
+import { ErrorException } from '../error_handler/error-exception';
 
 export const authMiddleware = async (
   req: Request,
@@ -15,12 +15,12 @@ export const authMiddleware = async (
 ) => {
   try {
     const auth = req.headers.authorization;
-    if (auth && auth.startsWith("Bearer") && auth.split(" ").length > 1) {
-      const token = auth.split(" ")[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
+    if (auth && auth.startsWith('Bearer') && auth.split(' ').length > 1) {
+      const token = auth.split(' ')[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
 
       let userJWT: Partial<User> = null;
       try {
-        //@ts-ignore
+        // @ts-ignore
         userJWT = verifyToken(token);
       } catch (error) {
         return next(new ErrorException(ErrorCode.JWTExpired));
@@ -29,13 +29,16 @@ export const authMiddleware = async (
       if (!userJWT?.username)
         return next(new ErrorException(ErrorCode.Unauthorized));
 
-      const userModel = new UserModel();
+      const userService = new UserService();
 
-      const user = await userModel.getUserByJWT(token);
+      const user = await userService.getUserByJWT(token);
 
-      if (!user) return next(new ErrorException(ErrorCode.JWTExpired));
+      if (!user || !user.active) {
+        return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
+      }
 
       res.locals.user = user;
+
       return next();
     } else {
       return next(new ErrorException(ErrorCode.Unauthorized));

@@ -1,10 +1,12 @@
 import { DataSource } from 'typeorm';
-import { User } from './entity/User';
-import { Order } from './entity/Order';
-import { OrderItem } from './entity/OrderItem';
-import { Item } from './entity/Item';
-import { ItemProperty } from './entity/ItemProperty';
-import { Category } from './entity/Category';
+import { User } from './entity/User.entity';
+import { Order } from './entity/Order.entity';
+import { OrderItem } from './entity/OrderItem.entity';
+import { Item } from './entity/Item.entity';
+import { ItemProperty } from './entity/ItemProperty.entity';
+import { Category } from './entity/Category.entity';
+import { Table } from './entity/Table.entity';
+import { Restaurant } from './entity/Restaurant.entity';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,7 +15,16 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME!,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE!,
-  entities: [User, Order, OrderItem, Item, ItemProperty, Category],
+  entities: [
+    User,
+    Order,
+    OrderItem,
+    Item,
+    ItemProperty,
+    Category,
+    Table,
+    Restaurant
+  ],
   migrations: ['./migrations/*.ts'],
   synchronize: true
 });

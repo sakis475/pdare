@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { comparePassword } from "../auth/password-hash";
-import { generateAuthToken } from "../auth/jwt";
-import { UserModel } from "../database/model/user.model";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { comparePassword } from '../auth/password-hash';
+import { generateAuthToken } from '../auth/jwt';
+import { UserService } from '../services/user.service';
 // import { usersDB } from '../model/db/users.db';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
@@ -11,5 +11,5 @@ export async function getTables(
   res: Response,
   next: NextFunction
 ) {
-  res.json("ok");
+  res.json('ok');
 }
