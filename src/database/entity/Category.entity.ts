@@ -3,8 +3,7 @@ import {
   Entity,
   Index,
   ManyToOne,
-  PrimaryGeneratedColumn,
-  Unique
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { Restaurant } from './Restaurant.entity';
 
@@ -17,6 +16,6 @@ export class Category {
   @Column('text')
   title: string;
 
-  @ManyToOne(() => Restaurant)
+  @ManyToOne(() => Restaurant, { nullable: false })
   restaurant: Restaurant;
 }

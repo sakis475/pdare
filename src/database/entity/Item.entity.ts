@@ -2,11 +2,9 @@ import {
   Column,
   Entity,
   Index,
-  ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
-  Unique
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { Category } from './Category.entity';
 import { ItemProperty } from './ItemProperty.entity';
@@ -14,7 +12,7 @@ import { OrderItem } from './OrderItem.entity';
 import { Restaurant } from './Restaurant.entity';
 
 @Entity()
-// @Index(['title', 'restaurantId'], { unique: true })
+@Index(['title', 'restaurant'], { unique: true })
 export class Item {
   @PrimaryGeneratedColumn()
   id?: number;

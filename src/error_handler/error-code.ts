@@ -86,4 +86,9 @@ export class ErrorCode extends ErrorModel {
     message: "Can't complete request please contact support.",
     code: 400 // HTTP status code 400 represents "Bad Request" error.
   };
+
+  public static readonly SQLDuplicate = {
+    message: 'Item/s already exist',
+    code: 400
+  };
 }

@@ -18,10 +18,9 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: UserType,
-    default: UserType.WAITER
+    enum: UserType
   })
-  role?: UserType;
+  role: UserType;
 
   @Column('text')
   passwordHashed: string;
@@ -32,6 +31,6 @@ export class User {
   @Column({ type: 'boolean', default: true })
   active?: boolean;
 
-  @ManyToOne(() => Restaurant, { eager: true })
+  @ManyToOne(() => Restaurant, { eager: true, cascade: true })
   restaurant: Restaurant;
 }

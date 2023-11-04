@@ -1,4 +1,5 @@
 export enum UserType {
+  OWNER = 'owner',
   ADMIN = 'admin',
   ADMINOPERATOR = 'adminOperator',
   WAITER = 'waiter'

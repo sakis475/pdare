@@ -7,6 +7,7 @@ import { ItemProperty } from './entity/ItemProperty.entity';
 import { Category } from './entity/Category.entity';
 import { Table } from './entity/Table.entity';
 import { Restaurant } from './entity/Restaurant.entity';
+import { OrderOrderItem_ItemPropertyItem } from './entity/OrderItem_ItemProperty.entity';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -23,7 +24,8 @@ const AppDataSource = new DataSource({
     ItemProperty,
     Category,
     Table,
-    Restaurant
+    Restaurant,
+    OrderOrderItem_ItemPropertyItem
   ],
   migrations: ['./migrations/*.ts'],
   synchronize: true

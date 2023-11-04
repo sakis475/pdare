@@ -1,6 +1,8 @@
 import {
   Column,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn
@@ -14,9 +16,6 @@ export class Restaurant {
 
   @Column({ type: 'text', unique: true })
   restaurantName: string;
-
-  @OneToOne(() => User)
-  userOwner?: User;
 
   @Column({ type: 'boolean', default: true })
   active?: string;

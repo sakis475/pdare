@@ -1,6 +1,7 @@
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { AppDataSource } from '../database/dataSource';
 import { Category } from '../database/entity/Category.entity';
+import { Restaurant } from '../database/entity/Restaurant.entity';
 
 export class CategoryService {
   categoryRepository: Repository<Category>;
@@ -8,15 +9,49 @@ export class CategoryService {
     this.categoryRepository = AppDataSource.getRepository(Category);
   }
 
+  public createCategory(category: Category): Category {
+    const newCategory = this.categoryRepository.create(category);
+
+    return newCategory;
+  }
+
   public async getCategoryById(id: number): Promise<Category> {
-    const user = await this.categoryRepository.findOneBy({
+    const category = await this.categoryRepository.findOneBy({
       id
     });
 
-    return user;
+    return category;
   }
 
-  public async saveCategory(Category: Category) {
-    return await this.categoryRepository.save(Category);
+  public async getCategoryByIds(
+    ids: number[],
+    restaurant: Restaurant
+  ): Promise<Category[]> {
+    const categories = await this.categoryRepository.find({
+      where: { id: In(ids), restaurant }
+    });
+
+    return categories;
+  }
+
+  public async getActiveCategories(
+    restaurant: Restaurant
+  ): Promise<Category[]> {
+    const categories = await this.categoryRepository.find({
+      where: { restaurant }
+    });
+    return categories;
+  }
+
+  public async saveCategory(category: Category) {
+    return await this.categoryRepository.save(category);
+  }
+
+  public async saveCategories(categories: Category[]) {
+    return await this.categoryRepository.save(categories);
+  }
+
+  public async deleteCategories(categories: Category[]) {
+    return await this.categoryRepository.remove(categories);
   }
 }

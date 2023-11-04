@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { PropertyDataType } from '../interfaces';
 import { Item } from './Item.entity';
 
@@ -25,8 +19,7 @@ export class ItemProperty {
 
   @Column({
     type: 'text',
-    enum: PropertyDataType,
-    default: PropertyDataType.SINGLESELECT
+    enum: PropertyDataType
   })
   propertyType: PropertyDataType;
 

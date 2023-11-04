@@ -2,15 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { OrderItem } from './OrderItem.entity';
 import { User } from './User.entity';
-import { Table } from './Table.entity';
 
 @Entity()
 export class Order {
