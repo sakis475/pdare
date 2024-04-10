@@ -1,47 +1,41 @@
-import { Router } from 'express';
-import { OrderController } from '../controller/orders.controller';
-import { authMiddleware } from '../auth/auth-middleware';
-import { catchWrapper } from '../error_handler/error-handler';
+import { Router } from "express";
+import { authMiddleware } from "../auth/auth-middleware";
+import { catchWrapper } from "../error_handler/error-handler";
+import {
+  deleteOrder,
+  createOrder,
+  getOrderById,
+  getOrderPrint,
+} from "../controller/orders.controller";
 
 /**
  * /order
  */
-export const orderRouter = Router();
+export const ordersRouter = Router();
 
-const orderController = new OrderController();
-
-//Get all active orders
-orderRouter.get(
-  '/active-orders',
-  catchWrapper(orderController.getActiveOrders.bind(orderController))
-);
+// //Get all active orders
+// ordersRouter.get(
+//   '/active-orders',
+//   catchWrapper(orderController.getActiveOrders)
+// );
 
 //Get an order
-orderRouter.get(
-  '/:orderId',
-  catchWrapper(orderController.getOrder.bind(orderController))
-);
+ordersRouter.get("/:orderId", catchWrapper(getOrderById));
 
 //Create an order
-orderRouter.post(
-  '/',
-  catchWrapper(orderController.createOrder.bind(orderController))
-);
+ordersRouter.post("/", catchWrapper(createOrder));
 
-//Update an order
-orderRouter.patch(
-  '/:orderId',
-  catchWrapper(orderController.updateOrder.bind(orderController))
-);
+// //Update an order
+// ordersRouter.patch('/:orderId', catchWrapper(orderController.updateOrder));
 
-//Cancel an order
-orderRouter.delete(
-  '/cancel/:orderId',
-  catchWrapper(orderController.cancelOrder.bind(orderController))
-);
+// //Cancel an order
+// ordersRouter.delete(
+//   '/cancel/:orderId',
+//   catchWrapper(orderController.cancelOrder)
+// );
 
 //Close an order
-orderRouter.delete(
-  '/close/:orderId',
-  catchWrapper(orderController.closeOrder.bind(orderController))
-);
+ordersRouter.delete("/close/:orderId", catchWrapper(deleteOrder));
+
+//Get print image for order
+ordersRouter.get("/orderPrint/:orderId", catchWrapper(getOrderPrint));

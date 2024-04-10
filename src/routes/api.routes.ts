@@ -1,27 +1,29 @@
-import { Router } from 'express';
-import { loginRouter } from './login.router';
-import { registerRouter } from './register.router';
-import { tablesRouter } from './tables.router';
-import { orderRouter } from './orders.router';
-import { testRouter } from './test.router';
-import { authMiddleware } from '../auth/auth-middleware';
+import { Router } from "express";
+import { loginRouter } from "./login.router";
+import { registerRouter } from "./register.router";
+import { tablesRouter } from "./tables.router";
+import { ordersRouter } from "./orders.router";
+import { testRouter } from "./test.router";
+import { authMiddleware } from "../auth/auth-middleware";
 
-import { categoryRouter } from './categories.router';
-import { adminRouter } from './admin.router';
+import { categoryRouter } from "./categories.router";
+import { adminRouter } from "./admin.router";
+import { itemsRouter } from "./item.router";
 
 export const api = Router();
 
 //admin
-api.use('/admin', adminRouter);
+api.use("/admin", adminRouter);
 
 //restaurant users
-api.use('/login', loginRouter);
-api.use('/register', authMiddleware, registerRouter);
+api.use("/login", loginRouter);
+api.use("/register", authMiddleware, registerRouter);
 
-api.use('/categories', authMiddleware, categoryRouter);
+api.use("/categories", authMiddleware, categoryRouter);
+api.use("/tables", authMiddleware, tablesRouter);
 
-api.use('/order', authMiddleware, orderRouter);
+api.use("/items", authMiddleware, itemsRouter);
 
-api.use('/tables', authMiddleware, tablesRouter);
+api.use("/orders", authMiddleware, ordersRouter);
 
-api.use('/test', testRouter);
+api.use("/test", testRouter);

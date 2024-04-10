@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToMany,
   ManyToOne,
@@ -18,10 +19,10 @@ export class Table {
   @Column()
   tableName: string;
 
-  @Column()
-  status: string;
+  @Column({ default: true })
+  isEnabled?: Boolean;
 
-  @OneToOne(() => Order, { nullable: true, cascade: true })
+  @OneToOne(() => Order, { nullable: true })
   @JoinColumn()
   occupiedByOrder?: Order;
 

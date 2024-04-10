@@ -1,0 +1,4 @@
+Item Properties Should have price, and handle the final price of the item added to an order.
+Optional description of the item (free text).
+Allow to create a new table on order (custom).
+Add email to login also

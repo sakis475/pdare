@@ -34,6 +34,17 @@ export class CategoryService {
     return categories;
   }
 
+  public async countCategoryByIds(
+    ids: number[],
+    restaurant: Restaurant
+  ): Promise<Number> {
+    const count = await this.categoryRepository.count({
+      where: { id: In(ids), restaurant }
+    });
+
+    return count;
+  }
+
   public async getActiveCategories(
     restaurant: Restaurant
   ): Promise<Category[]> {

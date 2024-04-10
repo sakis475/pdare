@@ -1,16 +1,16 @@
-import { DataSource } from 'typeorm';
-import { User } from './entity/User.entity';
-import { Order } from './entity/Order.entity';
-import { OrderItem } from './entity/OrderItem.entity';
-import { Item } from './entity/Item.entity';
-import { ItemProperty } from './entity/ItemProperty.entity';
-import { Category } from './entity/Category.entity';
-import { Table } from './entity/Table.entity';
-import { Restaurant } from './entity/Restaurant.entity';
-import { OrderOrderItem_ItemPropertyItem } from './entity/OrderItem_ItemProperty.entity';
+import { DataSource } from "typeorm";
+import { User } from "./entity/User.entity";
+import { Order } from "./entity/Order.entity";
+import { OrderItem } from "./entity/OrderItem.entity";
+import { Item } from "./entity/Item.entity";
+import { ItemProperty } from "./entity/ItemProperty.entity";
+import { Category } from "./entity/Category.entity";
+import { Table } from "./entity/Table.entity";
+import { Restaurant } from "./entity/Restaurant.entity";
+import { OrderOrderItem_ItemPropertyItem } from "./entity/OrderItem_ItemProperty.entity";
 
 const AppDataSource = new DataSource({
-  type: 'postgres',
+  type: "postgres",
   host: process.env.DB_HOST!,
   port: +process.env.DB_PORT!,
   username: process.env.DB_USERNAME!,
@@ -25,18 +25,18 @@ const AppDataSource = new DataSource({
     Category,
     Table,
     Restaurant,
-    OrderOrderItem_ItemPropertyItem
+    OrderOrderItem_ItemPropertyItem,
   ],
-  migrations: ['./migrations/*.ts'],
-  synchronize: true
+  migrations: ["./migrations/*.ts"],
+  synchronize: true,
 });
 
 AppDataSource.initialize()
   .then(() => {
-    console.log('Data Source has been initialized!');
+    console.log("Data Source has been initialized!");
   })
   .catch((err: any) => {
-    console.error('Error during Data Source initialization', err);
+    console.error("Error during Data Source initialization", err);
   });
 
 export { AppDataSource };

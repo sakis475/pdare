@@ -1,8 +1,9 @@
-import jwt, { Secret } from 'jsonwebtoken';
-import { ErrorCode } from '../error_handler/error-code';
-import { User } from '../database/entity/User.entity';
+import jwt, { Secret } from "jsonwebtoken";
+import { ErrorCode } from "../error_handler/error-code";
+import { User } from "../database/entity/User.entity";
 
 const jwtKey = process.env.JWT_PRIVATE_KEY as Secret;
+const jwtExpiresIn = process.env.JWT_EXPIRATION_MINUTES;
 
 export const generateAuthToken = (user: Partial<User>): string => {
   const token = jwt.sign(
@@ -10,11 +11,11 @@ export const generateAuthToken = (user: Partial<User>): string => {
       username: user.username,
       firstName: user.firstName,
       role: user.role,
-      lastName: user.lastName
+      lastName: user.lastName,
     },
     jwtKey,
     {
-      expiresIn: '12h'
+      expiresIn: Number(jwtExpiresIn) * 60,
     }
   );
   return token;

@@ -4,10 +4,12 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { OrderItem } from './OrderItem.entity';
 import { User } from './User.entity';
+import { Table } from './Table.entity';
 
 @Entity()
 export class Order {
@@ -16,6 +18,12 @@ export class Order {
 
   @ManyToOne(() => User)
   user: User;
+
+  @OneToOne(() => Table, (table) => table.occupiedByOrder, {
+    eager: true,
+    cascade: true
+  })
+  table: Table;
 
   @CreateDateColumn()
   createdAt?: Date;
@@ -27,7 +35,8 @@ export class Order {
   closedAt?: Date;
 
   @OneToMany(() => OrderItem, (OrderItem) => OrderItem.order, {
-    eager: true
+    eager: true,
+    cascade: true
   })
-  orderItem?: OrderItem[];
+  orderItems?: OrderItem[];
 }

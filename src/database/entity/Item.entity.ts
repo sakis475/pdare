@@ -1,18 +1,15 @@
 import {
   Column,
   Entity,
-  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
 import { Category } from './Category.entity';
 import { ItemProperty } from './ItemProperty.entity';
-import { OrderItem } from './OrderItem.entity';
 import { Restaurant } from './Restaurant.entity';
 
 @Entity()
-@Index(['title', 'restaurant'], { unique: true })
 export class Item {
   @PrimaryGeneratedColumn()
   id?: number;
@@ -21,21 +18,20 @@ export class Item {
   title: string;
 
   @OneToMany(() => ItemProperty, (itemProperty) => itemProperty.item, {
-    eager: true
+    eager: true,
+    cascade: true
   })
-  itemProperty?: ItemProperty[];
-
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.item, {
-    eager: true
-  })
-  orderItem?: OrderItem[];
+  itemProperties?: ItemProperty[];
 
   @Column({ type: 'float' })
   cost: number;
 
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, { eager: true })
   category: Category;
 
   @ManyToOne(() => Restaurant)
   restaurant: Restaurant;
+
+  @Column({ default: true })
+  isEnabled?: boolean;
 }

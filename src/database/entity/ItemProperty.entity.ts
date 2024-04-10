@@ -1,8 +1,16 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 import { PropertyDataType } from '../interfaces';
 import { Item } from './Item.entity';
+import { Restaurant } from './Restaurant.entity';
 
 @Entity()
+@Index(['propertyName', 'propertyValue', 'item'], { unique: true })
 export class ItemProperty {
   @PrimaryGeneratedColumn()
   id?: number;
@@ -18,11 +26,15 @@ export class ItemProperty {
   propertyValue: string;
 
   @Column({
-    type: 'text',
-    enum: PropertyDataType
+    type: 'enum',
+    enum: PropertyDataType,
+    nullable: true
   })
-  propertyType: PropertyDataType;
+  propertyType?: PropertyDataType;
 
-  @ManyToOne(() => Item, (item) => item.itemProperty)
+  @ManyToOne(() => Item, (item) => item.itemProperties)
   item: Item;
+
+  @ManyToOne(() => Restaurant)
+  restaurant: Restaurant;
 }

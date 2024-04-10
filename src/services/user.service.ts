@@ -1,6 +1,6 @@
-import { Repository } from 'typeorm';
-import { AppDataSource } from '../database/dataSource';
-import { User } from '../database/entity/User.entity';
+import { Repository } from "typeorm";
+import { AppDataSource } from "../database/dataSource";
+import { User } from "../database/entity/User.entity";
 
 export class UserService {
   userRepository: Repository<User>;
@@ -10,7 +10,7 @@ export class UserService {
 
   public async getUserByID(id: number): Promise<User> {
     const user = await this.userRepository.findOneBy({
-      id
+      id,
     });
 
     return user;
@@ -19,15 +19,35 @@ export class UserService {
   public async getUserByUsername(username: string) {
     const user = await this.userRepository.findOneBy({
       username,
-      active: true
+      active: true,
     });
+    return user;
+  }
+
+  public async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({
+      email,
+      active: true,
+    });
+    return user;
+  }
+
+  public async getUserByEmailOrUsername(name: string) {
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .where("user.email = :name", { name })
+      .orWhere("user.username = :name", { name })
+      .setFindOptions({
+        loadEagerRelations: true,
+      })
+      .getOne();
     return user;
   }
 
   public async getUserByJWT(token: string) {
     const user = await this.userRepository.findOneBy({
       token,
-      active: true
+      active: true,
     });
     return user;
   }

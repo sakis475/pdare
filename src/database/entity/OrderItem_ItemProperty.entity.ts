@@ -7,12 +7,11 @@ export class OrderOrderItem_ItemPropertyItem {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @ManyToOne(() => OrderItem)
+  @ManyToOne(() => OrderItem, (orderItem) => orderItem.itemPropertyOfItem, {
+    onDelete: 'CASCADE'
+  })
   orderItem: OrderItem;
 
   @ManyToOne(() => ItemProperty)
   itemProperty: ItemProperty;
-
-  @Column({ type: 'integer' })
-  quantity: number;
 }

@@ -1,12 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from "express";
 
-import { ErrorCode } from '../error_handler/error-code';
-import { verifyToken } from './jwt';
-import { User } from '../database/entity/User.entity';
-import { OrderService } from '../services/order.service';
-import { UserService } from '../services/user.service';
-import { catchWrapper } from '../error_handler/error-handler';
-import { ErrorException } from '../error_handler/error-exception';
+import { ErrorCode } from "../error_handler/error-code";
+import { verifyToken } from "./jwt";
+import { User } from "../database/entity/User.entity";
+import { OrderService } from "../services/order.service";
+import { UserService } from "../services/user.service";
+import { catchWrapper } from "../error_handler/error-handler";
+import { ErrorException } from "../error_handler/error-exception";
 
 export const authMiddleware = async (
   req: Request,
@@ -15,8 +15,8 @@ export const authMiddleware = async (
 ) => {
   try {
     const auth = req.headers.authorization;
-    if (auth && auth.startsWith('Bearer') && auth.split(' ').length > 1) {
-      const token = auth.split(' ')[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
+    if (auth && auth.startsWith("Bearer") && auth.split(" ").length > 1) {
+      const token = auth.split(" ")[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
 
       let userJWT: Partial<User> = null;
       try {
@@ -35,6 +35,10 @@ export const authMiddleware = async (
 
       if (!user || !user.active) {
         return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
+      }
+
+      if (!user.restaurant) {
+        return next(new ErrorException(ErrorCode.UserNoRestaurant));
       }
 
       res.locals.user = user;

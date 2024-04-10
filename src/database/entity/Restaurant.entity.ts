@@ -7,7 +7,6 @@ import {
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import { User } from './User.entity';
 
 @Entity()
 export class Restaurant {
