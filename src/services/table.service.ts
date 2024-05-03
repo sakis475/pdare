@@ -1,9 +1,9 @@
-import { In, Repository } from 'typeorm';
-import { AppDataSource } from '../database/dataSource';
-import { Table } from '../database/entity/Table.entity';
-import { Restaurant } from '../database/entity/Restaurant.entity';
-import { ErrorCode } from '../error_handler/error-code';
-import { ErrorException } from '../error_handler/error-exception';
+import { In, IsNull, Repository } from "typeorm";
+import { AppDataSource } from "../database/dataSource";
+import { Table } from "../database/entity/Table.entity";
+import { Restaurant } from "../database/entity/Restaurant.entity";
+import { ErrorCode } from "../error_handler/error-code";
+import { ErrorException } from "../error_handler/error-exception";
 
 export class TableService {
   tableRepository: Repository<Table>;
@@ -19,7 +19,7 @@ export class TableService {
 
   public async getTableById(id: number): Promise<Table> {
     const user = await this.tableRepository.findOneBy({
-      id
+      id,
     });
 
     return user;
@@ -30,7 +30,7 @@ export class TableService {
     restaurant: Restaurant
   ): Promise<Table[]> {
     const categories = await this.tableRepository.find({
-      where: { id: In(ids), restaurant }
+      where: { id: In(ids), restaurant },
     });
 
     return categories;
@@ -38,7 +38,16 @@ export class TableService {
 
   public async getEnabledTables(restaurant: Restaurant): Promise<Table[]> {
     const tables = await this.tableRepository.find({
-      where: { restaurant, isEnabled: true }
+      where: { restaurant, isEnabled: true },
+      order: { tableOrder: "ASC" },
+    });
+    return tables;
+  }
+
+  public async getAvailableTables(restaurant: Restaurant): Promise<Table[]> {
+    const tables = await this.tableRepository.find({
+      where: { restaurant, isEnabled: true, occupiedByOrder: IsNull() },
+      order: { tableOrder: "ASC" },
     });
     return tables;
   }
@@ -65,7 +74,7 @@ export class TableService {
     restaurant: Restaurant
   ): Promise<Number> {
     const count = await this.tableRepository.count({
-      where: { id: In(ids), restaurant }
+      where: { id: In(ids), restaurant },
     });
 
     return count;

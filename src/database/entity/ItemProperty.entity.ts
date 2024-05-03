@@ -3,34 +3,45 @@ import {
   Entity,
   Index,
   ManyToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm';
-import { PropertyDataType } from '../interfaces';
-import { Item } from './Item.entity';
-import { Restaurant } from './Restaurant.entity';
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { PropertyDataType } from "../interfaces";
+import { Item } from "./Item.entity";
+import { Restaurant } from "./Restaurant.entity";
 
 @Entity()
-@Index(['propertyName', 'propertyValue', 'item'], { unique: true })
+@Index(["propertyName", "propertyValue", "item"], { unique: true })
 export class ItemProperty {
   @PrimaryGeneratedColumn()
   id?: number;
 
   @Column({
-    type: 'text'
+    type: "text",
   })
   propertyName: string;
 
   @Column({
-    type: 'text'
+    type: "text",
   })
   propertyValue: string;
 
   @Column({
-    type: 'enum',
+    type: "enum",
     enum: PropertyDataType,
-    nullable: true
+    nullable: true,
   })
   propertyType?: PropertyDataType;
+
+  @Column({
+    default: true,
+  })
+  isEnabled: Boolean;
+
+  @Column({ nullable: true })
+  orderGroup?: number;
+
+  @Column({ nullable: true })
+  orderItem?: number;
 
   @ManyToOne(() => Item, (item) => item.itemProperties)
   item: Item;

@@ -1,12 +1,13 @@
-import { NextFunction, Request, Response } from 'express';
-import { ErrorCode } from '../error_handler/error-code';
-import { ErrorException } from '../error_handler/error-exception';
-import { Restaurant } from '../database/entity/Restaurant.entity';
-import { ItemService } from '../services/item.service';
-import { Item } from '../database/entity/Item.entity';
-import { CategoryService } from '../services/category.service';
-import { ItemProperty } from '../database/entity/ItemProperty.entity';
-import { ItemPropertyService } from '../services/itemProperty.service';
+import { NextFunction, Request, Response } from "express";
+import { ErrorCode } from "../error_handler/error-code";
+import { ErrorException } from "../error_handler/error-exception";
+import { Restaurant } from "../database/entity/Restaurant.entity";
+import { ItemService } from "../services/item.service";
+import { Item } from "../database/entity/Item.entity";
+import { CategoryService } from "../services/category.service";
+import { ItemProperty } from "../database/entity/ItemProperty.entity";
+import { ItemPropertyService } from "../services/itemProperty.service";
+import { redisClient } from "../database/redis";
 
 const itemService = new ItemService();
 const categoryService = new CategoryService();
@@ -16,12 +17,33 @@ export async function getItems(
   res: Response,
   next: NextFunction
 ) {
-  const restaurant: Restaurant = res.locals.user.restaurant;
+  try {
+    const restaurant = res.locals.user.restaurant;
 
-  const items = await itemService.getEnabledItems(restaurant);
+    // First, try to fetch the cached items from Redis
+    // const cachedItems = await redisClient.get(`ite2ms:${restaurant.id}`);
+    // if (cachedItems) {
+    //   console.log("Returning cached items");
+    //   return res.json(JSON.parse(cachedItems)); // Send the cached JSON back to the client
+    // }
 
-  res.json(items);
+    // If not cached, fetch from the service and then cache the result
+    const items = await itemService.getEnabledItems(restaurant);
+
+    // const itemsString = JSON.stringify(items);
+    // await redisClient.set(`items:${restaurant.id}`, itemsString, {
+    //   EX: 3600, // Set an expiration time (e.g., 3600 seconds = 1 hour)
+    // });
+    // console.log("Items cached");
+
+    // Return the fresh list of items
+    res.json(items);
+  } catch (error) {
+    console.error("Failed to retrieve items:", error);
+    next(error); // Pass errors to the Express error handler
+  }
 }
+
 export async function createItems(
   req: Request,
   res: Response,
@@ -45,7 +67,7 @@ export async function createItems(
   );
 
   const distinctCategoryIds = [
-    ...new Set(items.map((item) => item.categoryId))
+    ...new Set(items.map((item) => item.categoryId)),
   ];
 
   if (categories?.length !== distinctCategoryIds.length) {
@@ -62,7 +84,7 @@ export async function createItems(
       cost: item.cost,
       category: categories.find((e) => e.id === item.categoryId),
       itemProperties: itemProperties,
-      restaurant
+      restaurant,
     });
   });
 
@@ -98,14 +120,14 @@ export async function updateItems(
       uniqueIdsOfItemProperties = e.itemProperties
         .map((property) => {
           const id = property.id;
-          if (typeof id === 'number') {
+          if (typeof id === "number") {
             return id;
           } else {
             //add restaurant to each itemProperty if itemProperty doesnt exist (is about to created)
             property.restaurant = restaurant;
           }
         })
-        .filter((id) => (typeof id === 'number' ? true : false));
+        .filter((id) => (typeof id === "number" ? true : false));
     }
     return { ...e, restaurant };
   });
@@ -135,22 +157,23 @@ export async function updateItems(
   res.json();
 }
 
-export async function disableItems(
+export async function updateIsEnabled(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const itemIds: number[] = req.body;
+  const itemIds: number[] = req.body.itemIds;
+  const isEnabled: boolean = req.body.isEnabled;
 
-  if (!Array.isArray(itemIds)) {
+  if (!Array.isArray(itemIds) || typeof isEnabled !== "boolean") {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
   const restaurant: Restaurant = res.locals.user.restaurant;
   const items = await itemService.getItemByIds(itemIds, restaurant);
 
-  const disableItems = items.map((e) => {
-    e.isEnabled = false;
+  const updateIsEnabled = items.map((e) => {
+    e.isEnabled = isEnabled;
     if (e.itemProperties?.length) {
       e.itemProperties.forEach((e) => {
         e.item = null;
@@ -160,7 +183,6 @@ export async function disableItems(
     return e;
   });
 
-  await itemService.saveItems(disableItems);
-
+  await itemService.saveItems(updateIsEnabled);
   res.json();
 }

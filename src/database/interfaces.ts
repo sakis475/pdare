@@ -1,14 +1,13 @@
 export enum UserType {
-  OWNER = 'owner',
-  ADMIN = 'admin',
-  ADMINOPERATOR = 'adminOperator',
-  WAITER = 'waiter'
+  OWNER = "owner",
+  ADMIN = "admin",
+  ADMINOPERATOR = "adminOperator",
+  WAITER = "waiter",
 }
 
 export enum PropertyDataType {
-  SINGLESELECT = 'singleselect',
-  MULTISELECT = 'multiselect',
-  BOOLEAN = 'boolean'
+  SINGLESELECT = "singleselect",
+  MULTISELECT = "multiselect",
 }
 
 export type createOrderRequest = {

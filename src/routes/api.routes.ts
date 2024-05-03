@@ -9,6 +9,7 @@ import { authMiddleware } from "../auth/auth-middleware";
 import { categoryRouter } from "./categories.router";
 import { adminRouter } from "./admin.router";
 import { itemsRouter } from "./item.router";
+import { itemPropertyRouter } from "./itemProperty.router";
 
 export const api = Router();
 
@@ -23,6 +24,7 @@ api.use("/categories", authMiddleware, categoryRouter);
 api.use("/tables", authMiddleware, tablesRouter);
 
 api.use("/items", authMiddleware, itemsRouter);
+api.use("/itemProperties", authMiddleware, itemPropertyRouter);
 
 api.use("/orders", authMiddleware, ordersRouter);
 

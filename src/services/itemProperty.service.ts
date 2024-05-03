@@ -1,7 +1,9 @@
-import { In, Repository } from 'typeorm';
-import { AppDataSource } from '../database/dataSource';
-import { ItemProperty } from '../database/entity/ItemProperty.entity';
-import { Restaurant } from '../database/entity/Restaurant.entity';
+import { In, Repository } from "typeorm";
+import { AppDataSource } from "../database/dataSource";
+import { ItemProperty } from "../database/entity/ItemProperty.entity";
+import { Restaurant } from "../database/entity/Restaurant.entity";
+import { Category } from "src/database/entity/Category.entity";
+import { rest } from "lodash";
 
 export class ItemPropertyService {
   itemPropertyRepository: Repository<ItemProperty>;
@@ -16,7 +18,7 @@ export class ItemPropertyService {
 
   public async getItemPropertyById(id: number): Promise<ItemProperty> {
     const itemProperty = await this.itemPropertyRepository.findOneBy({
-      id
+      id,
     });
     return itemProperty;
   }
@@ -26,7 +28,7 @@ export class ItemPropertyService {
     restaurant: Restaurant
   ): Promise<ItemProperty[]> {
     const itemProperties = await this.itemPropertyRepository.find({
-      where: { id: In(ids), restaurant }
+      where: { id: In(ids), restaurant },
     });
     return itemProperties;
   }
@@ -35,7 +37,7 @@ export class ItemPropertyService {
     propertyName: string
   ): Promise<ItemProperty> {
     const itemProperty = await this.itemPropertyRepository.findOneBy({
-      propertyName
+      propertyName,
     });
     return itemProperty;
   }
@@ -49,9 +51,28 @@ export class ItemPropertyService {
     restaurant: Restaurant
   ): Promise<Number> {
     const count = await this.itemPropertyRepository.count({
-      where: { id: In(ids), restaurant }
+      where: { id: In(ids), restaurant },
     });
 
     return count;
+  }
+
+  public async getItemPropertiesOfCategory(
+    category: Category,
+    restaurant: Restaurant
+  ) {
+    console.log(category);
+    console.log(restaurant);
+    const itemProperties = await this.itemPropertyRepository.find({
+      where: {
+        restaurant: { id: restaurant.id },
+        item: {
+          category: { id: category.id },
+        },
+      },
+      // relations: { item: { category: true } },
+    });
+
+    return itemProperties;
   }
 }
