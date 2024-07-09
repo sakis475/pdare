@@ -39,6 +39,7 @@ export class TableService {
   public async getEnabledTables(restaurant: Restaurant): Promise<Table[]> {
     const tables = await this.tableRepository.find({
       where: { restaurant, isEnabled: true },
+      relations: ["occupiedByOrder"],
       order: { tableOrder: "ASC" },
     });
     return tables;

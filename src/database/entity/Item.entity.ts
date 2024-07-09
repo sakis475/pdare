@@ -32,7 +32,7 @@ export class Item {
   @Column({ nullable: true })
   orderItem?: number;
 
-  @ManyToOne(() => Restaurant)
+  @ManyToOne(() => Restaurant, { eager: true })
   restaurant: Restaurant;
 
   @Column({ default: true })

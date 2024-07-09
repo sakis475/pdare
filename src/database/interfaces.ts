@@ -21,3 +21,5 @@ export type createOrderRequest = {
     quantity: number;
   };
 };
+
+export type SortDirection = "sortDown" | "sortUp";

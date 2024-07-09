@@ -5,6 +5,8 @@ import { Restaurant } from "../database/entity/Restaurant.entity";
 import { ErrorCode } from "../error_handler/error-code";
 import { ErrorException } from "../error_handler/error-exception";
 import { groupBy } from "lodash";
+import { Category } from "src/database/entity/Category.entity";
+import { SortDirection } from "src/database/interfaces";
 
 export class ItemService {
   itemRepository: Repository<Item>;
@@ -19,8 +21,9 @@ export class ItemService {
   }
 
   public async getItemById(id: number): Promise<Item> {
-    const user = await this.itemRepository.findOneBy({
-      id,
+    const user = await this.itemRepository.findOne({
+      where: { id },
+      relations: { restaurant: true },
     });
 
     return user;
@@ -48,13 +51,18 @@ export class ItemService {
       },
     });
 
-    console.log(items);
-
     const transformedItems = items.map((item) => {
       const { itemProperties, ...rest } = item; // Destructure to exclude itemProperties
+
+      // Add the selected: false key to each itemProperty
+      const modifiedItemProperties = itemProperties.map((property) => ({
+        ...property,
+        selected: false,
+      }));
+
       return {
         ...rest, // Spread all other properties
-        itemPropertiesGrouped: groupBy(itemProperties, "propertyName"), // Add modified itemProperties
+        itemPropertiesGrouped: groupBy(modifiedItemProperties, "propertyName"), // Add modified itemProperties
       };
     });
 
@@ -89,5 +97,55 @@ export class ItemService {
     });
 
     return count;
+  }
+
+  public async getItemCategoryOrderMinMax(
+    category: Category,
+    restaurant: Restaurant
+  ): Promise<{ minOrder: number; maxOrder: number }> {
+    const minAndmax = await this.itemRepository
+      .createQueryBuilder("item")
+      .select('MIN(item."orderItem")', "minOrder")
+      .addSelect('MAX(item."orderItem")', "maxOrder")
+      .where("item.categoryId = :categoryId", { categoryId: category.id })
+      .andWhere("item.restaurantId = :restaurantId", {
+        restaurantId: restaurant.id,
+      })
+      .getRawOne();
+
+    return minAndmax;
+  }
+
+  public async getItemByOrder(
+    category: Category,
+    orderItem: number,
+    restaurant: Restaurant
+  ) {
+    const minAndmax = await this.itemRepository
+      .createQueryBuilder("item")
+      .where("item.categoryId = :categoryId", { categoryId: category.id })
+      .andWhere("item.orderItem = :orderItem", { orderItem })
+      .andWhere("item.restaurantId = :restaurantId", {
+        restaurantId: restaurant.id,
+      })
+      .getOne();
+
+    return minAndmax;
+  }
+
+  public async updateItemOrder(item: Item, sortDirection: SortDirection) {
+    const orderNumber = sortDirection === "sortUp" ? -1 : 1;
+
+    item.orderItem += orderNumber;
+
+    const swapOrderItem = await this.getItemByOrder(
+      item.category,
+      item.orderItem,
+      item.restaurant
+    );
+
+    swapOrderItem.orderItem += -1 * orderNumber;
+
+    return await this.itemRepository.save([item, swapOrderItem]);
   }
 }

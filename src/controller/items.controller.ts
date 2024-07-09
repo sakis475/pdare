@@ -8,6 +8,7 @@ import { CategoryService } from "../services/category.service";
 import { ItemProperty } from "../database/entity/ItemProperty.entity";
 import { ItemPropertyService } from "../services/itemProperty.service";
 import { redisClient } from "../database/redis";
+import { SortDirection } from "src/database/interfaces";
 
 const itemService = new ItemService();
 const categoryService = new CategoryService();
@@ -37,6 +38,7 @@ export async function getItems(
     // console.log("Items cached");
 
     // Return the fresh list of items
+
     res.json(items);
   } catch (error) {
     console.error("Failed to retrieve items:", error);
@@ -185,4 +187,41 @@ export async function updateIsEnabled(
 
   await itemService.saveItems(updateIsEnabled);
   res.json();
+}
+
+export async function updateItemOrder(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const itemId: number = +req.body.itemId;
+  const sortDirection: SortDirection = req.body.sortDirection;
+  const restaurant: Restaurant = res.locals.user.restaurant;
+
+  if (!itemId || !["sortUp", "sortDown"].some((e) => e === sortDirection)) {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  const item = await itemService.getItemById(itemId);
+
+  if (item?.restaurant?.id !== restaurant.id) {
+    return next(new ErrorException(ErrorCode.NotFound));
+  }
+
+  const itemOrderLimits = await itemService.getItemCategoryOrderMinMax(
+    item.category,
+    restaurant
+  );
+
+  if (
+    (item.orderItem >= itemOrderLimits.maxOrder &&
+      sortDirection === "sortDown") ||
+    (item.orderItem <= itemOrderLimits.minOrder && sortDirection === "sortUp")
+  ) {
+    return res.json(item);
+  }
+
+  const updatedItems = await itemService.updateItemOrder(item, sortDirection);
+
+  res.json(updatedItems);
 }

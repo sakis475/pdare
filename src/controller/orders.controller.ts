@@ -31,10 +31,12 @@ export async function createOrder(
   const restaurant: Restaurant = res.locals.user.restaurant;
 
   const tableIdReq = req.body.table;
+  const orderComment = req.body.comment;
   const orderItemsReq: {
     id: number;
     itemProperties: number[];
     quantity: number;
+    comment?: string;
   }[] = req.body.items;
 
   if (
@@ -57,7 +59,13 @@ export async function createOrder(
     return next(new ErrorException(ErrorCode.AssetNotFound));
   }
 
-  const createOrder = orderService.create({ user, table });
+  //TODO: CHECK IF TABLE ALREADY IS OPEN!!
+
+  const createOrder = orderService.create({
+    user,
+    table,
+    comment: orderComment,
+  });
   const draftOrder = await orderService.saveOrder(createOrder);
 
   const itemIdsReq = orderItemsReq.map((e) => e.id);
@@ -71,6 +79,7 @@ export async function createOrder(
       order: draftOrder,
       item,
       quantity: itemDescriptionReq.quantity,
+      comment: itemDescriptionReq.comment ?? "",
     });
   });
 
