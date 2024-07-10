@@ -18,4 +18,4 @@ const config: DataSourceOptions = {
   synchronize: false,
 };
 
-export const globalDataSource = new DataSource(config);
+export const AppDataSource = new DataSource(config);

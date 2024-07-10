@@ -1,7 +1,7 @@
-import { globalDataSource } from "./connection";
+import { AppDataSource } from "./connection";
 
 
-globalDataSource.initialize()
+AppDataSource.initialize()
   .then(() => {
     console.log("Data Source has been initialized!");
   })
@@ -9,4 +9,4 @@ globalDataSource.initialize()
     console.error("Error during Data Source initialization", err);
   });
 
-export { globalDataSource };
+export { AppDataSource };
