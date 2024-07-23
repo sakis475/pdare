@@ -17,6 +17,9 @@ export class Item {
   @Column({ type: "text" })
   title: string;
 
+  @Column({ type: "text", nullable: true })
+  description?: string;
+
   @OneToMany(() => ItemProperty, (itemProperty) => itemProperty.item, {
     eager: true,
     cascade: true,

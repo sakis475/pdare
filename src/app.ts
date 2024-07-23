@@ -22,10 +22,13 @@ app.use(
 );
 app.use(cors());
 morgan.token("body", (req: Request, res) => JSON.stringify(req.body, null, 2));
-app.use(
-  morgan(`:date[iso] :response-time ms :method :status :url
-\x1b[33m:body`)
-);
+
+// app.use(
+//   morgan(`:date[iso] :response-time ms :method :status :url
+// \x1b[33m:body`)
+// );
+
+app.use(morgan(`:date[iso] :response-time ms :method :status :url`));
 
 app.use("/api/v1", api);
 

@@ -26,6 +26,19 @@ export class ItemProperty {
   propertyValue: string;
 
   @Column({
+    default: false,
+  })
+  selected?: boolean;
+
+  @Column({
+    default: false,
+  })
+  required?: boolean;
+
+  @Column({ nullable: true })
+  dependsOn?: string;
+
+  @Column({
     type: "enum",
     enum: PropertyDataType,
     nullable: true,

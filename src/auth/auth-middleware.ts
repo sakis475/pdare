@@ -14,12 +14,12 @@ export const authMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    if (process.env.ENV_TYPE === "DEV") {
-      const userService = new UserService();
-      const user = await userService.getUserByID(2);
-      res.locals.user = user;
-      return next();
-    }
+    // if (process.env.ENV_TYPE === "DEV") {
+    //   const userService = new UserService();
+    //   const user = await userService.getUserByID(5);
+    //   res.locals.user = user;
+    //   return next();
+    // }
 
     const auth = req.headers.authorization;
     if (auth && auth.startsWith("Bearer") && auth.split(" ").length > 1) {

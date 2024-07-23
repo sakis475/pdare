@@ -53,6 +53,7 @@ export async function createItems(
 ) {
   const items: {
     title: string;
+    description: string;
     cost: number;
     categoryId: number;
     itemProperties: ItemProperty[];
@@ -83,6 +84,7 @@ export async function createItems(
 
     return itemService.createItem({
       title: item.title,
+      description: item.description,
       cost: item.cost,
       category: categories.find((e) => e.id === item.categoryId),
       itemProperties: itemProperties,
