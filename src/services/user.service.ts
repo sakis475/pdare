@@ -32,10 +32,10 @@ export class UserService {
     return user;
   }
 
-  public async getUserByEmailOrUsername(name: string) {
+  public async getUserByEmailOrUsername(name: string, email?: string) {
     const user = await this.userRepository
       .createQueryBuilder("user")
-      .where("user.email = :name", { name })
+      .where("user.email = :name", { name: email ?? name })
       .orWhere("user.username = :name", { name })
       .setFindOptions({
         loadEagerRelations: true,

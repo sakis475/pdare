@@ -3,6 +3,9 @@ import { ErrorCode } from "../error_handler/error-code";
 import { ErrorException } from "../error_handler/error-exception";
 import { AdminService } from "../services/admin.service";
 import { passwordHash } from "../auth/password-hash";
+import { UserService } from "../services/user.service";
+import { customResponseError } from "../error_handler/error-handler";
+import { RestaurantService } from "../services/restaurant.service";
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
@@ -14,6 +17,30 @@ export async function createRestaurantAdmin(
 
   if (!username || !email || !firstName || !lastName || !restaurantName) {
     return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  const userService = new UserService();
+  const userExists = await userService.getUserByEmailOrUsername(
+    username,
+    email
+  );
+
+  if (userExists) {
+    return customResponseError(
+      res,
+      400,
+      "User already exists with that name/email"
+    );
+  }
+
+  const restaurantService = new RestaurantService();
+
+  const restaurantNameExists = await restaurantService.getRestaurantByName(
+    restaurantName
+  );
+
+  if (restaurantNameExists) {
+    return customResponseError(res, 400, "Restaurant name already exists");
   }
 
   const adminService = new AdminService();

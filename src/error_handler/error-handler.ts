@@ -57,3 +57,13 @@ export const catchWrapper =
       }
     });
   };
+
+export const customResponseError = (
+  res: Response,
+  statusCode: number,
+  errorMessage: string
+) => {
+  return res
+    .status(statusCode)
+    .json({ message: errorMessage, code: statusCode });
+};

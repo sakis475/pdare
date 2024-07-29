@@ -59,3 +59,31 @@ export const authMiddleware = async (
     return next(new ErrorException(ErrorCode.ServerError));
   }
 };
+export const adminAuthMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // if (process.env.ENV_TYPE === "DEV") {
+    //   const userService = new UserService();
+    //   const user = await userService.getUserByID(5);
+    //   res.locals.user = user;
+    //   return next();
+    // }
+
+    const auth = req.headers.authorization;
+    if (auth && auth.startsWith("Bearer") && auth.split(" ").length > 1) {
+      const token = auth.split(" ")[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
+
+      if (token === process.env.ADMIN_TOKEN) {
+        return next();
+      } else {
+        return next(new ErrorException(ErrorCode.Unauthorized));
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    return next(new ErrorException(ErrorCode.ServerError));
+  }
+};

@@ -1,6 +1,6 @@
-import { Repository } from 'typeorm';
-import { AppDataSource } from '../database/dataSource';
-import { Restaurant } from '../database/entity/Restaurant.entity';
+import { Repository } from "typeorm";
+import { AppDataSource } from "../database/dataSource";
+import { Restaurant } from "../database/entity/Restaurant.entity";
 
 export class RestaurantService {
   restaurantRepository: Repository<Restaurant>;
@@ -10,7 +10,15 @@ export class RestaurantService {
 
   public async getRestaurantById(id: number): Promise<Restaurant> {
     const user = await this.restaurantRepository.findOneBy({
-      id
+      id,
+    });
+
+    return user;
+  }
+
+  public async getRestaurantByName(name: string): Promise<Restaurant> {
+    const user = await this.restaurantRepository.findOneBy({
+      restaurantName: name,
     });
 
     return user;
