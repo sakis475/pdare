@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -25,8 +26,7 @@ export class Table {
   @Column({ nullable: true })
   tableOrder?: number;
 
-  @OneToOne(() => Order, { nullable: true })
-  @JoinColumn()
+  @OneToOne(() => Order, (order) => order.table, { nullable: true })
   occupiedByOrder?: Order;
 
   @ManyToOne(() => Restaurant)

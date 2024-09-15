@@ -4,8 +4,8 @@ import { ErrorException } from "../error_handler/error-exception";
 import { AdminService } from "../services/admin.service";
 import { passwordHash } from "../auth/password-hash";
 import { UserService } from "../services/user.service";
-import { customResponseError } from "../error_handler/error-handler";
 import { RestaurantService } from "../services/restaurant.service";
+import { customResponseError } from "../error_handler/error-handler";
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(

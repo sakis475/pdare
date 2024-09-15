@@ -3,6 +3,7 @@ export enum UserType {
   ADMIN = "admin",
   ADMINOPERATOR = "adminOperator",
   WAITER = "waiter",
+  NONE = "none",
 }
 
 export enum PropertyDataType {

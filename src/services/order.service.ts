@@ -1,7 +1,7 @@
-import { Repository } from 'typeorm';
-import { AppDataSource } from '../database/dataSource';
-import { Order } from '../database/entity/Order.entity';
-import { Restaurant } from '../database/entity/Restaurant.entity';
+import { Repository } from "typeorm";
+import { AppDataSource } from "../database/dataSource";
+import { Order } from "../database/entity/Order.entity";
+import { Restaurant } from "../database/entity/Restaurant.entity";
 
 export class OrderService {
   orderRepository: Repository<Order>;
@@ -17,17 +17,17 @@ export class OrderService {
 
   async getOrderById(id: number, restaurant: Restaurant): Promise<Order> {
     const order = await this.orderRepository
-      .createQueryBuilder('order')
-      .leftJoinAndSelect('order.user', 'user')
-      .leftJoinAndSelect('order.table', 'table')
-      .leftJoinAndSelect('order.orderItems', 'orderItems')
-      .leftJoinAndSelect('orderItems.item', 'items')
-      .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
-      .leftJoinAndSelect('itemPropertyOfItem.itemProperty', 'itemProperty')
+      .createQueryBuilder("order")
+      .leftJoinAndSelect("order.user", "user")
+      .leftJoinAndSelect("order.table", "table")
+      .leftJoinAndSelect("order.orderItems", "orderItems")
+      .leftJoinAndSelect("orderItems.item", "items")
+      .leftJoinAndSelect("orderItems.itemPropertyOfItem", "itemPropertyOfItem")
+      .leftJoinAndSelect("itemPropertyOfItem.itemProperty", "itemProperty")
 
-      .where('order.id = :id', { id })
-      .andWhere('user.restaurantId = :restaurantId', {
-        restaurantId: restaurant.id
+      .where("order.id = :id", { id })
+      .andWhere("user.restaurantId = :restaurantId", {
+        restaurantId: restaurant.id,
       })
       .getOne();
 

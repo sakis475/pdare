@@ -25,15 +25,15 @@ export class User {
   })
   role: UserType;
 
-  @Column("text")
+  @Column({ type: "text", select: false })
   passwordHashed: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: "text", nullable: true, select: false })
   token?: string;
 
   @Column({ type: "boolean", default: true })
   active?: boolean;
 
-  @ManyToOne(() => Restaurant, { eager: true, cascade: true })
-  restaurant: Restaurant;
+  @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
+  restaurant?: Restaurant;
 }

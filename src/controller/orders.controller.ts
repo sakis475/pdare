@@ -14,6 +14,8 @@ import {
   buildHtml,
   htmlStringToImageBuffer,
 } from "../lib/orderPrint";
+import { create } from "lodash";
+import { Table } from "../database/entity/Table.entity";
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -41,7 +43,7 @@ export async function createOrder(
 
   if (
     !Array.isArray(orderItemsReq) ||
-    "number" !== typeof tableIdReq ||
+    !["number", "string"].includes(typeof tableIdReq) ||
     !tableIdReq
   ) {
     return next(new ErrorException(ErrorCode.WrongInput));
@@ -53,21 +55,46 @@ export async function createOrder(
     }
   }
 
-  const table = await tableService.getTableById(tableIdReq);
+  let table: Table;
+  if (typeof tableIdReq === "string") {
+    //created new table with given tableName
+    const tableExists = await tableService.getTableByName(tableIdReq);
 
-  if (!table) {
-    return next(new ErrorException(ErrorCode.AssetNotFound));
+    if (!tableExists) {
+      table = tableService.createTable({
+        tableName: tableIdReq,
+        restaurant,
+        isEnabled: false,
+      });
+    } else if (tableExists.occupiedByOrder) {
+      return next(new ErrorException(ErrorCode.TableIsOccupied));
+    } else {
+      table = tableExists;
+    }
+  } else {
+    table = await tableService.getTableById(tableIdReq);
+    if (!table) {
+      return next(new ErrorException(ErrorCode.AssetNotFound));
+    }
+    if (table.occupiedByOrder) {
+      return next(new ErrorException(ErrorCode.TableIsOccupied));
+    }
   }
 
-  //TODO: CHECK IF TABLE ALREADY IS OPEN!!
-
+  // Create the order
   const createOrder = orderService.create({
     user,
     table,
     comment: orderComment,
   });
-  const draftOrder = await orderService.saveOrder(createOrder);
 
+  const draftOrder = await orderService.saveOrder(createOrder);
+  delete draftOrder.table.occupiedByOrder; //if i dont delete it typeorm throws tableId not-null constaint
+
+  // const draftOrder = await orderService.getOrderById(
+  //   createdOrder.id,
+  //   restaurant
+  // );
   const itemIdsReq = orderItemsReq.map((e) => e.id);
 
   const items = await itemService.getItemByIds(itemIdsReq, restaurant);
@@ -87,7 +114,6 @@ export async function createOrder(
     createOrderItems
   );
 
-  //draftOrderItems is in the same order and length of orderItemsReq
   draftOrderItems.forEach((orderItem, index) => {
     const itemPropertiesIdsReq = orderItemsReq[index].itemProperties;
     const item = orderItem.item;

@@ -19,22 +19,22 @@ export async function postLogin(
   }
   const userService = new UserService();
 
-  const user = await userService.getUserByEmailOrUsername(username);
+  const user = await userService.getUserByEmailOrUsername(
+    username,
+    undefined,
+    true
+  );
   if (!user) {
     return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
   }
 
-  if (!user.restaurant) {
-    return next(new ErrorException(ErrorCode.UserNoRestaurant));
+  if (!comparePassword(password, user.passwordHashed)) {
+    return next(new ErrorException(ErrorCode.WrongPasswordError));
   }
-
-  // if (!comparePassword(password, user.passwordHashed)) {
-  //   return next(new ErrorException(ErrorCode.WrongPasswordError));
-  // }
 
   const tokenJWT = generateAuthToken(user);
 
-  user.token = tokenJWT;
+  user.token = tokenJWT.token;
 
   await userService.saveUser(user);
 
@@ -58,20 +58,21 @@ export async function postRefreshSession(
     //throws error if not verified
     verifyToken(jwt);
   } catch (error) {
+    console.log(error, "verifyToken");
     return next(new ErrorException(ErrorCode.JWTExpired));
   }
 
   const userService = new UserService();
 
   const user = await userService.getUserByJWT(jwt);
-
+  console.log(user, "user");
   if (!user) {
     return next(new ErrorException(ErrorCode.JWTExpired));
   }
 
   const tokenJWT = generateAuthToken(user);
 
-  user.token = tokenJWT;
+  user.token = tokenJWT.token;
 
   await userService.saveUser(user);
 

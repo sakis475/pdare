@@ -17,9 +17,11 @@ export class UserService {
   }
 
   public async getUserByUsername(username: string) {
-    const user = await this.userRepository.findOneBy({
-      username,
-      active: true,
+    const user = await this.userRepository.findOne({
+      where: {
+        username,
+        active: true,
+      },
     });
     return user;
   }
@@ -32,16 +34,24 @@ export class UserService {
     return user;
   }
 
-  public async getUserByEmailOrUsername(name: string, email?: string) {
-    const user = await this.userRepository
+  public async getUserByEmailOrUsername(
+    name: string,
+    email?: string,
+    getTokens = false
+  ): Promise<User | undefined> {
+    const query = this.userRepository
       .createQueryBuilder("user")
       .where("user.email = :name", { name: email ?? name })
       .orWhere("user.username = :name", { name })
       .setFindOptions({
         loadEagerRelations: true,
-      })
-      .getOne();
-    return user;
+      });
+
+    if (getTokens) {
+      query.addSelect(["user.passwordHashed", "user.token"]);
+    }
+
+    return await query.getOne();
   }
 
   public async getUserByJWT(token: string) {

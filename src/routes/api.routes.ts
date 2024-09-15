@@ -4,21 +4,28 @@ import { registerRouter } from "./register.router";
 import { tablesRouter } from "./tables.router";
 import { ordersRouter } from "./orders.router";
 import { testRouter } from "./test.router";
-import { authMiddleware } from "../auth/auth-middleware";
+import {
+  adminAuthMiddleware,
+  authMiddleware,
+  basicAuthMiddleware,
+} from "../auth/auth-middleware";
 
 import { categoryRouter } from "./categories.router";
 import { adminRouter } from "./admin.router";
 import { itemsRouter } from "./item.router";
 import { itemPropertyRouter } from "./itemProperty.router";
+import { userRouter } from "./user.router";
+import { Server } from "socket.io";
 
 export const api = Router();
 
 //admin
-api.use("/admin", adminRouter);
+api.use("/admin", adminAuthMiddleware, adminRouter);
 
-//restaurant users
 api.use("/login", loginRouter);
-api.use("/register", authMiddleware, registerRouter);
+api.use("/register", registerRouter);
+
+api.use("/user", basicAuthMiddleware, userRouter);
 
 api.use("/categories", authMiddleware, categoryRouter);
 api.use("/tables", authMiddleware, tablesRouter);

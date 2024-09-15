@@ -13,39 +13,23 @@ export async function postRegister(
   res: Response,
   next: NextFunction
 ) {
-  const { username, email, firstName, lastName, role } = req.body;
+  const { username, email, password, firstName, lastName, role } = req.body;
 
-  if (
-    res.locals.user?.role !== UserType.OWNER &&
-    res.locals.user?.role !== UserType.ADMIN
-  ) {
-    return next(new ErrorException(ErrorCode.Unauthorized));
-  }
-  if (!res.locals.user.restaurant) {
-    return next(new ErrorException(ErrorCode.ContactAdminError));
-  }
-  if (!username || !firstName || !lastName || !role) {
+  if (!username || !email || !password || !firstName || !lastName || !role) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
-  const adminUser: User = res.locals.user;
+
   const userService = new UserService();
 
-  const password = Math.random().toString(36).slice(-8).toUpperCase();
-
-  //TODO: create a temp password, email will be
-  //send to user to change password with username and tempPass
   const passwordHashed = passwordHash(password);
-
-  //only for dev
-  console.log(password, "password hashed");
 
   const newUserData = { username, email, firstName, lastName, passwordHashed };
   const token = generateAuthToken(newUserData);
+
   const newuser = await userService.saveUser({
     ...newUserData,
-    token,
+    token: token.token,
     role,
-    restaurant: adminUser.restaurant,
   });
   delete newuser["passwordHashed"];
   res.json(generateAuthToken(newuser));

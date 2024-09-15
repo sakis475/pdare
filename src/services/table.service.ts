@@ -17,12 +17,22 @@ export class TableService {
     return newTable;
   }
 
-  public async getTableById(id: number): Promise<Table> {
-    const user = await this.tableRepository.findOneBy({
-      id,
+  public async getTableById(id: number): Promise<Table | null> {
+    const table = await this.tableRepository.findOne({
+      where: { id },
+      relations: ["occupiedByOrder"],
     });
 
-    return user;
+    return table;
+  }
+
+  public async getTableByName(tableName: string): Promise<Table | null> {
+    const table = await this.tableRepository.findOne({
+      where: { tableName },
+      relations: ["occupiedByOrder"],
+    });
+
+    return table;
   }
 
   public async getTableByIds(
@@ -46,10 +56,17 @@ export class TableService {
   }
 
   public async getAvailableTables(restaurant: Restaurant): Promise<Table[]> {
-    const tables = await this.tableRepository.find({
-      where: { restaurant, isEnabled: true, occupiedByOrder: IsNull() },
-      order: { tableOrder: "ASC" },
-    });
+    const tables = await this.tableRepository
+      .createQueryBuilder("t")
+      .leftJoinAndSelect("t.occupiedByOrder", "order")
+      .where("t.restaurantId = :restaurantId", {
+        restaurantId: restaurant.id,
+      })
+      .andWhere('t."isEnabled" = :isEnabled', { isEnabled: true })
+      .andWhere("order.id IS NULL")
+      .orderBy('t."tableOrder"', "ASC")
+      .getMany();
+
     return tables;
   }
 

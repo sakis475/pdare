@@ -8,6 +8,7 @@ export class ErrorException extends ErrorCode {
     super();
 
     this.message = errorCode.message;
+    this.appcode = errorCode.appcode;
     this.code = errorCode.code;
   }
 }
