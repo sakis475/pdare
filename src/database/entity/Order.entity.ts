@@ -7,10 +7,10 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { OrderItem } from "./OrderItem.entity";
-import { User } from "./User.entity";
-import { Table } from "./Table.entity";
+} from 'typeorm';
+import { OrderItem } from './OrderItem.entity';
+import { User } from './User.entity';
+import { Table } from './Table.entity';
 
 @Entity()
 export class Order {
@@ -20,8 +20,8 @@ export class Order {
   @ManyToOne(() => User)
   user: User;
 
-  @ManyToOne(() => Table, (table) => table.occupiedByOrder, {
-    eager: true,
+  @ManyToOne(() => Table, {
+    eager: false,
     cascade: true,
     nullable: false,
   })
@@ -31,7 +31,7 @@ export class Order {
   createdAt?: Date;
 
   @Column({
-    type: "date",
+    type: 'date',
     nullable: true,
   })
   closedAt?: Date;
@@ -42,6 +42,14 @@ export class Order {
   })
   orderItems?: OrderItem[];
 
-  @Column({ default: "" })
+  @OneToOne(() => Table, (Table) => Table.occupiedByOrder, { cascade: true })
+  activeTable?: Table;
+
+  @Column({
+    nullable: true,
+  })
+  couvert?: number;
+
+  @Column({ default: '' })
   comment?: string;
 }

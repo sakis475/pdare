@@ -1,23 +1,24 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Item } from "./Item.entity";
-import { Order } from "./Order.entity";
-import { OrderOrderItem_ItemPropertyItem } from "./OrderItem_ItemProperty.entity";
+} from 'typeorm';
+import { Item } from './Item.entity';
+import { Order } from './Order.entity';
+import { OrderOrderItem_ItemPropertyItem } from './OrderItem_ItemProperty.entity';
 
 @Entity()
 export class OrderItem {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: "CASCADE" })
+  @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: 'CASCADE' })
   order: Order;
 
-  @ManyToOne(() => Item, { onDelete: "CASCADE" })
+  @ManyToOne(() => Item, { onDelete: 'CASCADE', eager: true })
   item: Item;
 
   @OneToMany(
@@ -30,9 +31,12 @@ export class OrderItem {
   )
   itemPropertyOfItem?: OrderOrderItem_ItemPropertyItem[];
 
-  @Column({ type: "integer" })
+  @Column({ type: 'integer' })
   quantity: number;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   comment?: string;
+
+  @CreateDateColumn()
+  createdAt?: Date;
 }

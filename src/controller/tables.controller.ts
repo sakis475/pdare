@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { ErrorException } from "../error_handler/error-exception";
-import { Restaurant } from "../database/entity/Restaurant.entity";
-import { TableService } from "../services/table.service";
-import { Table } from "../database/entity/Table.entity";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { ErrorException } from '../error_handler/error-exception';
+import { Restaurant } from '../database/entity/Restaurant.entity';
+import { TableService } from '../services/table.service';
+import { Table } from '../database/entity/Table.entity';
 
 const tableService = new TableService();
 
@@ -13,12 +13,8 @@ export async function getTables(
   next: NextFunction
 ) {
   const restaurant: Restaurant = res.locals.user.restaurant;
-  if (req.query.availableOnly === "true") {
-    const tables = await tableService.getAvailableTables(restaurant);
-    return res.json(tables);
-  }
 
-  const tables = await tableService.getEnabledTables(restaurant);
+  const tables = await tableService.getEnabledTablesWithOrder(restaurant);
 
   res.json(tables);
 }
@@ -88,22 +84,16 @@ export async function disableTables(
   res: Response,
   next: NextFunction
 ) {
-  const tableIds: number[] = req.body;
-
-  if (!Array.isArray(tableIds)) {
-    return next(new ErrorException(ErrorCode.WrongInput));
-  }
-
-  const restaurant: Restaurant = res.locals.user.restaurant;
-
-  const tables = await tableService.getTableByIds(tableIds, restaurant);
-
-  const disableTables = tables.map((e) => {
-    e.isEnabled = false;
-    return e;
-  });
-
-  await tableService.saveTables(disableTables);
-
-  res.json(disableTables);
+  // const tableIds: number[] = req.body;
+  // if (!Array.isArray(tableIds)) {
+  //   return next(new ErrorException(ErrorCode.WrongInput));
+  // }
+  // const restaurant: Restaurant = res.locals.user.restaurant;
+  // const tables = await tableService.getTableBy(restaurant, tableIds, null);
+  // const disableTables = tables.map((e) => {
+  //   e.isEnabled = false;
+  //   return e;
+  // });
+  // await tableService.saveTables(disableTables);
+  // res.json(disableTables);
 }

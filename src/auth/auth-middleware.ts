@@ -17,6 +17,13 @@ export const basicAuthMiddleware = async (
     if (auth && auth.startsWith("Bearer") && auth.split(" ").length > 1) {
       const token = auth.split(" ")[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
 
+      const userService = new UserService();
+
+      if (token === process.env.ADMIN_TOKEN && process.env.ENV_TYPE === "DEV") {
+        const user = await userService.getUserByID(2);
+        res.locals.user = user;
+        return next();
+      }
       let userJWT: Partial<User> = null;
       try {
         // @ts-ignore
@@ -27,8 +34,6 @@ export const basicAuthMiddleware = async (
 
       if (!userJWT?.username)
         return next(new ErrorException(ErrorCode.Unauthorized));
-
-      const userService = new UserService();
 
       const user = await userService.getUserByJWT(token);
 

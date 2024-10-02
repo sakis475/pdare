@@ -1,21 +1,24 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { User } from "../database/entity/User.entity";
-import { OrderService } from "../services/order.service";
-import { ItemService } from "../services/item.service";
-import { ErrorException } from "../error_handler/error-exception";
-import { Restaurant } from "../database/entity/Restaurant.entity";
-import { OrderItemService } from "../services/orderItem.service";
-import { OrderItemPropertyService } from "../services/orderItem_ItemProperty.service";
-import { TableService } from "../services/table.service";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { User } from '../database/entity/User.entity';
+import { OrderService } from '../services/order.service';
+import { ItemService } from '../services/item.service';
+import { ErrorException } from '../error_handler/error-exception';
+import { Restaurant } from '../database/entity/Restaurant.entity';
+import { OrderItemService } from '../services/orderItem.service';
+import { OrderItemPropertyService } from '../services/orderItem_ItemProperty.service';
+import { TableService } from '../services/table.service';
 import {
   OrderDetails,
   OrderPrintItem,
   buildHtml,
   htmlStringToImageBuffer,
-} from "../lib/orderPrint";
-import { create } from "lodash";
-import { Table } from "../database/entity/Table.entity";
+} from '../lib/orderPrint';
+import { Table } from '../database/entity/Table.entity';
+import { Order } from '../database/entity/Order.entity';
+import { Item } from '../database/entity/Item.entity';
+import { OrderItem } from '../database/entity/OrderItem.entity';
+import dayjs from '../lib/dayjs';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -32,8 +35,10 @@ export async function createOrder(
   const user: User = res.locals.user;
   const restaurant: Restaurant = res.locals.user.restaurant;
 
-  const tableIdReq = req.body.table;
+  const tableIdReq: number | string = req.body.table;
   const orderComment = req.body.comment;
+  const couvert: number = req.body.couvert;
+
   const orderItemsReq: {
     id: number;
     itemProperties: number[];
@@ -43,7 +48,7 @@ export async function createOrder(
 
   if (
     !Array.isArray(orderItemsReq) ||
-    !["number", "string"].includes(typeof tableIdReq) ||
+    !['number', 'string'].includes(typeof tableIdReq) ||
     !tableIdReq
   ) {
     return next(new ErrorException(ErrorCode.WrongInput));
@@ -56,9 +61,12 @@ export async function createOrder(
   }
 
   let table: Table;
-  if (typeof tableIdReq === "string") {
+  if (typeof tableIdReq === 'string') {
     //created new table with given tableName
-    const tableExists = await tableService.getTableByName(tableIdReq);
+    const tableExists = await tableService.getTableByName(
+      tableIdReq,
+      restaurant
+    );
 
     if (!tableExists) {
       table = tableService.createTable({
@@ -72,7 +80,7 @@ export async function createOrder(
       table = tableExists;
     }
   } else {
-    table = await tableService.getTableById(tableIdReq);
+    table = await tableService.getTableById(tableIdReq, restaurant);
     if (!table) {
       return next(new ErrorException(ErrorCode.AssetNotFound));
     }
@@ -86,10 +94,12 @@ export async function createOrder(
     user,
     table,
     comment: orderComment,
+    couvert,
   });
 
   const draftOrder = await orderService.saveOrder(createOrder);
-  delete draftOrder.table.occupiedByOrder; //if i dont delete it typeorm throws tableId not-null constaint
+
+  // delete draftOrder.table.occupiedByOrder; //if i dont delete it typeorm throws tableId not-null constaint
 
   // const draftOrder = await orderService.getOrderById(
   //   createdOrder.id,
@@ -106,7 +116,7 @@ export async function createOrder(
       order: draftOrder,
       item,
       quantity: itemDescriptionReq.quantity,
-      comment: itemDescriptionReq.comment ?? "",
+      comment: itemDescriptionReq.comment ?? '',
     });
   });
 
@@ -131,7 +141,7 @@ export async function createOrder(
   });
 
   draftOrder.orderItems = draftOrderItems;
-
+  draftOrder.activeTable = table;
   const savedOrder = await orderService.saveOrder(draftOrder);
   res.send(savedOrder);
 }
@@ -140,62 +150,126 @@ export async function updateOrder(
   req: Request,
   res: Response,
   next: NextFunction
-) {
+): Promise<Response | void> {
   const user: User = res.locals.user;
   const restaurant: Restaurant = res.locals.user.restaurant;
 
-  const tableIdReq = req.body.table;
+  const tableIdReq: number | string = req.body.table;
+  const orderComment: string = req.body.comment;
+  const couvert: number = req.body.couvert;
+  const orderIdReq: number = +req.params.orderId;
+
   const orderItemsReq: {
     id: number;
-    itemProperties: number[];
+    oItemId: number;
+    delete: boolean;
+    itemProperties: {
+      id: number;
+      oItemPropertyId: number;
+      delete: boolean;
+    }[];
     quantity: number;
+    comment?: string;
   }[] = req.body.items;
 
   if (
     !Array.isArray(orderItemsReq) ||
-    "number" !== typeof tableIdReq ||
-    !tableIdReq
+    !orderIdReq ||
+    !['number', 'string'].includes(typeof tableIdReq)
   ) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
-  for (const item of orderItemsReq) {
-    if (!item.id || !item.itemProperties) {
-      return next(new ErrorException(ErrorCode.WrongInput));
-    }
-  }
-
-  const table = await tableService.getTableById(tableIdReq);
-
-  if (!table) {
+  // Fetch the existing order
+  let order = await orderService.getOrderById(orderIdReq, restaurant);
+  if (!order) {
     return next(new ErrorException(ErrorCode.AssetNotFound));
   }
 
-  const createOrder = orderService.create({ user, table });
-  const draftOrder = await orderService.saveOrder(createOrder);
+  let table: Table;
+  if (typeof tableIdReq === 'string') {
+    //created new table with given tableName
+    const tableExists = await tableService.getTableByName(
+      tableIdReq,
+      restaurant
+    );
 
-  const itemIdsReq = orderItemsReq.map((e) => e.id);
+    if (!tableExists) {
+      table = tableService.createTable({
+        tableName: tableIdReq,
+        restaurant,
+        isEnabled: false,
+      });
+    } else if (
+      tableExists.occupiedByOrder &&
+      tableExists.occupiedByOrder.id !== orderIdReq
+    ) {
+      return next(new ErrorException(ErrorCode.TableIsOccupied));
+    } else {
+      table = tableExists;
+    }
+  } else {
+    table = await tableService.getTableById(tableIdReq, restaurant);
+    if (!table) {
+      return next(new ErrorException(ErrorCode.AssetNotFound));
+    }
+    if (table.occupiedByOrder && table.occupiedByOrder.id !== orderIdReq) {
+      return next(new ErrorException(ErrorCode.TableIsOccupied));
+    }
+  }
 
+  // Update the order comment and table if provided
+  order.comment = orderComment ?? order.comment;
+  order.table = table ?? order.table;
+  order.couvert = typeof couvert === 'number' ? couvert : order.couvert;
+
+  // Process order_items for update and addition
+  const itemIdsReq: number[] = orderItemsReq.map((e) => e.id);
   const items = await itemService.getItemByIds(itemIdsReq, restaurant);
 
-  const createOrderItems = orderItemsReq.map((itemDescriptionReq) => {
-    const item = items.find((e) => e.id === itemDescriptionReq.id);
+  const orderItemToDelete: OrderItem[] = [];
+  const createOrderItems = orderItemsReq
+    .map((itemDescriptionReq) => {
+      const item: Item | undefined = items.find(
+        (e) => e.id === itemDescriptionReq.id
+      );
 
-    return orderItemService.orderItemRepository.create({
-      order: draftOrder,
-      item,
-      quantity: itemDescriptionReq.quantity,
-    });
-  });
+      if (itemDescriptionReq.oItemId && itemDescriptionReq.delete === true) {
+        const itemIndex = order.orderItems.findIndex(
+          (e) => e.id === itemDescriptionReq.oItemId
+        );
 
-  const draftOrderItems = await orderItemService.orderItemRepository.save(
+        if (itemIndex !== -1) {
+          // Remove the item from the array using splice (in place)
+          const deletedOrderItem = order.orderItems.splice(itemIndex, 1);
+          if (deletedOrderItem?.length === 1) {
+            orderItemToDelete.push(deletedOrderItem[0]);
+          }
+          return null;
+        }
+      }
+
+      return orderItemService.orderItemRepository.create({
+        order,
+        item,
+        quantity: itemDescriptionReq.quantity,
+        comment: itemDescriptionReq.comment ?? '',
+      });
+    })
+    .filter((e) => e);
+
+  // Save the new and updated order items
+  const savedOrderItems = await orderItemService.orderItemRepository.save(
     createOrderItems
   );
 
-  //draftOrderItems is in the same order and length of orderItemsReq
-  draftOrderItems.forEach((orderItem, index) => {
-    const itemPropertiesIdsReq = orderItemsReq[index].itemProperties;
-    const item = orderItem.item;
+  // Update item properties for each order item
+  for (const [index, orderItem] of savedOrderItems.entries()) {
+    if (orderItemsReq[index]?.delete === true) continue;
+    const itemPropertiesIdsReq = orderItemsReq[index].itemProperties.map(
+      (e) => e.id
+    );
+    const item: Item = orderItem.item;
 
     const itemProperties = item.itemProperties.filter((e) =>
       itemPropertiesIdsReq.includes(e.id)
@@ -207,11 +281,19 @@ export async function updateOrder(
         itemProperty: itemProp,
       })
     );
-  });
+  }
+  // console.log(order.orderItems, "order.orderItems");
+  // console.log(savedOrderItems, "savedOrderItems");
 
-  draftOrder.orderItems = draftOrderItems;
+  //Delete orderItems
+  await orderItemService.deleteOrderItems(orderItemToDelete);
+  // Save the updated order
+  order.orderItems = order.orderItems.concat(savedOrderItems);
 
-  const savedOrder = await orderService.saveOrder(draftOrder);
+  if (order.orderItems?.length === 0) {
+    order.closedAt = dayjs().toDate();
+  }
+  const savedOrder: Order = await orderService.saveOrder(order);
   res.send(savedOrder);
 }
 
@@ -224,7 +306,7 @@ export async function getOrderById(
 
   const orderId: number = Number(req.params.orderId);
 
-  if (typeof orderId !== "number") {
+  if (typeof orderId !== 'number') {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -242,7 +324,7 @@ export async function deleteOrder(
 
   const orderId: number = Number(req.params.orderId);
 
-  if (typeof orderId !== "number") {
+  if (typeof orderId !== 'number') {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -267,7 +349,7 @@ export async function getOrderPrint(
 
   const orderId: number = Number(req.params.orderId);
 
-  if (typeof orderId !== "number") {
+  if (typeof orderId !== 'number') {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -278,8 +360,8 @@ export async function getOrderPrint(
       itemTitle: e.item.title,
       itemDetails: e.itemPropertyOfItem
         .map((e) => `${e.itemProperty.propertyValue}`)
-        .join(", "),
-      itemComment: "",
+        .join(', '),
+      itemComment: '',
       quantity: String(e.quantity),
       price: String(e.quantity * e.item.cost),
     };
@@ -288,7 +370,7 @@ export async function getOrderPrint(
   const orderDetails: OrderDetails = {
     orderId: order.id,
     printNum: 1,
-    userName: order.user.firstName + " " + order.user.lastName,
+    userName: order.user.firstName + ' ' + order.user.lastName,
     tableName: order.table.tableName,
   };
 
@@ -296,11 +378,11 @@ export async function getOrderPrint(
 
   const orderPrintImage = await htmlStringToImageBuffer(html);
 
-  var fs = require("fs");
+  var fs = require('fs');
 
-  fs.writeFile("./image.png", orderPrintImage, function (err: any) {
+  fs.writeFile('./image.png', orderPrintImage, function (err: any) {
     if (err) throw err;
   });
-  res.setHeader("Content-Type", "image/png");
+  res.setHeader('Content-Type', 'image/png');
   res.send(orderPrintImage);
 }

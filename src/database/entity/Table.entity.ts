@@ -1,6 +1,8 @@
 import {
+  AfterLoad,
   Column,
   Entity,
+  getRepository,
   Index,
   JoinColumn,
   ManyToMany,
@@ -8,9 +10,10 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Order } from "./Order.entity";
-import { Restaurant } from "./Restaurant.entity";
+} from 'typeorm';
+import { Order } from './Order.entity';
+import { Restaurant } from './Restaurant.entity';
+import { OrderService } from '../../services/order.service';
 
 @Entity()
 export class Table {
@@ -26,9 +29,13 @@ export class Table {
   @Column({ nullable: true })
   tableOrder?: number;
 
-  @OneToOne(() => Order, (order) => order.table, { nullable: true })
-  occupiedByOrder?: Order;
-
   @ManyToOne(() => Restaurant)
   restaurant: Restaurant;
+
+  @OneToMany(() => Order, (order) => order.table, { eager: false })
+  orders?: Order[];
+
+  @OneToOne(() => Order, (Order) => Order.activeTable, { eager: true })
+  @JoinColumn()
+  occupiedByOrder?: Order;
 }

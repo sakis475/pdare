@@ -6,6 +6,7 @@ import {
   createOrder,
   getOrderById,
   getOrderPrint,
+  updateOrder,
 } from "../controller/orders.controller";
 
 /**
@@ -26,7 +27,7 @@ ordersRouter.get("/:orderId", catchWrapper(getOrderById));
 ordersRouter.post("/", catchWrapper(createOrder));
 
 // //Update an order
-// ordersRouter.patch('/:orderId', catchWrapper(orderController.updateOrder));
+ordersRouter.patch("/:orderId", catchWrapper(updateOrder));
 
 // //Cancel an order
 // ordersRouter.delete(
