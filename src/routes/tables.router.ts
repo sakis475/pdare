@@ -3,7 +3,7 @@ import {
   createTables,
   disableTables,
   getTables,
-  updateTables
+  updateTables,
 } from '../controller/tables.controller';
 import { authMiddleware } from '../auth/auth-middleware';
 import { catchWrapper } from '../error_handler/error-handler';

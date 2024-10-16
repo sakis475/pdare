@@ -1,13 +1,13 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { authMiddleware } from "../auth/auth-middleware";
-import { catchWrapper } from "../error_handler/error-handler";
-import { suggestItemProperties } from "../controller/itemProperties.controller";
+import { authMiddleware } from '../auth/auth-middleware';
+import { catchWrapper } from '../error_handler/error-handler';
+import { suggestItemProperties } from '../controller/itemProperties.controller';
 
 export const itemPropertyRouter = Router();
 
 itemPropertyRouter.get(
-  "/suggestItemProperties",
+  '/suggestItemProperties',
   authMiddleware,
   catchWrapper(suggestItemProperties)
 );

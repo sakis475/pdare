@@ -1,4 +1,4 @@
-import puppeteer, { Browser, Page } from "puppeteer";
+import puppeteer, { Browser, Page } from 'puppeteer';
 
 let browser: Browser;
 let page: Page;
@@ -7,14 +7,14 @@ export async function initBrowser() {
     browser = await puppeteer.launch();
     page = await browser.newPage();
     await page.setJavaScriptEnabled(false);
-    page.on("request", (req) => {
-      if (["image", "stylesheet", "font"].includes(req.resourceType())) {
+    page.on('request', (req) => {
+      if (['image', 'stylesheet', 'font'].includes(req.resourceType())) {
         req.abort();
       } else {
         req.continue();
       }
     });
-    console.log("Browser ", await browser.version(), " is running!");
+    console.log('Browser ', await browser.version(), ' is running!');
     await page.setViewport({ width: 380, height: 50 });
   }
 }
@@ -23,10 +23,10 @@ export async function htmlStringToImageBuffer(htmlString: string) {
   // Set the HTML content
 
   await page.setContent(htmlString, {
-    waitUntil: "domcontentloaded", // Ensures that all resources are loaded
+    waitUntil: 'domcontentloaded', // Ensures that all resources are loaded
   });
 
-  const bodyHandle = await page.$("body");
+  const bodyHandle = await page.$('body');
   const { height } = await bodyHandle.boundingBox();
   await bodyHandle.dispose();
 
@@ -46,12 +46,12 @@ function buildOrderItem(orderItem: OrderPrintItem) {
       ${
         orderItem.itemDetails
           ? `<p class="FONTSIZE_2_5">${orderItem.itemDetails}</p>`
-          : ""
+          : ''
       }
       ${
         orderItem.itemComment
           ? `<p class="FONTSIZE_2_5"><i>${orderItem.itemComment}</i></p>`
-          : ""
+          : ''
       }
     </div>
 
@@ -70,8 +70,8 @@ export function buildHtml(
     topMargin: 50,
     bottomMargin: 150,
     fontFamily: `Arial`,
-    currency: "€",
-    language: "el",
+    currency: '€',
+    language: 'el',
   }
 ) {
   const FONTSIZE_3_5 = 3.5 * config.textMagnifierValue;
@@ -79,7 +79,7 @@ export function buildHtml(
   const FONTSIZE_2_5 = 2.5 * config.textMagnifierValue;
   const FONTSIZE_2_0 = 2 * config.textMagnifierValue;
 
-  const orderListToHTML = order.orderItems.map(buildOrderItem).join("<hr>");
+  const orderListToHTML = order.orderItems.map(buildOrderItem).join('<hr>');
 
   const htmlTemplate = `
   <html>
@@ -176,28 +176,28 @@ export function buildHtml(
 }
 
 export const testPrintData = {
-  orderId: "#2",
-  printNum: "1",
-  user: { name: "Παναγιώτης Χρήστου" },
-  table: { name: "ΕΞΩ 24" },
+  orderId: '#2',
+  printNum: '1',
+  user: { name: 'Παναγιώτης Χρήστου' },
+  table: { name: 'ΕΞΩ 24' },
 
   orderList: [
     {
-      itemTitle: "Freddo espresso",
-      itemDetails: "Xlarge, Μέτριος, Mrs.Rose",
+      itemTitle: 'Freddo espresso',
+      itemDetails: 'Xlarge, Μέτριος, Mrs.Rose',
       quantity: 1,
       price: 3.2,
     },
     {
-      itemTitle: "Freddo espresso",
-      itemDetails: "Xlarge, Μέτριος, Mrs.Rose",
+      itemTitle: 'Freddo espresso',
+      itemDetails: 'Xlarge, Μέτριος, Mrs.Rose',
       quantity: 1,
       price: 3.2,
     },
     {
-      itemTitle: "Freddo espresso",
-      itemDetails: "Σκέτος",
-      itemComment: "Με πλαστικά καλαμάκια αν υπάρχουν",
+      itemTitle: 'Freddo espresso',
+      itemDetails: 'Σκέτος',
+      itemComment: 'Με πλαστικά καλαμάκια αν υπάρχουν',
       quantity: 2,
       price: 1.9,
     },

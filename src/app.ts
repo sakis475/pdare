@@ -1,14 +1,14 @@
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 dotenv.config();
 
-import express from "express";
-import { Request, Response } from "express";
-import { catchWrapper, errorHandler } from "./error_handler/error-handler";
-import cors from "cors";
-import { api } from "./routes/api.routes";
-import morgan from "morgan";
-import { initBrowser } from "./lib/orderPrint";
-import { redisConnection } from "./database/redis";
+import express from 'express';
+import { Request, Response } from 'express';
+import { catchWrapper, errorHandler } from './error_handler/error-handler';
+import cors from 'cors';
+import { api } from './routes/api.routes';
+import morgan from 'morgan';
+import { initBrowser } from './lib/orderPrint';
+import { redisConnection } from './database/redis';
 
 initBrowser();
 redisConnection();
@@ -21,7 +21,7 @@ app.use(
   })
 );
 app.use(cors());
-morgan.token("body", (req: Request, res) => JSON.stringify(req.body, null, 2));
+morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 
 // app.use(
 //   morgan(`:date[iso] :response-time ms :method :status :url
@@ -30,7 +30,7 @@ morgan.token("body", (req: Request, res) => JSON.stringify(req.body, null, 2));
 
 app.use(morgan(`:date[iso] :response-time ms :method :status :url`));
 
-app.use("/api/v1", api);
+app.use('/api/v1', api);
 
 //express custom error handler
 app.use(errorHandler);

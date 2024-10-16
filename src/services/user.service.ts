@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { AppDataSource } from "../database/dataSource";
-import { User } from "../database/entity/User.entity";
+import { Repository } from 'typeorm';
+import { AppDataSource } from '../database/dataSource';
+import { User } from '../database/entity/User.entity';
 
 export class UserService {
   userRepository: Repository<User>;
@@ -40,15 +40,15 @@ export class UserService {
     getTokens = false
   ): Promise<User | undefined> {
     const query = this.userRepository
-      .createQueryBuilder("user")
-      .where("user.email = :name", { name: email ?? name })
-      .orWhere("user.username = :name", { name })
+      .createQueryBuilder('user')
+      .where('user.email = :name', { name: email ?? name })
+      .orWhere('user.username = :name', { name })
       .setFindOptions({
         loadEagerRelations: true,
       });
 
     if (getTokens) {
-      query.addSelect(["user.passwordHashed", "user.token"]);
+      query.addSelect(['user.passwordHashed', 'user.token']);
     }
 
     return await query.getOne();

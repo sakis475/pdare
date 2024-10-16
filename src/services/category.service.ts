@@ -17,7 +17,7 @@ export class CategoryService {
 
   public async getCategoryById(id: number): Promise<Category> {
     const category = await this.categoryRepository.findOneBy({
-      id
+      id,
     });
 
     return category;
@@ -28,7 +28,7 @@ export class CategoryService {
     restaurant: Restaurant
   ): Promise<Category[]> {
     const categories = await this.categoryRepository.find({
-      where: { id: In(ids), restaurant }
+      where: { id: In(ids), restaurant },
     });
 
     return categories;
@@ -39,7 +39,7 @@ export class CategoryService {
     restaurant: Restaurant
   ): Promise<Number> {
     const count = await this.categoryRepository.count({
-      where: { id: In(ids), restaurant }
+      where: { id: In(ids), restaurant },
     });
 
     return count;
@@ -49,7 +49,7 @@ export class CategoryService {
     restaurant: Restaurant
   ): Promise<Category[]> {
     const categories = await this.categoryRepository.find({
-      where: { restaurant }
+      where: { restaurant },
     });
     return categories;
   }

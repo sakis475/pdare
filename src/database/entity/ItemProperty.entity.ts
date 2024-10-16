@@ -4,24 +4,24 @@ import {
   Index,
   ManyToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { PropertyDataType } from "../interfaces";
-import { Item } from "./Item.entity";
-import { Restaurant } from "./Restaurant.entity";
+} from 'typeorm';
+import { PropertyDataType } from '../interfaces';
+import { Item } from './Item.entity';
+import { Restaurant } from './Restaurant.entity';
 
 @Entity()
-@Index(["propertyName", "propertyValue", "item"], { unique: true })
+@Index(['propertyName', 'propertyValue', 'item'], { unique: true })
 export class ItemProperty {
   @PrimaryGeneratedColumn()
   id?: number;
 
   @Column({
-    type: "text",
+    type: 'text',
   })
   propertyName: string;
 
   @Column({
-    type: "text",
+    type: 'text',
   })
   propertyValue: string;
 
@@ -39,7 +39,7 @@ export class ItemProperty {
   dependsOn?: string;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: PropertyDataType,
     nullable: true,
   })

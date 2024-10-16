@@ -1,37 +1,37 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UserType } from "../interfaces";
-import { Restaurant } from "./Restaurant.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { UserType } from '../interfaces';
+import { Restaurant } from './Restaurant.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ type: "text", unique: true })
+  @Column({ type: 'text', unique: true })
   username: string;
 
-  @Column({ type: "text", unique: true })
+  @Column({ type: 'text', unique: true })
   email: string;
 
-  @Column("text")
+  @Column('text')
   firstName: string;
 
-  @Column("text")
+  @Column('text')
   lastName: string;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: UserType,
   })
   role: UserType;
 
-  @Column({ type: "text", select: false })
+  @Column({ type: 'text', select: false })
   passwordHashed: string;
 
-  @Column({ type: "text", nullable: true, select: false })
+  @Column({ type: 'text', nullable: true, select: false })
   token?: string;
 
-  @Column({ type: "boolean", default: true })
+  @Column({ type: 'boolean', default: true })
   active?: boolean;
 
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })

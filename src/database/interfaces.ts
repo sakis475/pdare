@@ -1,14 +1,14 @@
 export enum UserType {
-  OWNER = "owner",
-  ADMIN = "admin",
-  ADMINOPERATOR = "adminOperator",
-  WAITER = "waiter",
-  NONE = "none",
+  OWNER = 'owner',
+  ADMIN = 'admin',
+  ADMINOPERATOR = 'adminOperator',
+  WAITER = 'waiter',
+  NONE = 'none',
 }
 
 export enum PropertyDataType {
-  SINGLESELECT = "singleselect",
-  MULTISELECT = "multiselect",
+  SINGLESELECT = 'singleselect',
+  MULTISELECT = 'multiselect',
 }
 
 export type createOrderRequest = {
@@ -23,4 +23,4 @@ export type createOrderRequest = {
   };
 };
 
-export type SortDirection = "sortDown" | "sortUp";
+export type SortDirection = 'sortDown' | 'sortUp';

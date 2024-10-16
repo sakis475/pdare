@@ -5,7 +5,7 @@ import {
   createCategories,
   deleteCategories,
   getActiveCategories,
-  updateCategories
+  updateCategories,
 } from '../controller/category.controller';
 
 export const categoryRouter = Router();

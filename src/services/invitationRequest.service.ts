@@ -1,11 +1,11 @@
-import { FindOneOptions, Repository } from "typeorm";
-import { AppDataSource } from "../database/dataSource";
+import { FindOneOptions, Repository } from 'typeorm';
+import { AppDataSource } from '../database/dataSource';
 import {
   InvitationRequest,
   InvitationRequestStatus,
-} from "../database/entity/InvitationRequest.entity";
-import { User } from "../database/entity/User.entity";
-import { Restaurant } from "../database/entity/Restaurant.entity";
+} from '../database/entity/InvitationRequest.entity';
+import { User } from '../database/entity/User.entity';
+import { Restaurant } from '../database/entity/Restaurant.entity';
 
 export class InvitationRequestService {
   invitationRequestRepository: Repository<InvitationRequest>;

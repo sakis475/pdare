@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { AppDataSource } from "../database/dataSource";
-import { Restaurant } from "../database/entity/Restaurant.entity";
+import { Repository } from 'typeorm';
+import { AppDataSource } from '../database/dataSource';
+import { Restaurant } from '../database/entity/Restaurant.entity';
 
 export class RestaurantService {
   restaurantRepository: Repository<Restaurant>;

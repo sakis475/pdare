@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { AppDataSource } from "../database/dataSource";
-import { OrderItem } from "../database/entity/OrderItem.entity";
+import { Repository } from 'typeorm';
+import { AppDataSource } from '../database/dataSource';
+import { OrderItem } from '../database/entity/OrderItem.entity';
 
 export class OrderItemService {
   orderItemRepository: Repository<OrderItem>;
@@ -21,7 +21,7 @@ export class OrderItemService {
   }
 
   public async deleteOrderItems(orderItems: OrderItem[]) {
-    console.log(orderItems, "orderItems delete");
+    console.log(orderItems, 'orderItems delete');
     await this.orderItemRepository.remove(orderItems);
   }
 }

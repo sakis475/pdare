@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { comparePassword, passwordHash } from "../auth/password-hash";
-import { generateAuthToken } from "../auth/jwt";
-import { UserService } from "../services/user.service";
-import { ErrorException } from "../error_handler/error-exception";
-import { UserType } from "../database/interfaces";
-import { User } from "../database/entity/User.entity";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { comparePassword, passwordHash } from '../auth/password-hash';
+import { generateAuthToken } from '../auth/jwt';
+import { UserService } from '../services/user.service';
+import { ErrorException } from '../error_handler/error-exception';
+import { UserType } from '../database/interfaces';
+import { User } from '../database/entity/User.entity';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function postRegister(
@@ -31,6 +31,6 @@ export async function postRegister(
     token: token.token,
     role,
   });
-  delete newuser["passwordHashed"];
+  delete newuser['passwordHashed'];
   res.json(generateAuthToken(newuser));
 }

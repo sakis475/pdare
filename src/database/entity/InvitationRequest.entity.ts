@@ -7,14 +7,14 @@ import {
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
-} from "typeorm";
-import { User } from "./User.entity";
-import { Restaurant } from "./Restaurant.entity";
+} from 'typeorm';
+import { User } from './User.entity';
+import { Restaurant } from './Restaurant.entity';
 
 export enum InvitationRequestStatus {
-  ACCEPTED = "accepted",
-  CANCELLED = "cancelled",
-  AWAITING = "awaiting",
+  ACCEPTED = 'accepted',
+  CANCELLED = 'cancelled',
+  AWAITING = 'awaiting',
 }
 
 @Entity()
@@ -29,7 +29,7 @@ export class InvitationRequest {
   inviteTo: User;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: InvitationRequestStatus,
     default: InvitationRequestStatus.AWAITING,
   })

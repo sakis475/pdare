@@ -1,6 +1,6 @@
-import { app } from "./app";
-import { createServer } from "node:http";
-import { Server } from "socket.io";
+import { app } from './app';
+import { createServer } from 'node:http';
+import { Server } from 'socket.io';
 // import { connect } from './model/postgres-connect';
 
 // connect(process.env.POSTGRES!);
@@ -9,7 +9,7 @@ const server = createServer(app);
 // Initialize Socket.IO server
 const io = new Server(server, {
   cors: {
-    origin: "*", // Adjust the origin as per your requirements
+    origin: '*', // Adjust the origin as per your requirements
   },
 });
 

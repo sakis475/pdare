@@ -1,14 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { ErrorException } from "../error_handler/error-exception";
-import { Restaurant } from "../database/entity/Restaurant.entity";
-import { ItemService } from "../services/item.service";
-import { Item } from "../database/entity/Item.entity";
-import { CategoryService } from "../services/category.service";
-import { ItemProperty } from "../database/entity/ItemProperty.entity";
-import { ItemPropertyService } from "../services/itemProperty.service";
-import { redisClient } from "../database/redis";
-import { SortDirection } from "src/database/interfaces";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { ErrorException } from '../error_handler/error-exception';
+import { Restaurant } from '../database/entity/Restaurant.entity';
+import { ItemService } from '../services/item.service';
+import { Item } from '../database/entity/Item.entity';
+import { CategoryService } from '../services/category.service';
+import { ItemProperty } from '../database/entity/ItemProperty.entity';
+import { ItemPropertyService } from '../services/itemProperty.service';
+import { redisClient } from '../database/redis';
+import { SortDirection } from 'src/database/interfaces';
 
 const itemService = new ItemService();
 const categoryService = new CategoryService();
@@ -41,7 +41,7 @@ export async function getItems(
 
     res.json(items);
   } catch (error) {
-    console.error("Failed to retrieve items:", error);
+    console.error('Failed to retrieve items:', error);
     next(error); // Pass errors to the Express error handler
   }
 }
@@ -124,14 +124,14 @@ export async function updateItems(
       uniqueIdsOfItemProperties = e.itemProperties
         .map((property) => {
           const id = property.id;
-          if (typeof id === "number") {
+          if (typeof id === 'number') {
             return id;
           } else {
             //add restaurant to each itemProperty if itemProperty doesnt exist (is about to created)
             property.restaurant = restaurant;
           }
         })
-        .filter((id) => (typeof id === "number" ? true : false));
+        .filter((id) => (typeof id === 'number' ? true : false));
     }
     return { ...e, restaurant };
   });
@@ -169,7 +169,7 @@ export async function updateIsEnabled(
   const itemIds: number[] = req.body.itemIds;
   const isEnabled: boolean = req.body.isEnabled;
 
-  if (!Array.isArray(itemIds) || typeof isEnabled !== "boolean") {
+  if (!Array.isArray(itemIds) || typeof isEnabled !== 'boolean') {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -200,7 +200,7 @@ export async function updateItemOrder(
   const sortDirection: SortDirection = req.body.sortDirection;
   const restaurant: Restaurant = res.locals.user.restaurant;
 
-  if (!itemId || !["sortUp", "sortDown"].some((e) => e === sortDirection)) {
+  if (!itemId || !['sortUp', 'sortDown'].some((e) => e === sortDirection)) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -217,8 +217,8 @@ export async function updateItemOrder(
 
   if (
     (item.orderItem >= itemOrderLimits.maxOrder &&
-      sortDirection === "sortDown") ||
-    (item.orderItem <= itemOrderLimits.minOrder && sortDirection === "sortUp")
+      sortDirection === 'sortDown') ||
+    (item.orderItem <= itemOrderLimits.minOrder && sortDirection === 'sortUp')
   ) {
     return res.json(item);
   }

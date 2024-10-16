@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { ErrorException } from "../error_handler/error-exception";
-import { Restaurant } from "../database/entity/Restaurant.entity";
-import { ItemService } from "../services/item.service";
-import { Item } from "../database/entity/Item.entity";
-import { CategoryService } from "../services/category.service";
-import { ItemProperty } from "../database/entity/ItemProperty.entity";
-import { ItemPropertyService } from "../services/itemProperty.service";
-import { redisClient } from "../database/redis";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { ErrorException } from '../error_handler/error-exception';
+import { Restaurant } from '../database/entity/Restaurant.entity';
+import { ItemService } from '../services/item.service';
+import { Item } from '../database/entity/Item.entity';
+import { CategoryService } from '../services/category.service';
+import { ItemProperty } from '../database/entity/ItemProperty.entity';
+import { ItemPropertyService } from '../services/itemProperty.service';
+import { redisClient } from '../database/redis';
 
 const itemService = new ItemService();
 const categoryService = new CategoryService();
@@ -36,7 +36,7 @@ export async function suggestItemProperties(
 
     res.json(itemProperties);
   } catch (error) {
-    console.error("Failed to retrieve items:", error);
+    console.error('Failed to retrieve items:', error);
     next(error); // Pass errors to the Express error handler
   }
 }

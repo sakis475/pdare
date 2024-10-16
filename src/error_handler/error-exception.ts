@@ -1,7 +1,7 @@
-import { ErrorCode } from "./error-code";
+import { ErrorCode } from './error-code';
 
 export class ErrorException extends ErrorCode {
-  public message = "UNKNOWN";
+  public message = 'UNKNOWN';
   public code = 500;
 
   constructor(errorCode: ErrorCode) {

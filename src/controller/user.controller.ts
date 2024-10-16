@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { comparePassword, passwordHash } from "../auth/password-hash";
-import { generateAuthToken } from "../auth/jwt";
-import { UserService } from "../services/user.service";
-import { ErrorException } from "../error_handler/error-exception";
-import { UserType } from "../database/interfaces";
-import { User } from "../database/entity/User.entity";
-import { InvitationRequestService } from "../services/invitationRequest.service";
-import { InvitationRequestStatus } from "../database/entity/InvitationRequest.entity";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { comparePassword, passwordHash } from '../auth/password-hash';
+import { generateAuthToken } from '../auth/jwt';
+import { UserService } from '../services/user.service';
+import { ErrorException } from '../error_handler/error-exception';
+import { UserType } from '../database/interfaces';
+import { User } from '../database/entity/User.entity';
+import { InvitationRequestService } from '../services/invitationRequest.service';
+import { InvitationRequestStatus } from '../database/entity/InvitationRequest.entity';
 
 export async function sendInvitationToJoinRestaurant(
   req: Request,
