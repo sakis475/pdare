@@ -8,7 +8,7 @@ export class OrderOrderItem_ItemPropertyItem {
   id?: number;
 
   @ManyToOne(() => OrderItem, (orderItem) => orderItem.itemPropertyOfItem, {
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   orderItem: OrderItem;
 

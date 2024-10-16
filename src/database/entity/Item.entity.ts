@@ -4,29 +4,29 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Category } from "./Category.entity";
-import { ItemProperty } from "./ItemProperty.entity";
-import { Restaurant } from "./Restaurant.entity";
+} from 'typeorm';
+import { Category } from './Category.entity';
+import { ItemProperty } from './ItemProperty.entity';
+import { Restaurant } from './Restaurant.entity';
 
 @Entity()
 export class Item {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ type: "text" })
+  @Column({ type: 'text' })
   title: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: 'text', nullable: true })
   description?: string;
 
   @OneToMany(() => ItemProperty, (itemProperty) => itemProperty.item, {
-    eager: true,
+    eager: false,
     cascade: true,
   })
   itemProperties?: ItemProperty[];
 
-  @Column({ type: "float" })
+  @Column({ type: 'float' })
   cost: number;
 
   @ManyToOne(() => Category, { eager: true })

@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "../error_handler/error-code";
-import { comparePassword } from "../auth/password-hash";
-import { generateAuthToken, verifyToken } from "../auth/jwt";
-import { UserService } from "../services/user.service";
-import { ErrorException } from "../error_handler/error-exception";
+import { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from '../error_handler/error-code';
+import { comparePassword } from '../auth/password-hash';
+import { generateAuthToken, verifyToken } from '../auth/jwt';
+import { UserService } from '../services/user.service';
+import { ErrorException } from '../error_handler/error-exception';
 
 export async function postLogin(
   req: Request,
@@ -40,7 +40,10 @@ export async function postLogin(
 
   console.log(tokenJWT);
 
-  res.json(tokenJWT);
+  delete user.token;
+  delete user.passwordHashed;
+  const responseData = { ...tokenJWT, user };
+  res.json(responseData);
 }
 
 export async function postRefreshSession(
@@ -58,14 +61,14 @@ export async function postRefreshSession(
     //throws error if not verified
     verifyToken(jwt);
   } catch (error) {
-    console.log(error, "verifyToken");
+    console.log(error, 'verifyToken');
     return next(new ErrorException(ErrorCode.JWTExpired));
   }
 
   const userService = new UserService();
 
   const user = await userService.getUserByJWT(jwt);
-  console.log(user, "user");
+  console.log(user, 'user');
   if (!user) {
     return next(new ErrorException(ErrorCode.JWTExpired));
   }
@@ -77,6 +80,8 @@ export async function postRefreshSession(
   await userService.saveUser(user);
 
   console.log(tokenJWT);
-
-  res.json(tokenJWT);
+  delete user.token;
+  delete user.passwordHashed;
+  const responseData = { ...tokenJWT, user };
+  res.json(responseData);
 }

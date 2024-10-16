@@ -4,33 +4,36 @@ import {
   Index,
   ManyToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Restaurant } from "./Restaurant.entity";
+} from 'typeorm';
+import { Restaurant } from './Restaurant.entity';
 
 export enum PrintLocation {
-  KITCHEN = "kitchen",
-  BAR = "bar",
-  ALL = "all",
+  KITCHEN = 'kitchen',
+  BAR = 'bar',
+  ALL = 'all',
 }
 
 @Entity()
-@Index(["title", "restaurant"], { unique: true })
+@Index(['title', 'restaurant'], { unique: true })
 export class Category {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column("text")
+  @Column('text')
   title: string;
 
   @Column({ nullable: true })
   orderCategory?: number;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: PrintLocation,
     default: PrintLocation.ALL,
   })
   printLocation?: PrintLocation;
+
+  @Column({ nullable: true })
+  color?: string;
 
   @ManyToOne(() => Restaurant, { nullable: false })
   restaurant: Restaurant;

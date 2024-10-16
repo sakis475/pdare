@@ -1,4 +1,4 @@
-import { In, IsNull, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository } from 'typeorm';
 import { AppDataSource } from '../database/dataSource';
 import { Table } from '../database/entity/Table.entity';
 import { Restaurant } from '../database/entity/Restaurant.entity';
@@ -49,19 +49,23 @@ export class TableService {
 
     return categories;
   }
-
   public async getEnabledTablesWithOrder(
     restaurant: Restaurant
   ): Promise<Table[]> {
-    const tables = await this.tableRepository.find({
-      where: { restaurant, isEnabled: true },
-      order: { tableOrder: 'ASC' },
-      // relations: [
-      //   'occupiedByOrder',
-      //   'occupiedByOrder.orderItems',
-      //   'occupiedByOrder.orderItems.item',
-      // ],
-    });
+    const tables = await this.tableRepository
+      .createQueryBuilder('table')
+      .leftJoinAndSelect('table.occupiedByOrder', 'order')
+      .leftJoinAndSelect('order.orderItems', 'orderItems')
+      .leftJoinAndSelect('orderItems.item', 'item')
+      .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
+      .leftJoinAndSelect('itemPropertyOfItem.itemProperty', 'itemProperty')
+      .where('table.restaurant = :restaurantId', {
+        restaurantId: restaurant.id,
+      })
+      .andWhere('table.isEnabled = true OR order.id IS NOT NULL')
+      .orderBy('order.id', 'DESC')
+      .getMany();
+
     return tables;
   }
 
@@ -96,7 +100,7 @@ export class TableService {
   }
 
   async clearTable(table: Table) {
-    // table.occupiedByOrder = null;
-    // return await this.tableRepository.save(table);
+    table.occupiedByOrder = null;
+    return await this.tableRepository.save(table);
   }
 }

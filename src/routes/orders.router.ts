@@ -1,13 +1,14 @@
-import { Router } from "express";
-import { authMiddleware } from "../auth/auth-middleware";
-import { catchWrapper } from "../error_handler/error-handler";
+import { Router } from 'express';
+import { catchWrapper } from '../error_handler/error-handler';
 import {
   deleteOrder,
   createOrder,
   getOrderById,
   getOrderPrint,
   updateOrder,
-} from "../controller/orders.controller";
+  closeOrder,
+  getOrders,
+} from '../controller/orders.controller';
 
 /**
  * /order
@@ -20,14 +21,17 @@ export const ordersRouter = Router();
 //   catchWrapper(orderController.getActiveOrders)
 // );
 
+//Get orders
+ordersRouter.get('/', catchWrapper(getOrders));
+
 //Get an order
-ordersRouter.get("/:orderId", catchWrapper(getOrderById));
+ordersRouter.get('/:orderId', catchWrapper(getOrderById));
 
 //Create an order
-ordersRouter.post("/", catchWrapper(createOrder));
+ordersRouter.post('/', catchWrapper(createOrder));
 
-// //Update an order
-ordersRouter.patch("/:orderId", catchWrapper(updateOrder));
+//Update an order
+ordersRouter.patch('/:orderId', catchWrapper(updateOrder));
 
 // //Cancel an order
 // ordersRouter.delete(
@@ -36,7 +40,7 @@ ordersRouter.patch("/:orderId", catchWrapper(updateOrder));
 // );
 
 //Close an order
-ordersRouter.delete("/close/:orderId", catchWrapper(deleteOrder));
+ordersRouter.patch('/close/:orderId', catchWrapper(closeOrder));
 
 //Get print image for order
-ordersRouter.get("/orderPrint/:orderId", catchWrapper(getOrderPrint));
+ordersRouter.get('/orderPrint/:orderId', catchWrapper(getOrderPrint));

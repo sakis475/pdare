@@ -19,6 +19,7 @@ import { Order } from '../database/entity/Order.entity';
 import { Item } from '../database/entity/Item.entity';
 import { OrderItem } from '../database/entity/OrderItem.entity';
 import dayjs from '../lib/dayjs';
+import { orderUpdatedEmitter } from '../lib/socketio';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -41,11 +42,13 @@ export async function createOrder(
 
   const orderItemsReq: {
     id: number;
-    itemProperties: number[];
+    itemProperties: {
+      id: number;
+      oItemPropertyId: number;
+    }[];
     quantity: number;
     comment?: string;
   }[] = req.body.items;
-
   if (
     !Array.isArray(orderItemsReq) ||
     !['number', 'string'].includes(typeof tableIdReq) ||
@@ -74,6 +77,7 @@ export async function createOrder(
         restaurant,
         isEnabled: false,
       });
+      table = (await tableService.saveTables([table]))[0];
     } else if (tableExists.occupiedByOrder) {
       return next(new ErrorException(ErrorCode.TableIsOccupied));
     } else {
@@ -124,8 +128,14 @@ export async function createOrder(
     createOrderItems
   );
 
-  draftOrderItems.forEach((orderItem, index) => {
-    const itemPropertiesIdsReq = orderItemsReq[index].itemProperties;
+  console.log(draftOrderItems, 'itemProperties');
+  console.log(draftOrderItems.length, 'draftOrderItemslengt');
+
+  for (const [index, orderItem] of draftOrderItems.entries()) {
+    const itemPropertiesIdsReq = orderItemsReq[index].itemProperties.map(
+      (e) => e.id
+    );
+    console.log(itemPropertiesIdsReq, 'itemPropertiesIdsReq');
     const item = orderItem.item;
 
     const itemProperties = item.itemProperties.filter((e) =>
@@ -138,12 +148,21 @@ export async function createOrder(
         itemProperty: itemProp,
       })
     );
-  });
+  }
 
   draftOrder.orderItems = draftOrderItems;
+
+  let finalCost = 0;
+  draftOrderItems.forEach((orderItem) => {
+    finalCost += orderItem.item.cost;
+  });
+  draftOrder.finalCost = finalCost;
   draftOrder.activeTable = table;
   const savedOrder = await orderService.saveOrder(draftOrder);
   res.send(savedOrder);
+
+  savedOrder.user = user;
+  orderUpdatedEmitter(savedOrder);
 }
 
 export async function updateOrder(
@@ -290,11 +309,21 @@ export async function updateOrder(
   // Save the updated order
   order.orderItems = order.orderItems.concat(savedOrderItems);
 
+  let finalCost = 0;
+  order.orderItems.forEach((orderItem) => {
+    finalCost += orderItem.item.cost;
+  });
+  order.finalCost = finalCost;
+
   if (order.orderItems?.length === 0) {
     order.closedAt = dayjs().toDate();
+    order.table.occupiedByOrder = null;
   }
   const savedOrder: Order = await orderService.saveOrder(order);
   res.send(savedOrder);
+
+  savedOrder.user = user;
+  orderUpdatedEmitter(savedOrder);
 }
 
 export async function getOrderById(
@@ -313,6 +342,53 @@ export async function getOrderById(
   const order = await orderService.getOrderById(orderId, restaurant);
 
   res.send(order);
+}
+
+export async function getOrders(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const restaurant: Restaurant = res.locals.user.restaurant;
+
+  let fromDate: any = req.query.string as string;
+
+  if (fromDate && typeof fromDate !== 'string') {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  } else {
+    fromDate = dayjs(fromDate).toDate();
+  }
+
+  const order = await orderService.getOrders(restaurant);
+
+  res.send(order);
+}
+
+export async function closeOrder(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const restaurant: Restaurant = res.locals.user.restaurant;
+
+  const orderId: number = Number(req.params.orderId);
+
+  if (typeof orderId !== 'number') {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  const order = await orderService.getOrderById(orderId, restaurant);
+
+  if (!order) {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  order.closedAt = dayjs().toDate();
+  order.table.occupiedByOrder = null;
+
+  const savedOrder: Order = await orderService.saveOrder(order);
+  orderUpdatedEmitter(savedOrder);
+  res.send();
 }
 
 export async function deleteOrder(

@@ -1,7 +1,7 @@
-import e, { NextFunction, Request, Response } from "express";
-import { ErrorCode } from "./error-code";
-import { ErrorModel } from "./error-model";
-import { ErrorException } from "./error-exception";
+import e, { NextFunction, Request, Response } from 'express';
+import { ErrorCode } from './error-code';
+import { ErrorModel } from './error-model';
+import { ErrorException } from './error-exception';
 
 export const errorHandler = (
   err: Error,
@@ -34,7 +34,7 @@ export const catchWrapper =
         console.log(err);
 
         switch (err.code) {
-          case "23505":
+          case '23505':
             return res.status(ErrorCode.SQLDuplicate.code).json({
               message: ErrorCode.SQLDuplicate.message,
               code: ErrorCode.SQLDuplicate.code,

@@ -31,7 +31,7 @@ export class Order {
   createdAt?: Date;
 
   @Column({
-    type: 'date',
+    type: 'timestamp',
     nullable: true,
   })
   closedAt?: Date;
@@ -49,6 +49,12 @@ export class Order {
     nullable: true,
   })
   couvert?: number;
+
+  @Column({
+    type: 'float',
+    nullable: true,
+  })
+  finalCost?: number;
 
   @Column({ default: '' })
   comment?: string;

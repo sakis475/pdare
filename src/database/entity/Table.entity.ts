@@ -2,7 +2,6 @@ import {
   AfterLoad,
   Column,
   Entity,
-  getRepository,
   Index,
   JoinColumn,
   ManyToMany,

@@ -1,12 +1,12 @@
-import { In, Repository } from "typeorm";
-import { AppDataSource } from "../database/dataSource";
-import { Item } from "../database/entity/Item.entity";
-import { Restaurant } from "../database/entity/Restaurant.entity";
-import { ErrorCode } from "../error_handler/error-code";
-import { ErrorException } from "../error_handler/error-exception";
-import { groupBy } from "lodash";
-import { Category } from "src/database/entity/Category.entity";
-import { SortDirection } from "src/database/interfaces";
+import { In, Repository } from 'typeorm';
+import { AppDataSource } from '../database/dataSource';
+import { Item } from '../database/entity/Item.entity';
+import { Restaurant } from '../database/entity/Restaurant.entity';
+import { ErrorCode } from '../error_handler/error-code';
+import { ErrorException } from '../error_handler/error-exception';
+import { groupBy } from 'lodash';
+import { Category } from 'src/database/entity/Category.entity';
+import { SortDirection } from 'src/database/interfaces';
 
 export class ItemService {
   itemRepository: Repository<Item>;
@@ -35,6 +35,7 @@ export class ItemService {
   ): Promise<Item[]> {
     const categories = await this.itemRepository.find({
       where: { id: In(ids), restaurant },
+      relations: ['itemProperties'],
     });
 
     return categories;
@@ -45,9 +46,9 @@ export class ItemService {
       where: { restaurant, isEnabled: true },
       relations: { itemProperties: true, category: true },
       order: {
-        category: { orderCategory: "ASC" },
-        orderItem: "ASC",
-        itemProperties: { orderGroup: "ASC", orderItem: "ASC" },
+        category: { orderCategory: 'ASC' },
+        orderItem: 'ASC',
+        itemProperties: { orderGroup: 'ASC', orderItem: 'ASC' },
       },
     });
 
@@ -62,7 +63,7 @@ export class ItemService {
 
       return {
         ...rest, // Spread all other properties
-        itemPropertiesGrouped: groupBy(modifiedItemProperties, "propertyName"), // Add modified itemProperties
+        itemPropertiesGrouped: groupBy(modifiedItemProperties, 'propertyName'), // Add modified itemProperties
       };
     });
 
@@ -104,11 +105,11 @@ export class ItemService {
     restaurant: Restaurant
   ): Promise<{ minOrder: number; maxOrder: number }> {
     const minAndmax = await this.itemRepository
-      .createQueryBuilder("item")
-      .select('MIN(item."orderItem")', "minOrder")
-      .addSelect('MAX(item."orderItem")', "maxOrder")
-      .where("item.categoryId = :categoryId", { categoryId: category.id })
-      .andWhere("item.restaurantId = :restaurantId", {
+      .createQueryBuilder('item')
+      .select('MIN(item."orderItem")', 'minOrder')
+      .addSelect('MAX(item."orderItem")', 'maxOrder')
+      .where('item.categoryId = :categoryId', { categoryId: category.id })
+      .andWhere('item.restaurantId = :restaurantId', {
         restaurantId: restaurant.id,
       })
       .getRawOne();
@@ -122,10 +123,10 @@ export class ItemService {
     restaurant: Restaurant
   ) {
     const minAndmax = await this.itemRepository
-      .createQueryBuilder("item")
-      .where("item.categoryId = :categoryId", { categoryId: category.id })
-      .andWhere("item.orderItem = :orderItem", { orderItem })
-      .andWhere("item.restaurantId = :restaurantId", {
+      .createQueryBuilder('item')
+      .where('item.categoryId = :categoryId', { categoryId: category.id })
+      .andWhere('item.orderItem = :orderItem', { orderItem })
+      .andWhere('item.restaurantId = :restaurantId', {
         restaurantId: restaurant.id,
       })
       .getOne();
@@ -134,7 +135,7 @@ export class ItemService {
   }
 
   public async updateItemOrder(item: Item, sortDirection: SortDirection) {
-    const orderNumber = sortDirection === "sortUp" ? -1 : 1;
+    const orderNumber = sortDirection === 'sortUp' ? -1 : 1;
 
     item.orderItem += orderNumber;
 
