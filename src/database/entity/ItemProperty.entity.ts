@@ -25,6 +25,7 @@ export class ItemProperty {
   })
   propertyValue: string;
 
+  //property pre-selected
   @Column({
     default: false,
   })

@@ -9,6 +9,8 @@ import { ItemProperty } from '../database/entity/ItemProperty.entity';
 import { ItemPropertyService } from '../services/itemProperty.service';
 import { redisClient } from '../database/redis';
 import { SortDirection } from 'src/database/interfaces';
+import { itemsUpdatedEmitter } from '../lib/socketio';
+import { groupBy } from 'lodash';
 
 const itemService = new ItemService();
 const categoryService = new CategoryService();
@@ -38,7 +40,6 @@ export async function getItems(
     // console.log("Items cached");
 
     // Return the fresh list of items
-
     res.json(items);
   } catch (error) {
     console.error('Failed to retrieve items:', error);
@@ -142,7 +143,10 @@ export async function updateItems(
       restaurant
     );
 
-  if (uniqueIdsOfItemProperties?.length !== countItemProperties) {
+  if (
+    countItemProperties &&
+    uniqueIdsOfItemProperties?.length !== countItemProperties
+  ) {
     return next(new ErrorException(ErrorCode.BadRequestError));
   }
 
@@ -152,13 +156,19 @@ export async function updateItems(
     restaurant
   );
 
-  if (updateItems.length !== countItems) {
+  if (countItems && updateItems.length !== countItems) {
     return next(new ErrorException(ErrorCode.BadRequestError));
   }
 
-  await itemService.saveItems(updateItems);
+  const itemUpdated = await itemService.saveItems(updateItems);
 
-  res.json();
+  const transformedItems = itemUpdated.map(({ itemProperties, ...rest }) => ({
+    ...rest,
+    itemPropertiesGrouped: groupBy(itemProperties, 'propertyName'),
+  }));
+
+  res.json(transformedItems);
+  // await itemsUpdatedEmitter(restaurant);
 }
 
 export async function updateIsEnabled(
@@ -189,41 +199,4 @@ export async function updateIsEnabled(
 
   await itemService.saveItems(updateIsEnabled);
   res.json();
-}
-
-export async function updateItemOrder(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const itemId: number = +req.body.itemId;
-  const sortDirection: SortDirection = req.body.sortDirection;
-  const restaurant: Restaurant = res.locals.user.restaurant;
-
-  if (!itemId || !['sortUp', 'sortDown'].some((e) => e === sortDirection)) {
-    return next(new ErrorException(ErrorCode.WrongInput));
-  }
-
-  const item = await itemService.getItemById(itemId);
-
-  if (item?.restaurant?.id !== restaurant.id) {
-    return next(new ErrorException(ErrorCode.NotFound));
-  }
-
-  const itemOrderLimits = await itemService.getItemCategoryOrderMinMax(
-    item.category,
-    restaurant
-  );
-
-  if (
-    (item.orderItem >= itemOrderLimits.maxOrder &&
-      sortDirection === 'sortDown') ||
-    (item.orderItem <= itemOrderLimits.minOrder && sortDirection === 'sortUp')
-  ) {
-    return res.json(item);
-  }
-
-  const updatedItems = await itemService.updateItemOrder(item, sortDirection);
-
-  res.json(updatedItems);
 }

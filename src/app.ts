@@ -2,8 +2,8 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import { Request, Response } from 'express';
-import { catchWrapper, errorHandler } from './error_handler/error-handler';
+import { Request } from 'express';
+import { errorHandler } from './error_handler/error-handler';
 import cors from 'cors';
 import { api } from './routes/api.routes';
 import morgan from 'morgan';

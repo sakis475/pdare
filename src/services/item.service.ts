@@ -58,7 +58,7 @@ export class ItemService {
       // Add the selected: false key to each itemProperty
       const modifiedItemProperties = itemProperties.map((property) => ({
         ...property,
-        selected: false,
+        // selected: false,
       }));
 
       return {
