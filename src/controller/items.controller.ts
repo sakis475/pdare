@@ -108,64 +108,150 @@ export async function updateItems(
   res: Response,
   next: NextFunction
 ) {
-  const items: Item[] = req.body;
+  const updatedItems: Item[] = req.body;
 
-  if (!Array.isArray(items)) {
+  if (!Array.isArray(updatedItems)) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
+
   const restaurant: Restaurant = res.locals.user.restaurant;
 
-  let uniqueIdsOfItemProperties: number[] = [];
-
-  const updateItems = items.map((e) => {
-    if (e.isEnabled === true) {
-      delete e.isEnabled;
-    }
-    if (e.itemProperties?.length) {
-      uniqueIdsOfItemProperties = e.itemProperties
-        .map((property) => {
-          const id = property.id;
-          if (typeof id === 'number') {
-            return id;
-          } else {
-            //add restaurant to each itemProperty if itemProperty doesnt exist (is about to created)
-            property.restaurant = restaurant;
-          }
-        })
-        .filter((id) => (typeof id === 'number' ? true : false));
-    }
-    return { ...e, restaurant };
-  });
-  //check if id's given are only of restaurant and not other
-  const countItemProperties =
-    await itemPropertyService.countItemPropertiesByIds(
-      uniqueIdsOfItemProperties,
-      restaurant
-    );
-
-  if (
-    countItemProperties &&
-    uniqueIdsOfItemProperties?.length !== countItemProperties
-  ) {
-    return next(new ErrorException(ErrorCode.BadRequestError));
-  }
-
-  //check if id's given are only of restaurant and not other
-  const countItems = await itemService.countItemByIds(
-    items.map((e) => e.id),
+  // Get existing items with their properties
+  const existingItems = await itemService.getItemByIds(
+    updatedItems.map((item) => item.id),
     restaurant
   );
 
-  if (countItems && updateItems.length !== countItems) {
+  // Create a map of existing items for easy lookup
+  const existingItemsMap = new Map(
+    existingItems.map((item) => [item.id, item])
+  );
+
+  let uniqueIdsOfItemProperties: number[] = [];
+
+  const itemsToUpdate = await Promise.all(
+    updatedItems.map(async (updatedItem) => {
+      const existingItem = existingItemsMap.get(updatedItem.id);
+
+      if (!existingItem) {
+        // Handle new items
+        if (updatedItem.isEnabled === true) {
+          delete updatedItem.isEnabled;
+        }
+
+        if (updatedItem.itemProperties?.length) {
+          updatedItem.itemProperties.forEach((property) => {
+            if (!property.id) {
+              property.restaurant = restaurant;
+            }
+          });
+        }
+
+        return { ...updatedItem, restaurant };
+      }
+
+      // Handle existing items
+      let mergedItemProperties: any[] = [];
+
+      if (updatedItem.itemProperties?.length) {
+        // Create a map of updated properties for easy lookup
+        const updatedPropertiesMap = new Map(
+          updatedItem.itemProperties
+            .filter((prop) => prop.id)
+            .map((prop) => [prop.id, prop])
+        );
+
+        // Handle existing properties
+        mergedItemProperties = existingItem.itemProperties.map(
+          (existingProp) => {
+            const updatedProp = updatedPropertiesMap.get(existingProp.id);
+            if (updatedProp) {
+              // Property exists in both - update it
+              uniqueIdsOfItemProperties.push(existingProp.id);
+              return {
+                ...existingProp,
+                ...updatedProp,
+                restaurant, // Ensure restaurant is preserved
+              };
+            }
+            // Property exists only in database - preserve it
+            return existingProp;
+          }
+        );
+
+        // Add new properties (ones without IDs)
+        const newProperties = updatedItem.itemProperties
+          .filter((prop) => !prop.id)
+          .map((prop) => ({
+            ...prop,
+            restaurant,
+          }));
+
+        mergedItemProperties = [...mergedItemProperties, ...newProperties];
+      } else {
+        // If no properties provided, keep existing ones
+        mergedItemProperties = existingItem.itemProperties;
+      }
+
+      if (updatedItem.isEnabled === true) {
+        delete updatedItem.isEnabled;
+      }
+
+      // Merge the item data
+      return {
+        ...existingItem,
+        ...updatedItem,
+        itemProperties: mergedItemProperties,
+        restaurant,
+      };
+    })
+  );
+
+  // Validate item properties belong to restaurant
+  if (uniqueIdsOfItemProperties.length > 0) {
+    const countItemProperties =
+      await itemPropertyService.countItemPropertiesByIds(
+        uniqueIdsOfItemProperties,
+        restaurant
+      );
+
+    if (countItemProperties !== uniqueIdsOfItemProperties.length) {
+      return next(new ErrorException(ErrorCode.BadRequestError));
+    }
+  }
+
+  // Validate items belong to restaurant
+  const countItems = await itemService.countItemByIds(
+    updatedItems.map((e) => e.id),
+    restaurant
+  );
+
+  if (countItems && itemsToUpdate.length !== countItems) {
     return next(new ErrorException(ErrorCode.BadRequestError));
   }
 
-  const itemUpdated = await itemService.saveItems(updateItems);
+  // Save the merged items
+  const itemsCreated = await itemService.saveItems(itemsToUpdate);
 
-  const transformedItems = itemUpdated.map(({ itemProperties, ...rest }) => ({
-    ...rest,
-    itemPropertiesGrouped: groupBy(itemProperties, 'propertyName'),
-  }));
+  // Get the fresh data after save
+  const itemsUpdated = await itemService.getItemByIds(
+    itemsCreated.map((e) => e.id),
+    restaurant
+  );
+
+  const transformedItems = itemsUpdated.map((item) => {
+    const { itemProperties, ...rest } = item; // Destructure to exclude itemProperties
+
+    // Add the selected: false key to each itemProperty
+    const modifiedItemProperties = itemProperties.filter(
+      (property) => property.isEnabled === true
+    );
+
+    return {
+      ...rest, // Spread all other properties
+      itemPropertiesGrouped: groupBy(modifiedItemProperties, 'propertyName'), // Add modified itemProperties
+    };
+  });
 
   res.json(transformedItems);
   // await itemsUpdatedEmitter(restaurant);

@@ -33,17 +33,25 @@ export class ItemService {
     ids: number[],
     restaurant: Restaurant
   ): Promise<Item[]> {
-    const categories = await this.itemRepository.find({
+    const items = await this.itemRepository.find({
       where: { id: In(ids), restaurant },
-      relations: ['itemProperties'],
+      relations: { itemProperties: true, category: true },
+      order: {
+        category: { orderCategory: 'ASC' },
+        orderItem: 'ASC',
+        itemProperties: { orderGroup: 'ASC', orderItem: 'ASC' },
+      },
     });
 
-    return categories;
+    return items;
   }
 
   public async getEnabledItems(restaurant: Restaurant): Promise<Item[]> {
     const items = await this.itemRepository.find({
-      where: { restaurant, isEnabled: true },
+      where: {
+        restaurant,
+        isEnabled: true,
+      },
       relations: { itemProperties: true, category: true },
       order: {
         category: { orderCategory: 'ASC' },
@@ -56,10 +64,9 @@ export class ItemService {
       const { itemProperties, ...rest } = item; // Destructure to exclude itemProperties
 
       // Add the selected: false key to each itemProperty
-      const modifiedItemProperties = itemProperties.map((property) => ({
-        ...property,
-        // selected: false,
-      }));
+      const modifiedItemProperties = itemProperties.filter(
+        (property) => property.isEnabled === true
+      );
 
       return {
         ...rest, // Spread all other properties
