@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Category } from './Category.entity';
 import { ItemProperty } from './ItemProperty.entity';
@@ -40,4 +42,10 @@ export class Item {
 
   @Column({ default: true })
   isEnabled?: boolean;
+
+  @CreateDateColumn({ select: false })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ select: false })
+  updatedAt?: Date;
 }

@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Restaurant } from './Restaurant.entity';
 
@@ -35,6 +37,15 @@ export class Category {
   @Column({ nullable: true })
   color?: string;
 
+  @Column({ default: true })
+  isEnabled?: boolean;
+
   @ManyToOne(() => Restaurant, { nullable: false })
   restaurant: Restaurant;
+
+  @CreateDateColumn({ select: false })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ select: false })
+  updatedAt?: Date;
 }

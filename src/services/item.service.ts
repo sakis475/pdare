@@ -46,12 +46,21 @@ export class ItemService {
     return items;
   }
 
-  public async getEnabledItems(restaurant: Restaurant): Promise<Item[]> {
+  public async getEnabledItems(
+    restaurant: Restaurant,
+    category?: Category
+  ): Promise<Item[]> {
+    const whereQuery = {
+      restaurant,
+      isEnabled: true,
+    };
+
+    if (category) {
+      Object.assign(whereQuery, { category });
+    }
+
     const items = await this.itemRepository.find({
-      where: {
-        restaurant,
-        isEnabled: true,
-      },
+      where: whereQuery,
       relations: { itemProperties: true, category: true },
       order: {
         category: { orderCategory: 'ASC' },

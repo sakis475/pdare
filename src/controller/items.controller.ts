@@ -108,17 +108,20 @@ export async function updateItems(
   res: Response,
   next: NextFunction
 ) {
-  const updatedItems: Item[] = req.body;
+  const itemsReq: Item[] = req.body;
 
-  if (!Array.isArray(updatedItems)) {
+  if (!Array.isArray(itemsReq)) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
   const restaurant: Restaurant = res.locals.user.restaurant;
 
+  const newItems = itemsReq.filter((item) => !item.id);
+  const itemsForUpdate = itemsReq.filter((item) => item.id);
+
   // Get existing items with their properties
   const existingItems = await itemService.getItemByIds(
-    updatedItems.map((item) => item.id),
+    itemsForUpdate.map((item) => item.id),
     restaurant
   );
 
@@ -130,7 +133,7 @@ export async function updateItems(
   let uniqueIdsOfItemProperties: number[] = [];
 
   const itemsToUpdate = await Promise.all(
-    updatedItems.map(async (updatedItem) => {
+    itemsForUpdate.map(async (updatedItem) => {
       const existingItem = existingItemsMap.get(updatedItem.id);
 
       if (!existingItem) {
@@ -222,7 +225,7 @@ export async function updateItems(
 
   // Validate items belong to restaurant
   const countItems = await itemService.countItemByIds(
-    updatedItems.map((e) => e.id),
+    itemsForUpdate.map((e) => e.id),
     restaurant
   );
 
@@ -230,31 +233,30 @@ export async function updateItems(
     return next(new ErrorException(ErrorCode.BadRequestError));
   }
 
+  //Create new items
+  const itemsToCreate: Item[] = [];
+  for (const newItem of newItems) {
+    const createNewItem = itemService.createItem({
+      ...newItem,
+      restaurant,
+    });
+
+    itemsToCreate.push(createNewItem);
+  }
+
   // Save the merged items
-  const itemsCreated = await itemService.saveItems(itemsToUpdate);
+  const itemsCreated = await itemService.saveItems([
+    ...itemsToUpdate,
+    ...itemsToCreate,
+  ]);
 
   // Get the fresh data after save
-  const itemsUpdated = await itemService.getItemByIds(
-    itemsCreated.map((e) => e.id),
-    restaurant
+  const categoriesItems = await itemService.getEnabledItems(
+    restaurant,
+    existingItems[0].category
   );
-
-  const transformedItems = itemsUpdated.map((item) => {
-    const { itemProperties, ...rest } = item; // Destructure to exclude itemProperties
-
-    // Add the selected: false key to each itemProperty
-    const modifiedItemProperties = itemProperties.filter(
-      (property) => property.isEnabled === true
-    );
-
-    return {
-      ...rest, // Spread all other properties
-      itemPropertiesGrouped: groupBy(modifiedItemProperties, 'propertyName'), // Add modified itemProperties
-    };
-  });
-
-  res.json(transformedItems);
-  // await itemsUpdatedEmitter(restaurant);
+  res.json(categoriesItems);
+  await itemsUpdatedEmitter(restaurant);
 }
 
 export async function updateIsEnabled(

@@ -35,27 +35,52 @@ export async function updateCategories(
   next: NextFunction
 ) {
   const categories: Category[] = req.body;
-
   if (!Array.isArray(categories)) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
   const restaurant: Restaurant = res.locals.user.restaurant;
 
-  const updateCategories = categories.map((e) => ({ ...e, restaurant }));
+  // Separate new categories from updates
+  const newCategories = categories.filter((e) => !e.id);
+  const categoriesToUpdate = categories.filter((e) => e.id);
 
-  //check if id's given are only of restaurant and not other
+  // Verify that all categories to update belong to this restaurant
   const countCategories = await categoryService.countCategoryByIds(
-    updateCategories.map((e) => e.id),
+    categoriesToUpdate.map((cat) => cat.id),
     restaurant
   );
-  if (updateCategories.length !== countCategories) {
+
+  if (categoriesToUpdate.length !== countCategories) {
     return next(new ErrorException(ErrorCode.BadRequestError));
   }
 
-  await categoryService.saveCategories(updateCategories);
+  // Handle updates
+  const updatedCategories = categoriesToUpdate.map((category) => {
+    const updateCategory: Category = {
+      ...category,
+      restaurant,
+    };
+    return updateCategory;
+  });
 
-  res.json();
+  // Handle new categories
+  const createdCategories = newCategories.map((category) => {
+    const newCategory = categoryService.createCategory({
+      ...category,
+      restaurant,
+    });
+    return newCategory;
+  });
+
+  await categoryService.saveCategories(
+    updatedCategories.concat(createdCategories)
+  );
+
+  const categoriesUpdated = await categoryService.getActiveCategories(
+    restaurant
+  );
+  res.json(categoriesUpdated);
 }
 
 export async function getActiveCategories(

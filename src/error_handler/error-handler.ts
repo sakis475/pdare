@@ -9,14 +9,13 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.error(err);
   if (!err) {
     return next();
   }
   if (err instanceof ErrorException) {
-    console.log(err);
     return res.status(err.code).json(err);
   } else {
-    console.log(err);
     // unhandled errors returns with 500 status
     return res.status(500).json({
       message: ErrorCode.UnknownError.message,
@@ -28,11 +27,11 @@ export const errorHandler = (
 export const catchWrapper =
   (fn: any) => (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch((err) => {
+      console.error(err);
+
       if (err instanceof ErrorModel) {
         return res.status(err.code).json(err);
       } else {
-        console.log(err);
-
         switch (err.code) {
           case '23505':
             return res.status(ErrorCode.SQLDuplicate.code).json({
@@ -63,6 +62,7 @@ export const customResponseError = (
   statusCode: number,
   errorMessage: string
 ) => {
+  console.log(statusCode, errorMessage);
   return res
     .status(statusCode)
     .json({ message: errorMessage, code: statusCode });

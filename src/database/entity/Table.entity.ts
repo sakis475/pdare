@@ -1,6 +1,7 @@
 import {
   AfterLoad,
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -9,6 +10,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Order } from './Order.entity';
 import { Restaurant } from './Restaurant.entity';
@@ -37,4 +39,10 @@ export class Table {
   @OneToOne(() => Order, (Order) => Order.activeTable, { eager: true })
   @JoinColumn()
   occupiedByOrder?: Order;
+
+  @CreateDateColumn({ select: false })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ select: false })
+  updatedAt?: Date;
 }

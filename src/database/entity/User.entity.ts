@@ -1,4 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { UserType } from '../interfaces';
 import { Restaurant } from './Restaurant.entity';
 
@@ -36,4 +43,10 @@ export class User {
 
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
   restaurant?: Restaurant;
+
+  @CreateDateColumn({ select: false })
+  createdAt?: Date;
+
+  @UpdateDateColumn({ select: false })
+  updatedAt?: Date;
 }

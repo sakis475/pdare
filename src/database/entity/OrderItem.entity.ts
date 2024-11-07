@@ -5,6 +5,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Item } from './Item.entity';
 import { Order } from './Order.entity';
@@ -37,6 +38,9 @@ export class OrderItem {
   @Column({ default: '' })
   comment?: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt?: Date;
+
+  @UpdateDateColumn({ select: false })
+  updatedAt?: Date;
 }

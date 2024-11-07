@@ -38,9 +38,9 @@ export class InvitationRequest {
   @ManyToOne(() => Restaurant)
   restaurant: Restaurant;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   createdAt?: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updatedAt?: Date;
 }
