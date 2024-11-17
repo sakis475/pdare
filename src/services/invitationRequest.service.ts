@@ -41,7 +41,9 @@ export class InvitationRequestService {
   public async getAllRequests(
     restaurant: Restaurant
   ): Promise<InvitationRequest[]> {
-    return await this.invitationRequestRepository.find({ where: restaurant });
+    return await this.invitationRequestRepository.find({
+      where: { restaurant: { id: restaurant.id } },
+    });
   }
 
   // Read a single invitation request by ID

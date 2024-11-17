@@ -10,7 +10,7 @@ import { Item } from './Item.entity';
 import { Restaurant } from './Restaurant.entity';
 
 @Entity()
-@Index(['propertyName', 'propertyValue', 'item'], { unique: true })
+@Index(['propertyName', 'propertyValue', 'item'])
 export class ItemProperty {
   @PrimaryGeneratedColumn()
   id?: number;

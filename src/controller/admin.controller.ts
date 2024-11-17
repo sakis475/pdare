@@ -10,6 +10,7 @@ import { io } from '../server';
 import { TableService } from '../services/table.service';
 import { ItemService } from '../services/item.service';
 import { CategoryService } from '../services/category.service';
+import { ItemPropertiesPatternService } from '../services/itemPropertiesPattern.service';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
@@ -75,10 +76,15 @@ export async function testio(req: Request, res: Response, next: NextFunction) {
   const itemService = new ItemService();
   const items = await itemService.getEnabledItems(restaurant);
   io.emit('itemsUpdated:1', items);
-  res.json();
 
   const categoryService = new CategoryService();
   const categories = await categoryService.getActiveCategories(restaurant);
   io.emit('categoriesUpdated:1', categories);
+
+  const itemPropertiesPatternService = new ItemPropertiesPatternService();
+  const propertyPatterns =
+    await itemPropertiesPatternService.getEnabledPatterns(restaurant);
+  io.emit('itemPropertyPatternsUpdated:1', propertyPatterns);
+
   res.json();
 }

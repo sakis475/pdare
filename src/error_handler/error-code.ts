@@ -132,6 +132,12 @@ export class ErrorCode extends ErrorModel {
     code: 400,
   };
 
+  public static readonly TitleAlreadyExists = {
+    message: 'Title already exists.',
+    appcode: 'DT11',
+    code: 400,
+  };
+
   public static readonly BadRequestError = {
     message: 'Bad Request',
     appcode: 'CL01',

@@ -119,10 +119,41 @@ export async function updateItems(
   const newItems = itemsReq.filter((item) => !item.id);
   const itemsForUpdate = itemsReq.filter((item) => item.id);
 
+  const categoryReq = itemsReq?.[0]?.category;
+  const allCategoriesItems = await itemService.getEnabledItems(
+    restaurant,
+    categoryReq
+  );
+
+  for (const itemForUpdate of itemsForUpdate) {
+    const existingItem = allCategoriesItems.find(
+      (e) => e.id === itemForUpdate.id
+    );
+
+    existingItem.title = itemForUpdate.title;
+
+    if (typeof itemForUpdate.orderItem !== 'number') {
+      itemForUpdate.orderItem = existingItem.orderItem;
+    }
+  }
+
+  const allCategoriesItemsTitles = allCategoriesItems.map((e) => e.title);
+
+  if (
+    new Set(allCategoriesItemsTitles).size !== allCategoriesItemsTitles.length
+  ) {
+    return next(new ErrorException(ErrorCode.TitleAlreadyExists));
+  }
+
+  if (newItems.some((e) => allCategoriesItemsTitles.includes(e.title))) {
+    return next(new ErrorException(ErrorCode.TitleAlreadyExists));
+  }
+
+  const itemsForUpdateIds = itemsForUpdate.map((item) => item.id);
+
   // Get existing items with their properties
-  const existingItems = await itemService.getItemByIds(
-    itemsForUpdate.map((item) => item.id),
-    restaurant
+  const existingItems = allCategoriesItems.filter((e) =>
+    itemsForUpdateIds.includes(e.id)
   );
 
   // Create a map of existing items for easy lookup
@@ -135,8 +166,8 @@ export async function updateItems(
   const itemsToUpdate = await Promise.all(
     itemsForUpdate.map(async (updatedItem) => {
       const existingItem = existingItemsMap.get(updatedItem.id);
-
-      if (!existingItem) {
+      existingItem.orderItem ??= updatedItem.orderItem;
+      if (!existingItem.itemProperties) {
         // Handle new items
         if (updatedItem.isEnabled === true) {
           delete updatedItem.isEnabled;
@@ -236,6 +267,7 @@ export async function updateItems(
   //Create new items
   const itemsToCreate: Item[] = [];
   for (const newItem of newItems) {
+    newItem.orderItem ??= newItem.orderItem;
     const createNewItem = itemService.createItem({
       ...newItem,
       restaurant,
@@ -244,16 +276,15 @@ export async function updateItems(
     itemsToCreate.push(createNewItem);
   }
 
+  const allItemsUpdating = [...itemsToUpdate, ...itemsToCreate];
+
   // Save the merged items
-  const itemsCreated = await itemService.saveItems([
-    ...itemsToUpdate,
-    ...itemsToCreate,
-  ]);
+  const itemsCreated = await itemService.saveItems(allItemsUpdating);
 
   // Get the fresh data after save
   const categoriesItems = await itemService.getEnabledItems(
     restaurant,
-    existingItems[0].category
+    existingItems?.[0]?.category ?? itemsReq?.[0]?.category
   );
   res.json(categoriesItems);
   await itemsUpdatedEmitter(restaurant);

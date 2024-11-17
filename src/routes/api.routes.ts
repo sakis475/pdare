@@ -15,6 +15,7 @@ import { adminRouter } from './admin.router';
 import { itemsRouter } from './item.router';
 import { itemPropertyRouter } from './itemProperty.router';
 import { userRouter } from './user.router';
+import { itemPropertyPatternRouter } from './itemPropertyPattern.router';
 
 export const api = Router();
 
@@ -31,6 +32,7 @@ api.use('/tables', authMiddleware, tablesRouter);
 
 api.use('/items', authMiddleware, itemsRouter);
 api.use('/itemProperties', authMiddleware, itemPropertyRouter);
+api.use('/itemPropertyPatterns', authMiddleware, itemPropertyPatternRouter);
 
 api.use('/orders', authMiddleware, ordersRouter);
 

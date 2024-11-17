@@ -22,7 +22,7 @@ export class TableService {
     restaurant: Restaurant
   ): Promise<Table | null> {
     const table = await this.tableRepository.findOne({
-      where: { id, restaurant },
+      where: { id, restaurant: { id: restaurant.id } },
     });
 
     return table;
@@ -33,7 +33,7 @@ export class TableService {
     restaurant: Restaurant
   ): Promise<Table | null> {
     const table = await this.tableRepository.findOne({
-      where: { tableName, restaurant },
+      where: { tableName, restaurant: { id: restaurant.id } },
     });
 
     return table;
@@ -44,7 +44,7 @@ export class TableService {
     restaurant: Restaurant
   ): Promise<Table[]> {
     const categories = await this.tableRepository.find({
-      where: { id: In(ids), restaurant },
+      where: { id: In(ids), restaurant: { id: restaurant.id } },
     });
 
     return categories;
@@ -93,7 +93,7 @@ export class TableService {
     restaurant: Restaurant
   ): Promise<Number> {
     const count = await this.tableRepository.count({
-      where: { id: In(ids), restaurant },
+      where: { id: In(ids), restaurant: { id: restaurant.id } },
     });
 
     return count;

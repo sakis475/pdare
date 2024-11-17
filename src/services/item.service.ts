@@ -34,7 +34,7 @@ export class ItemService {
     restaurant: Restaurant
   ): Promise<Item[]> {
     const items = await this.itemRepository.find({
-      where: { id: In(ids), restaurant },
+      where: { id: In(ids), restaurant: { id: restaurant.id } },
       relations: { itemProperties: true, category: true },
       order: {
         category: { orderCategory: 'ASC' },
@@ -51,12 +51,12 @@ export class ItemService {
     category?: Category
   ): Promise<Item[]> {
     const whereQuery = {
-      restaurant,
+      restaurant: { id: restaurant.id },
       isEnabled: true,
     };
 
     if (category) {
-      Object.assign(whereQuery, { category });
+      Object.assign(whereQuery, { category: { id: category.id } });
     }
 
     const items = await this.itemRepository.find({
@@ -110,7 +110,7 @@ export class ItemService {
     restaurant: Restaurant
   ): Promise<Number> {
     const count = await this.itemRepository.count({
-      where: { id: In(ids), restaurant },
+      where: { id: In(ids), restaurant: { id: restaurant.id } },
     });
 
     return count;

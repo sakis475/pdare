@@ -28,7 +28,7 @@ export class CategoryService {
     restaurant: Restaurant
   ): Promise<Category[]> {
     const categories = await this.categoryRepository.find({
-      where: { id: In(ids), restaurant },
+      where: { id: In(ids), restaurant: { id: restaurant.id } },
     });
 
     return categories;
@@ -39,7 +39,7 @@ export class CategoryService {
     restaurant: Restaurant
   ): Promise<Number> {
     const count = await this.categoryRepository.count({
-      where: { id: In(ids), restaurant },
+      where: { id: In(ids), restaurant: { id: restaurant.id } },
     });
 
     return count;
@@ -49,7 +49,7 @@ export class CategoryService {
     restaurant: Restaurant
   ): Promise<Category[]> {
     const categories = await this.categoryRepository.find({
-      where: { restaurant, isEnabled: true },
+      where: { restaurant: { id: restaurant.id }, isEnabled: true },
       order: { orderCategory: 'ASC' },
     });
     return categories;
