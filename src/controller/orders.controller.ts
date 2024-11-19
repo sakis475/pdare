@@ -20,6 +20,7 @@ import { Item } from '../database/entity/Item.entity';
 import { OrderItem } from '../database/entity/OrderItem.entity';
 import dayjs from '../lib/dayjs';
 import { orderUpdatedEmitter } from '../lib/socketio';
+import _ from 'lodash';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -201,6 +202,8 @@ export async function updateOrder(
 
   // Fetch the existing order
   let order = await orderService.getOrderById(orderIdReq, restaurant);
+  const originalOrder = _.cloneDeep(order);
+
   if (!order) {
     return next(new ErrorException(ErrorCode.AssetNotFound));
   }
@@ -308,10 +311,9 @@ export async function updateOrder(
   await orderItemService.deleteOrderItems(orderItemToDelete);
   // Save the updated order
   order.orderItems = order.orderItems.concat(savedOrderItems);
-
   let finalCost = 0;
   order.orderItems.forEach((orderItem) => {
-    finalCost += orderItem.item.cost;
+    finalCost += orderItem?.item?.cost ?? 0;
   });
   order.finalCost = finalCost;
 
@@ -319,7 +321,16 @@ export async function updateOrder(
     order.closedAt = dayjs().toDate();
     order.table.occupiedByOrder = null;
   }
+
+  await tableService.clearTable(originalOrder.table);
+  order.activeTable = table;
+
   const savedOrder: Order = await orderService.saveOrder(order);
+
+  const tableCopy = _.cloneDeep(savedOrder.table);
+  tableCopy.occupiedByOrder = order;
+  await tableService.saveTable(tableCopy);
+
   res.send(savedOrder);
 
   savedOrder.user = user;
