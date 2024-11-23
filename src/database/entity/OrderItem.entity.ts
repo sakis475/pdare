@@ -16,10 +16,13 @@ export class OrderItem {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Order, (order) => order.orderItems, {
+    onDelete: 'CASCADE',
+    nullable: false,
+  })
   order: Order;
 
-  @ManyToOne(() => Item, { onDelete: 'CASCADE', eager: true })
+  @ManyToOne(() => Item, { onDelete: 'CASCADE', eager: true, nullable: false })
   item: Item;
 
   @OneToMany(
@@ -32,7 +35,7 @@ export class OrderItem {
   )
   itemPropertyOfItem?: OrderOrderItem_ItemPropertyItem[];
 
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', default: 1 })
   quantity: number;
 
   @Column({ default: '' })

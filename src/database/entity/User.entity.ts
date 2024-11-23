@@ -29,6 +29,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: UserType,
+    default: UserType.GUEST,
   })
   role: UserType;
 

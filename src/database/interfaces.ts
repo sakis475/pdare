@@ -1,9 +1,7 @@
 export enum UserType {
   OWNER = 'owner',
-  ADMIN = 'admin',
-  ADMINOPERATOR = 'adminOperator',
   WAITER = 'waiter',
-  NONE = 'none',
+  GUEST = 'guest',
 }
 
 export enum PropertyDataType {

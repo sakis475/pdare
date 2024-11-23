@@ -7,9 +7,7 @@ import { Item } from '../database/entity/Item.entity';
 import { CategoryService } from '../services/category.service';
 import { ItemProperty } from '../database/entity/ItemProperty.entity';
 import { ItemPropertyService } from '../services/itemProperty.service';
-import { redisClient } from '../database/redis';
-import { SortDirection } from 'src/database/interfaces';
-import { itemsUpdatedEmitter } from '../lib/socketio';
+import { itemsUpdatedEmitter, orderUpdatedEmitter } from '../lib/socketio';
 import { groupBy } from 'lodash';
 
 const itemService = new ItemService();
@@ -288,6 +286,7 @@ export async function updateItems(
   );
   res.json(categoriesItems);
   await itemsUpdatedEmitter(restaurant);
+  await orderUpdatedEmitter(restaurant);
 }
 
 export async function updateIsEnabled(
