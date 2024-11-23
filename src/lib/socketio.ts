@@ -5,8 +5,7 @@ import { TableService } from '../services/table.service';
 import { ItemService } from '../services/item.service';
 import { ItemPropertiesPatternService } from '../services/itemPropertiesPattern.service';
 
-export async function orderUpdatedEmitter(order: Order) {
-  const restaurant = order.user.restaurant;
+export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
   const tables = await tableService.getEnabledTablesWithOrder(restaurant);
   io.emit(`tableOrdersUpdated:${restaurant.id}`, tables);

@@ -86,5 +86,9 @@ export async function testio(req: Request, res: Response, next: NextFunction) {
     await itemPropertiesPatternService.getEnabledPatterns(restaurant);
   io.emit('itemPropertyPatternsUpdated:1', propertyPatterns);
 
+  const enabledTables = await tableService.getEnabledTables(restaurant);
+  console.log(enabledTables);
+  io.emit('tablesUpdated:1', enabledTables);
+
   res.json();
 }

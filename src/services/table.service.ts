@@ -70,25 +70,38 @@ export class TableService {
     return tables;
   }
 
+  public async getEnabledTables(restaurant: Restaurant): Promise<Table[]> {
+    const tables = await this.tableRepository
+      .createQueryBuilder('table')
+      .where('table.restaurant = :restaurantId', {
+        restaurantId: restaurant.id,
+      })
+      .andWhere('table.isEnabled = true')
+      .orderBy('table.tableOrder', 'ASC')
+      .getMany();
+
+    return tables;
+  }
+
   public async saveTable(table: Table) {
     return await this.tableRepository.save(table);
   }
 
   public async saveTables(tables: Table[]) {
-    if (tables[0]?.restaurant) {
-      const enabledTables = await this.getEnabledTablesWithOrder(
-        tables[0].restaurant
-      );
-      const hasIntersection = enabledTables.some((enabledTable) =>
-        tables.some(
-          (givenTable) => enabledTable.tableName === givenTable.tableName
-        )
-      );
+    // if (tables[0]?.restaurant) {
+    //   const enabledTables = await this.getEnabledTablesWithOrder(
+    //     tables[0].restaurant
+    //   );
+    //   const hasIntersection = enabledTables.some((enabledTable) =>
+    //     tables.some(
+    //       (givenTable) => enabledTable.tableName === givenTable.tableName
+    //     )
+    //   );
 
-      if (hasIntersection) {
-        throw new ErrorException(ErrorCode.SQLDuplicate);
-      }
-    }
+    //   if (hasIntersection) {
+    //     throw new ErrorException(ErrorCode.SQLDuplicate);
+    //   }
+    // }
 
     return await this.tableRepository.save(tables);
   }

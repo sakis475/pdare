@@ -4,6 +4,7 @@ import { ErrorException } from '../error_handler/error-exception';
 import { Restaurant } from '../database/entity/Restaurant.entity';
 import { TableService } from '../services/table.service';
 import { Table } from '../database/entity/Table.entity';
+import { orderUpdatedEmitter } from '../lib/socketio';
 
 const tableService = new TableService();
 
@@ -48,35 +49,52 @@ export async function updateTables(
   res: Response,
   next: NextFunction
 ) {
-  const tables: Table[] = req.body;
-
+  let tables: Table[] = req.body;
+  console.log(JSON.stringify(tables));
   if (!Array.isArray(tables)) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
   const restaurant: Restaurant = res.locals.user.restaurant;
 
-  const updateTables = tables.map((e) => {
+  tables = tables.map((e) => {
     if (e.isEnabled === true) {
       delete e.isEnabled;
     }
     return { ...e, restaurant };
   });
 
+  const updateTables = tables.filter((e) => e.id);
+  const createTables = tables.filter((e) => !e.id);
+
   //check if id's given are only of restaurant and not other
   const countTables = await tableService.countTableByIds(
     updateTables.map((e) => e.id),
     restaurant
   );
+
   if (updateTables.length !== countTables) {
     return next(new ErrorException(ErrorCode.BadRequestError));
   }
 
-  //TODO: on update there could be updated 2+ tables with same name and enabled
-  //i think that isEnabled should be not allowed for update
+  const allTablesUpdate = updateTables.concat(createTables);
 
-  await tableService.saveTables(updateTables);
+  await tableService.saveTables(allTablesUpdate);
 
-  res.json();
+  const updatedTables = await tableService.getEnabledTables(restaurant);
+
+  res.json(updatedTables);
+
+  await orderUpdatedEmitter(restaurant);
+}
+
+export async function getOnlyActiveTables(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const restaurant: Restaurant = res.locals.user.restaurant;
+  const tables = await tableService.getEnabledTables(restaurant);
+  res.json(tables);
 }
 
 export async function disableTables(

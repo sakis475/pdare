@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createTables,
   disableTables,
+  getOnlyActiveTables,
   getTables,
   updateTables,
 } from '../controller/tables.controller';
@@ -11,6 +12,7 @@ import { catchWrapper } from '../error_handler/error-handler';
 export const tablesRouter = Router();
 
 tablesRouter.get('/', authMiddleware, catchWrapper(getTables));
+tablesRouter.get('/active', authMiddleware, catchWrapper(getOnlyActiveTables));
 
 tablesRouter.post('/createMany', authMiddleware, catchWrapper(createTables));
 

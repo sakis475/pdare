@@ -163,7 +163,7 @@ export async function createOrder(
   res.send(savedOrder);
 
   savedOrder.user = user;
-  orderUpdatedEmitter(savedOrder);
+  orderUpdatedEmitter(restaurant);
 }
 
 export async function updateOrder(
@@ -334,7 +334,7 @@ export async function updateOrder(
   res.send(savedOrder);
 
   savedOrder.user = user;
-  orderUpdatedEmitter(savedOrder);
+  orderUpdatedEmitter(restaurant);
 }
 
 export async function getOrderById(
@@ -398,7 +398,7 @@ export async function closeOrder(
   order.table.occupiedByOrder = null;
 
   const savedOrder: Order = await orderService.saveOrder(order);
-  orderUpdatedEmitter(savedOrder);
+  orderUpdatedEmitter(restaurant);
   res.send();
 }
 
