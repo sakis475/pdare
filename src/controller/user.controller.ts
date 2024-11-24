@@ -9,6 +9,64 @@ import { User } from '../database/entity/User.entity';
 import { InvitationRequestService } from '../services/invitationRequest.service';
 import { InvitationRequestStatus } from '../database/entity/InvitationRequest.entity';
 
+export async function getUsers(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const user: User = res.locals.user;
+
+  if (!user) {
+    return next(new ErrorException(ErrorCode.NoUserFoundError));
+  }
+
+  if (!user.restaurant) {
+    return next(new ErrorException(ErrorCode.UserNoRestaurant));
+  }
+
+  const userService = new UserService();
+
+  const allNoOwnerUsers = await userService.getUsersByRestaurant(
+    user.restaurant,
+    true
+  );
+  res.json(allNoOwnerUsers);
+}
+
+export async function searchUsers(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const user: User = res.locals.user;
+  const searchKeyword: string = req.query.username as string;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = 5;
+
+  if (
+    !searchKeyword ||
+    typeof searchKeyword !== 'string' ||
+    searchKeyword.length < 3
+  ) {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  if (!user) {
+    return next(new ErrorException(ErrorCode.NoUserFoundError));
+  }
+
+  if (!user.restaurant) {
+    return next(new ErrorException(ErrorCode.UserNoRestaurant));
+  }
+
+  const userService = new UserService();
+  const paginatedResults = await userService.searchUsers(searchKeyword, {
+    page,
+    limit,
+  });
+  res.json(paginatedResults);
+}
+
 export async function sendInvitationToJoinRestaurant(
   req: Request,
   res: Response,

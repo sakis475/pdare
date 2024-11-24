@@ -22,3 +22,16 @@ export type createOrderRequest = {
 };
 
 export type SortDirection = 'sortDown' | 'sortUp';
+
+export interface PaginationParams {
+  page: number;
+  limit: number;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}

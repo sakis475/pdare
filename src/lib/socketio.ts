@@ -4,6 +4,7 @@ import { Restaurant } from '../database/entity/Restaurant.entity';
 import { TableService } from '../services/table.service';
 import { ItemService } from '../services/item.service';
 import { ItemPropertiesPatternService } from '../services/itemPropertiesPattern.service';
+import { UserService } from '../services/user.service';
 
 export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
@@ -22,6 +23,12 @@ export async function itemPropertiesPatternEmitter(restaurant: Restaurant) {
   const propertyPatterns =
     await itemPropertiesPatternService.getEnabledPatterns(restaurant);
   io.emit('itemPropertyPatternsUpdated:1', propertyPatterns);
+}
+
+export async function usersUpdatedEmitter(restaurant: Restaurant) {
+  const userService = new UserService();
+  const users = await userService.getUsersByRestaurant(restaurant);
+  io.emit('usersUpdated:1', users);
 }
 
 export enum EventId {

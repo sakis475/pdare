@@ -1,11 +1,73 @@
-import { Repository } from 'typeorm';
+import { In, IsNull, Like, Not, Repository } from 'typeorm';
 import { AppDataSource } from '../database/dataSource';
 import { User } from '../database/entity/User.entity';
+import { Restaurant } from '../database/entity/Restaurant.entity';
+import {
+  PaginatedResponse,
+  PaginationParams,
+  UserType,
+} from '../database/interfaces';
 
 export class UserService {
   userRepository: Repository<User>;
   constructor() {
     this.userRepository = AppDataSource.getRepository(User);
+  }
+
+  public async getUsersByRestaurant(
+    restaurant: Restaurant,
+    skipOwner = true
+  ): Promise<User[]> {
+    const whereQuery: any = {
+      restaurant: { id: restaurant.id },
+    };
+
+    if (skipOwner) {
+      whereQuery.role = Not(In([UserType.OWNER]));
+    }
+
+    const users = await this.userRepository.find({
+      where: whereQuery,
+    });
+
+    return users;
+  }
+
+  public async searchUsers(
+    searchTerm: string,
+    pagination: PaginationParams
+  ): Promise<PaginatedResponse<User>> {
+    const queryBuilder = this.userRepository
+      .createQueryBuilder('user')
+      .where('user.restaurant IS NULL')
+      .andWhere('user.role = :role', { role: UserType.GUEST });
+
+    if (searchTerm.includes('@')) {
+      queryBuilder.andWhere('user.email LIKE :email', {
+        email: `${searchTerm}%`,
+      });
+    } else {
+      queryBuilder.andWhere(
+        "(user.username LIKE :searchTerm OR SUBSTRING(user.email, 1, POSITION('@' IN user.email) - 1) LIKE :searchTerm)",
+        { searchTerm: `%${searchTerm}%` }
+      );
+    }
+
+    const total = await queryBuilder.getCount();
+    const totalPages = Math.ceil(total / pagination.limit);
+
+    const results = await queryBuilder
+      .skip((pagination.page - 1) * pagination.limit)
+      .take(pagination.limit)
+      .getMany();
+
+    return {
+      data: results,
+      total,
+      page: pagination.page,
+      limit: pagination.limit,
+      totalPages,
+    };
   }
 
   public async getUserByID(id: number): Promise<User> {

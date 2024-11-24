@@ -42,6 +42,9 @@ export class User {
   @Column({ type: 'boolean', default: true })
   active?: boolean;
 
+  @Column({ default: 'user', nullable: false })
+  displayName?: string;
+
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
   restaurant?: Restaurant;
 

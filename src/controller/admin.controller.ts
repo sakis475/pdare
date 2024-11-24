@@ -11,6 +11,7 @@ import { TableService } from '../services/table.service';
 import { ItemService } from '../services/item.service';
 import { CategoryService } from '../services/category.service';
 import { ItemPropertiesPatternService } from '../services/itemPropertiesPattern.service';
+import { usersUpdatedEmitter } from '../lib/socketio';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
@@ -89,6 +90,8 @@ export async function testio(req: Request, res: Response, next: NextFunction) {
   const enabledTables = await tableService.getEnabledTables(restaurant);
   console.log(enabledTables);
   io.emit('tablesUpdated:1', enabledTables);
+
+  await usersUpdatedEmitter(restaurant);
 
   res.json();
 }
