@@ -89,7 +89,7 @@ export async function getActiveCategories(
   next: NextFunction
 ) {
   const restaurant: Restaurant = res.locals.user.restaurant;
-
+  console.log(restaurant, 'restaurant');
   const categories = await categoryService.getActiveCategories(restaurant);
 
   res.json(categories);

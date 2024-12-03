@@ -49,7 +49,10 @@ export class CategoryService {
     restaurant: Restaurant
   ): Promise<Category[]> {
     const categories = await this.categoryRepository.find({
-      where: { restaurant: { id: restaurant.id }, isEnabled: true },
+      where: {
+        restaurant: { id: restaurant.id },
+        isEnabled: true,
+      },
       order: { orderCategory: 'ASC' },
     });
     return categories;

@@ -13,9 +13,10 @@ export async function postRegister(
   res: Response,
   next: NextFunction
 ) {
-  const { username, email, password, firstName, lastName, role } = req.body;
+  const { email, password } = req.body;
 
-  if (!username || !email || !password || !firstName || !lastName || !role) {
+  const username = email?.split('@')?.[0];
+  if (!username || !email || !password) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -23,14 +24,19 @@ export async function postRegister(
 
   const passwordHashed = passwordHash(password);
 
-  const newUserData = { username, email, firstName, lastName, passwordHashed };
-  const token = generateAuthToken(newUserData);
+  const newUserData: User = {
+    username,
+    email,
+    passwordHashed,
+    role: UserType.GUEST,
+  };
+  const tokenJWT = generateAuthToken(newUserData);
 
-  const newuser = await userService.saveUser({
-    ...newUserData,
-    token: token.token,
-    role,
-  });
-  delete newuser['passwordHashed'];
-  res.json(generateAuthToken(newuser));
+  newUserData.token = tokenJWT.token;
+  const newuser = await userService.saveUser(newUserData);
+
+  delete newuser.token;
+  delete newuser.passwordHashed;
+
+  res.json({ ...tokenJWT, user: newuser });
 }

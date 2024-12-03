@@ -62,7 +62,7 @@ export class TableService {
       .where('table.restaurant = :restaurantId', {
         restaurantId: restaurant.id,
       })
-      .andWhere('table.isEnabled = true OR order.id IS NOT NULL')
+      .andWhere('(table.isEnabled = true OR order.id IS NOT NULL)')
       .orderBy('order.id', 'DESC')
       .addOrderBy('orderItems.id', 'ASC')
       .getMany();

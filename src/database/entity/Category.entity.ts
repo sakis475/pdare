@@ -16,7 +16,7 @@ export enum PrintLocation {
 }
 
 @Entity()
-@Index(['title', 'restaurant'], { unique: true })
+@Index(['title', 'restaurant'])
 export class Category {
   @PrimaryGeneratedColumn()
   id?: number;

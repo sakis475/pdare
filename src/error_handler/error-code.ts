@@ -138,6 +138,12 @@ export class ErrorCode extends ErrorModel {
     code: 400,
   };
 
+  public static readonly PasswordWrongFormat = {
+    message: 'Make sure password includes at least 1 number',
+    appcode: 'DT12',
+    code: 400,
+  };
+
   public static readonly BadRequestError = {
     message: 'Bad Request',
     appcode: 'CL01',

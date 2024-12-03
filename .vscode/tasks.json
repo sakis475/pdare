@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "kill-port",
+            "type": "shell",
+            "command": "kill-port",
+            "args": ["8000"],  // Replace with your port number
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

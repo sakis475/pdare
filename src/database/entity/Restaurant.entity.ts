@@ -9,17 +9,20 @@ import {
 @Entity()
 export class Restaurant {
   @PrimaryGeneratedColumn()
-  id: number; // Remove optional since it will always exist after save
+  id?: number; // Remove optional since it will always exist after save
 
   @Column({ type: 'text', unique: true })
   restaurantName: string;
 
+  @Column({ type: 'text', nullable: true })
+  restaurantDisplayName?: string;
+
   @Column({ type: 'boolean', default: true })
-  active: boolean; // Fixed type and removed optional since it has default
+  active?: boolean; // Fixed type and removed optional since it has default
 
   @CreateDateColumn({ select: false })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ select: false })
-  updatedAt: Date;
+  updatedAt?: Date;
 }

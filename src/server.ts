@@ -21,3 +21,21 @@ const PORT = process.env.SERVER_PORT || 3013;
 server.listen(PORT, () => {
   console.log(`Application started on port ${PORT}!`);
 });
+
+process.on('SIGTERM', () => {
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
+
+process.once('SIGUSR2', function () {
+  process.kill(process.pid, 'SIGUSR2');
+});

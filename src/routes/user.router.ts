@@ -2,12 +2,22 @@ import { Router } from 'express';
 import { catchWrapper } from '../error_handler/error-handler';
 import {
   cancelInvitationToJoinRestaurant,
+  createNewRestaurant,
+  deleteRestaurant,
+  deleteUser,
   getUsers,
   searchUsers,
   sendInvitationToJoinRestaurant,
+  updatePassword,
+  updateRestaurantName,
+  updateUser,
   waiterAcceptsInvite,
 } from '../controller/user.controller';
-import { authMiddleware, authOwnerMiddleware } from '../auth/auth-middleware';
+import {
+  authMiddleware,
+  authOwnerMiddleware,
+  basicAuthMiddleware,
+} from '../auth/auth-middleware';
 
 export const userRouter = Router();
 
@@ -31,3 +41,27 @@ userRouter.delete(
 
 //waiter routes
 userRouter.post('/invite/accept', catchWrapper(waiterAcceptsInvite));
+
+userRouter.post(
+  '/restaurant/create',
+  basicAuthMiddleware,
+  catchWrapper(createNewRestaurant)
+);
+
+userRouter.patch('/', authMiddleware, updateUser);
+
+userRouter.patch('/password', authMiddleware, updatePassword);
+
+userRouter.delete('/delete', authMiddleware, catchWrapper(deleteUser));
+
+userRouter.delete(
+  '/restaurant/delete',
+  authOwnerMiddleware,
+  catchWrapper(deleteRestaurant)
+);
+
+userRouter.patch(
+  '/restaurant/update',
+  authOwnerMiddleware,
+  catchWrapper(updateRestaurantName)
+);

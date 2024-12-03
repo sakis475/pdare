@@ -14,17 +14,17 @@ export class User {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ type: 'text', unique: true })
-  username: string;
+  @Column({ type: 'text', unique: true, nullable: true })
+  username?: string;
 
   @Column({ type: 'text', unique: true })
   email: string;
 
-  @Column('text')
-  firstName: string;
+  @Column({ type: 'text', nullable: true })
+  firstName?: string;
 
-  @Column('text')
-  lastName: string;
+  @Column({ type: 'text', nullable: true })
+  lastName?: string;
 
   @Column({
     type: 'enum',

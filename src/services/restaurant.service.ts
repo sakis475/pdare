@@ -8,6 +8,9 @@ export class RestaurantService {
     this.restaurantRepository = AppDataSource.getRepository(Restaurant);
   }
 
+  public createRestaurant(restaurant: Restaurant) {
+    return this.restaurantRepository.create(restaurant);
+  }
   public async getRestaurantById(id: number): Promise<Restaurant> {
     const user = await this.restaurantRepository.findOneBy({
       id,
