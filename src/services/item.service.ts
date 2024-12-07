@@ -5,8 +5,8 @@ import { Restaurant } from '../database/entity/Restaurant.entity';
 import { ErrorCode } from '../error_handler/error-code';
 import { ErrorException } from '../error_handler/error-exception';
 import { groupBy } from 'lodash';
-import { Category } from 'src/database/entity/Category.entity';
-import { SortDirection } from 'src/database/interfaces';
+import { Category } from '../database/entity/Category.entity';
+import { SortDirection } from '../database/interfaces';
 
 export class ItemService {
   itemRepository: Repository<Item>;

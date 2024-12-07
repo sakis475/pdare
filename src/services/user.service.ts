@@ -28,46 +28,10 @@ export class UserService {
 
     const users = await this.userRepository.find({
       where: whereQuery,
+      relations: ['invitations']
     });
 
     return users;
-  }
-
-  public async searchUsers(
-    searchTerm: string,
-    pagination: PaginationParams
-  ): Promise<PaginatedResponse<User>> {
-    const queryBuilder = this.userRepository
-      .createQueryBuilder('user')
-      .where('user.restaurant IS NULL')
-      .andWhere('user.role = :role', { role: UserType.GUEST });
-
-    if (searchTerm.includes('@')) {
-      queryBuilder.andWhere('user.email LIKE :email', {
-        email: `${searchTerm}%`,
-      });
-    } else {
-      queryBuilder.andWhere(
-        "(user.username LIKE :searchTerm OR SUBSTRING(user.email, 1, POSITION('@' IN user.email) - 1) LIKE :searchTerm)",
-        { searchTerm: `%${searchTerm}%` }
-      );
-    }
-
-    const total = await queryBuilder.getCount();
-    const totalPages = Math.ceil(total / pagination.limit);
-
-    const results = await queryBuilder
-      .skip((pagination.page - 1) * pagination.limit)
-      .take(pagination.limit)
-      .getMany();
-
-    return {
-      data: results,
-      total,
-      page: pagination.page,
-      limit: pagination.limit,
-      totalPages,
-    };
   }
 
   public async getUserByID(id: number): Promise<User> {
@@ -89,9 +53,12 @@ export class UserService {
   }
 
   public async getUserByEmail(email: string) {
-    const user = await this.userRepository.findOneBy({
-      email,
-      active: true,
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+        active: true
+      },
+      relations: ['invitations']
     });
     return user;
   }

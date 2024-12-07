@@ -39,13 +39,20 @@ export class InvitationRequestService {
 
   // Read all invitation requests
   public async getAllRequests(
-    restaurant: Restaurant
+    restaurant: Restaurant,
+    invitationStatus: InvitationRequestStatus
   ): Promise<InvitationRequest[]> {
-    return await this.invitationRequestRepository.find({
-      where: { restaurant: { id: restaurant.id } },
-    });
+    return await this.invitationRequestRepository
+      .createQueryBuilder('invitation')
+      .select()
+      .addSelect('invitation.createdAt')
+      .leftJoinAndSelect('invitation.inviteTo', 'inviteTo')
+      .leftJoinAndSelect('invitation.inviteFrom', 'inviteFrom')
+      .leftJoinAndSelect('invitation.restaurant', 'restaurant')
+      .where('invitation.invitationStatus = :status', { status: invitationStatus })
+      .andWhere('invitation.restaurant = :restaurantId', { restaurantId: restaurant.id })
+      .getMany();
   }
-
   // Read a single invitation request by ID
   public async getRequestById(id: number): Promise<InvitationRequest | null> {
     return await this.invitationRequestRepository.findOne({

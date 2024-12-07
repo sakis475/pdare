@@ -13,6 +13,7 @@ import { isEmailValid, isPasswordValid } from '../lib/helpers/formUtils';
 
 const restaurantService = new RestaurantService();
 const userService = new UserService();
+const invitationRequestService = new InvitationRequestService()
 
 export async function getUsers(
   req: Request,
@@ -33,18 +34,19 @@ export async function getUsers(
     user.restaurant,
     true
   );
-  res.json(allNoOwnerUsers);
+
+  const activeInvitations = await invitationRequestService.getAllRequests(user.restaurant, InvitationRequestStatus.AWAITING)
+
+  res.json({ users: allNoOwnerUsers, activeInvitations });
 }
 
-export async function searchUsers(
+export async function searchUser(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   const user: User = res.locals.user;
-  const searchKeyword: string = req.query.username as string;
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = 5;
+  const searchKeyword: string = req.query.email as string;
 
   if (
     !searchKeyword ||
@@ -62,11 +64,29 @@ export async function searchUsers(
     return next(new ErrorException(ErrorCode.UserNoRestaurant));
   }
 
-  const paginatedResults = await userService.searchUsers(searchKeyword, {
-    page,
-    limit,
-  });
-  res.json(paginatedResults);
+  if (!searchKeyword.includes('@') || !searchKeyword.split('@')?.[0]?.length) {
+    return res.json([])
+  }
+
+  const userSearched = await userService.getUserByEmail(searchKeyword);
+
+  if (userSearched?.restaurant?.id === user?.restaurant?.id) {
+    return null;
+  }
+
+  res.json(userSearched);
+}
+
+export async function getInvitation(
+  req: Request,
+  res: Response,
+  next: NextFunction) {
+  const user: User = res.locals.user;
+
+  const userWithInvitations = await userService.getUserByEmail(user.email);
+
+  userWithInvitations.invitations = userWithInvitations?.invitations?.filter(e => e.invitationStatus === InvitationRequestStatus.AWAITING)
+  res.json(userWithInvitations);
 }
 
 export async function sendInvitationToJoinRestaurant(
@@ -74,9 +94,9 @@ export async function sendInvitationToJoinRestaurant(
   res: Response,
   next: NextFunction
 ) {
-  const { username } = req.body;
+  const { email } = req.body;
 
-  if (!username) {
+  if (!email) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -86,7 +106,7 @@ export async function sendInvitationToJoinRestaurant(
     return next(new ErrorException(ErrorCode.NoPermission));
   }
 
-  const user = await userService.getUserByUsername(username);
+  const user = await userService.getUserByEmail(email);
 
   if (!user) {
     return next(new ErrorException(ErrorCode.NoUserFoundError));
@@ -116,7 +136,7 @@ export async function sendInvitationToJoinRestaurant(
   );
 
   await invitationRequestService.saveRequest(newInvitation);
-  res.json();
+  res.json(newInvitation);
 }
 
 export async function cancelInvitationToJoinRestaurant(
@@ -124,9 +144,9 @@ export async function cancelInvitationToJoinRestaurant(
   res: Response,
   next: NextFunction
 ) {
-  const { username } = req.body;
+  const { invitationId } = req.params;
 
-  if (!username) {
+  if (!invitationId) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
@@ -136,19 +156,17 @@ export async function cancelInvitationToJoinRestaurant(
     return next(new ErrorException(ErrorCode.NoPermission));
   }
 
-  const user = await userService.getUserByUsername(username);
-
-  if (!user) {
-    return next(new ErrorException(ErrorCode.NoUserFoundError));
-  }
-
   const invitationRequestService = new InvitationRequestService();
 
   const invitedUserInvitation =
-    await invitationRequestService.getRequestByInvitedUsername(user, true);
+    await invitationRequestService.getRequestById(+invitationId);
 
   if (!invitedUserInvitation) {
     return next(new ErrorException(ErrorCode.RequestNotFound));
+  }
+
+  if (invitedUserInvitation.restaurant.id !== ownerUser.restaurant.id) {
+    return next(new ErrorException(ErrorCode.NoPermission));
   }
 
   await invitationRequestService.updateRequest(invitedUserInvitation.id, {
@@ -158,40 +176,47 @@ export async function cancelInvitationToJoinRestaurant(
   res.json();
 }
 
-export async function waiterAcceptsInvite(
+export async function waiterResponseInvite(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const { username } = req.body;
+  const { invitationId } = req.params;
+  const { response } = req.body;
 
-  if (!username) {
+
+  if (!invitationId) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
-  const ownerUser: User = res.locals.user;
-
-  if (ownerUser.role !== UserType.OWNER) {
-    return next(new ErrorException(ErrorCode.NoPermission));
-  }
-
-  const user = await userService.getUserByUsername(username);
+  const user: User = res.locals.user;
 
   if (!user) {
     return next(new ErrorException(ErrorCode.NoUserFoundError));
   }
 
-  if (user.restaurant.id === ownerUser.restaurant.id) {
-    return next(new ErrorException(ErrorCode.UserAlreadyExists));
+  const invitation = await invitationRequestService.getRequestById(+invitationId)
+
+  if (!invitation || invitation.invitationStatus !== InvitationRequestStatus.AWAITING) {
+    return next(new ErrorException(ErrorCode.AssetNotFound));
   }
 
-  const invitationRequestService = new InvitationRequestService();
+  if (response === true) {
+    invitation.invitationStatus = InvitationRequestStatus.ACCEPTED
+    await invitationRequestService.saveRequest(invitation)
+    user.restaurant = invitation.restaurant;
+    user.displayName = 'user'
+    user.role = UserType.WAITER;
 
-  invitationRequestService.createInvitationRequest(
-    ownerUser,
-    user,
-    ownerUser.restaurant
-  );
+    const sessionBearer = await prepareUserSessionBearer(user);
+    return res.json(sessionBearer);
+
+  } else if (response === false) {
+    invitation.invitationStatus = InvitationRequestStatus.DENIED
+    await invitationRequestService.saveRequest(invitation)
+  }
+
+  res.json();
 }
 
 export async function createNewRestaurant(
@@ -299,7 +324,7 @@ export async function updateUser(
   res: Response,
   next: NextFunction
 ) {
-  const { username, firstName, lastName, email } = req.body;
+  const { firstName, lastName, email } = req.body;
   const user: User = res.locals.user;
 
   // Validate email format
@@ -308,8 +333,7 @@ export async function updateUser(
   }
 
   // Check if username is already taken by another user
-  const existingUser = await userService.getUserByEmailOrUsername(
-    username,
+  const existingUser = await userService.getUserByEmail(
     email
   );
 
@@ -317,12 +341,10 @@ export async function updateUser(
     return next(new ErrorException(ErrorCode.UserAlreadyExists));
   }
 
-  if (username) {
-    user.username = username.trim();
-  }
   if (firstName) {
     user.firstName = firstName.trim();
   }
+
   if (lastName) {
     user.lastName = lastName.trim();
   }
@@ -330,8 +352,56 @@ export async function updateUser(
     user.email = email.trim().toLowerCase();
   }
 
-  const sessionBearer = await prepareUserSessionBearer(user);
-  res.json(sessionBearer);
+  if (user.role === UserType.OWNER) {
+    await userService.saveUser(user);
+    const allNoOwnerUsers = await userService.getUsersByRestaurant(user.restaurant, true)
+    return res.json(allNoOwnerUsers);
+  } else {
+    const sessionBearer = await prepareUserSessionBearer(user);
+    return res.json(sessionBearer);
+  }
+}
+
+export async function updateUserFromAdmin(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { email, displayName, markForDelete } = req.body;
+  const user: User = res.locals.user;
+
+  if (user.role !== UserType.OWNER) {
+    return next(new ErrorException(ErrorCode.NoPermission));
+  }
+
+  // Check if username is already taken by another user
+  const existingUser = await userService.getUserByEmail(
+    email
+  );
+
+  if (!existingUser) {
+    return next(new ErrorException(ErrorCode.NoUserFoundError));
+  }
+
+  if (existingUser.restaurant.id !== existingUser.restaurant.id) {
+    return next(new ErrorException(ErrorCode.NoPermission));
+  }
+
+  if (displayName) {
+    existingUser.displayName = displayName.trim();
+  }
+
+  if (markForDelete === true) {
+    existingUser.displayName = 'user'
+    existingUser.role = UserType.GUEST
+    existingUser.token = null;
+    existingUser.restaurant = null;
+  }
+
+  await userService.saveUser(existingUser);
+  const allNoOwnerUsers = await userService.getUsersByRestaurant(user.restaurant, true)
+  return res.json(allNoOwnerUsers);
+
 }
 
 export async function updatePassword(

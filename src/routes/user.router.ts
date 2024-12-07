@@ -5,13 +5,15 @@ import {
   createNewRestaurant,
   deleteRestaurant,
   deleteUser,
+  getInvitation,
   getUsers,
-  searchUsers,
+  searchUser,
   sendInvitationToJoinRestaurant,
   updatePassword,
   updateRestaurantName,
   updateUser,
-  waiterAcceptsInvite,
+  updateUserFromAdmin,
+  waiterResponseInvite,
 } from '../controller/user.controller';
 import {
   authMiddleware,
@@ -24,7 +26,14 @@ export const userRouter = Router();
 //Get all users of restaurant
 userRouter.get('/', authMiddleware, catchWrapper(getUsers));
 
-userRouter.get('/search', authMiddleware, catchWrapper(searchUsers));
+userRouter.get('/search', authMiddleware, catchWrapper(searchUser));
+
+//routes
+userRouter.get(
+  '/invite',
+  basicAuthMiddleware,
+  catchWrapper(getInvitation)
+);
 
 //admin routes
 userRouter.post(
@@ -34,13 +43,13 @@ userRouter.post(
 );
 
 userRouter.delete(
-  '/invite',
+  '/invite/:invitationId',
   authOwnerMiddleware,
   catchWrapper(cancelInvitationToJoinRestaurant)
 );
 
 //waiter routes
-userRouter.post('/invite/accept', catchWrapper(waiterAcceptsInvite));
+userRouter.post('/invite/response/:invitationId', catchWrapper(waiterResponseInvite));
 
 userRouter.post(
   '/restaurant/create',
@@ -48,9 +57,11 @@ userRouter.post(
   catchWrapper(createNewRestaurant)
 );
 
-userRouter.patch('/', authMiddleware, updateUser);
+userRouter.patch('/', authMiddleware, catchWrapper(updateUser));
 
-userRouter.patch('/password', authMiddleware, updatePassword);
+userRouter.patch('/admin', authMiddleware, catchWrapper(updateUserFromAdmin));
+
+userRouter.patch('/password', authMiddleware, catchWrapper(updatePassword));
 
 userRouter.delete('/delete', authMiddleware, catchWrapper(deleteUser));
 

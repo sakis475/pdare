@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserType } from '../interfaces';
 import { Restaurant } from './Restaurant.entity';
+import { InvitationRequest } from './InvitationRequest.entity';
 
 @Entity()
 export class User {
@@ -45,8 +47,12 @@ export class User {
   @Column({ default: 'user', nullable: false })
   displayName?: string;
 
+  @OneToMany(() => InvitationRequest, (invitationRequest) => invitationRequest.inviteTo)
+  invitations?: InvitationRequest[];
+
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
   restaurant?: Restaurant;
+
 
   @CreateDateColumn({ select: false })
   createdAt?: Date;

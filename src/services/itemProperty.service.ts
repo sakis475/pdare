@@ -2,8 +2,8 @@ import { In, Repository } from 'typeorm';
 import { AppDataSource } from '../database/dataSource';
 import { ItemProperty } from '../database/entity/ItemProperty.entity';
 import { Restaurant } from '../database/entity/Restaurant.entity';
-import { Category } from 'src/database/entity/Category.entity';
 import { rest } from 'lodash';
+import { Category } from '../database/entity/Category.entity';
 
 export class ItemPropertyService {
   itemPropertyRepository: Repository<ItemProperty>;

@@ -13,6 +13,7 @@ import { Restaurant } from './Restaurant.entity';
 
 export enum InvitationRequestStatus {
   ACCEPTED = 'accepted',
+  DENIED = 'denied',
   CANCELLED = 'cancelled',
   AWAITING = 'awaiting',
 }
@@ -35,7 +36,7 @@ export class InvitationRequest {
   })
   invitationStatus?: InvitationRequestStatus;
 
-  @ManyToOne(() => Restaurant)
+  @ManyToOne(() => Restaurant, { eager: true })
   restaurant: Restaurant;
 
   @CreateDateColumn({ select: false })
