@@ -11,16 +11,16 @@ import { InvitationRequestStatus } from '../database/entity/InvitationRequest.en
 export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
   const tables = await tableService.getEnabledTablesWithOrder(restaurant);
-  const emitSignal = `tableOrdersUpdated:${restaurant.id}`
-  console.log(emitSignal)
+  const emitSignal = `tableOrdersUpdated:${restaurant.id}`;
+  console.log(emitSignal);
   io.emit(emitSignal, tables);
 }
 
 export async function itemsUpdatedEmitter(restaurant: Restaurant) {
   const itemService = new ItemService();
   const items = await itemService.getEnabledItems(restaurant);
-  const emitSignal = `itemsUpdated:${restaurant.id}`
-  console.log(emitSignal)
+  const emitSignal = `itemsUpdated:${restaurant.id}`;
+  console.log(emitSignal);
   io.emit(emitSignal, items);
 }
 
@@ -28,8 +28,8 @@ export async function itemPropertiesPatternEmitter(restaurant: Restaurant) {
   const itemPropertiesPatternService = new ItemPropertiesPatternService();
   const propertyPatterns =
     await itemPropertiesPatternService.getEnabledPatterns(restaurant);
-  const emitSignal = `itemPropertyPatternsUpdated:${restaurant.id}`
-  console.log(emitSignal)
+  const emitSignal = `itemPropertyPatternsUpdated:${restaurant.id}`;
+  console.log(emitSignal);
   io.emit(emitSignal, propertyPatterns);
 }
 
@@ -37,11 +37,14 @@ export async function usersUpdatedEmitter(restaurant: Restaurant) {
   const userService = new UserService();
   const invitationRequestService = new InvitationRequestService();
   const users = await userService.getUsersByRestaurant(restaurant);
-  const activeInvitations = await invitationRequestService.getAllRequests(restaurant, InvitationRequestStatus.AWAITING)
+  const activeInvitations = await invitationRequestService.getAllRequests(
+    restaurant,
+    InvitationRequestStatus.AWAITING
+  );
 
-  const usersAndInvitations = { users, activeInvitations }
-  const emitSignal = `usersUpdated:${restaurant.id}`
-  console.log(emitSignal)
+  const usersAndInvitations = { users, activeInvitations };
+  const emitSignal = `usersUpdated:${restaurant.id}`;
+  console.log(emitSignal);
   io.emit(emitSignal, usersAndInvitations);
 }
 

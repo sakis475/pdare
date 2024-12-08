@@ -1,1265 +1,2304 @@
 [
-    {
-        "title": "Ελληνικός",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Ελληνικός διπλός",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Φραπές",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Φραπές baileys",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Νες Καφέ",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Εσπρέσσο κανονικός",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Εσπρέσσο lungo",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Εσπρέσσο ristretto",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Εσπρέσσο διπλός",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Εσπρέσσο ντεκαφενεϊνέ",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Εσπρέσσο μακιάτο",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Καπουτσίνο",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Καπουτσίνο διπλός",
-        "cost": 3.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Καπουτσίνο σαντιγύ",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Φρέντο Καπουτσίνο",
-        "cost": 3.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Φρέντο Καπουτσίνο Σαντιγύ",
-        "cost": 3.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Μοκατσίνο",
-        "cost": 4.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Φρέντο Μοκατσίνο",
-        "cost": 4.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Αμερικάνο",
-        "cost": 2.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Αμερικάνο διπλό",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Καφές Φίλτρου",
-        "cost": 3.00,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Λάττε κρύο",
-        "cost": 3.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-    {
-        "title": "Λάττε ζεστό",
-        "cost": 3.50,
-        "categoryId": 7,
-        "itemProperties": [
-            {"propertyName": "Ζάχαρη", "propertyValue": "Σκέτος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Μέτριος", "propertyType": "singleselect"},
-            {"propertyName": "Ζάχαρη", "propertyValue": "Γλυκός", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Κρυσταλλική", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Καστανή", "propertyType": "singleselect"},
-            {"propertyName": "Τύπος Ζάχαρης", "propertyValue": "Ζαχαρίνη", "propertyType": "singleselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Φρέσκο Γάλα", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Εβαπορέ", "propertyType": "multiselect"},
-            {"propertyName": "Γάλα", "propertyValue": "Αμυγδάλου", "propertyType": "multiselect"}
-        ]
-    },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-        {
-            "title": "Σοκολάτα",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Σοκολάτα Φράουλα",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Σοκολάτα Φουντούκι",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Σοκολάτα Καραμέλα",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Σοκολάτα Ρούμι",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Dark Chocolate",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Salted Caramel",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Pinky Strawberry",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Λευκή Σοκολάτα",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Λευκή Σοκολάτα Oreo",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Λευκή Σοκολάτα Καραμέλα",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Κρύα Σοκολάτα σαντιγύ",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Κακάο",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Κρύο Κακάο",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Milkshake Βανίλια",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Milkshake Σοκολάτα",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Ζεστό Τσάι",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Κρύο Τσάι",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "lemonodasos σπιτικό αναψυκτικό λεμόνι",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "lemonodasos σπιτικό αναψυκτικό βύσσινο",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "lemonodasos σπιτικό αναψυκτικό ρόδι",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "lemonodasos σπιτικό αναψυκτικό αγγούρι",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "lemonodasos σπιτικό αναψυκτικό τζίντζερ & στέβια",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Γρανίτα Φράουλα",
-            "cost": 3.50,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Premium Tea Χαβανέζικο Κοκτέιλ",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Premium Tea Φρούτα του Κήπου",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Premium Tea Ευεξία",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Premium Tea Μπλε Περγαμόντο",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Χυμός εμφιαλωμένος",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Φυσικός Χυμός Πορτοκάλι",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Φυσικός Χυμός Ανάμικτος",
-            "cost": 5.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Πορτοκαλάδα",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Λεμονάδα",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Κόκα Κόλα",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Κόκα Κόλα χωρίς ζάχαρη",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Σόδα με ροζ γκρέιπφρουτ",
-            "cost": 4.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Σόδα",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Red Bull",
-            "cost": 5.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-        {
-            "title": "Ανθρακούχο Νερό",
-            "cost": 3.00,
-            "categoryId": 8,
-            "itemProperties": []
-        },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {
-            "title": "Amstel 330ml",
-            "cost": 3.50,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Amstel χωρίς αλκοόλ 330ml",
-            "cost": 3.50,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Amstel Radler 330ml",
-            "cost": 3.50,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Heineken 330ml",
-            "cost": 3.50,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Kaiser 330ml",
-            "cost": 4.00,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Fix 330ml",
-            "cost": 3.50,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Fix μαύρη 330ml",
-            "cost": 4.00,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Mythos 330ml",
-            "cost": 3.50,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Mamos 330ml",
-            "cost": 4.00,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Sol 330ml",
-            "cost": 5.00,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Erdinger 500ml",
-            "cost": 6.00,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Mcfarland 330ml",
-            "cost": 5.00,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-        {
-            "title": "Paulaner 500ml",
-            "cost": 6.00,
-            "categoryId": 9,
-            "itemProperties": []
-        },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            {
-                "title": "Πρόρωγος [Λαφαζάνης] ροδίτης 40%, σαββατιανό 40%, μοσχοφίλερο 20%",
-                "cost": 5.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Πρόρωγος [Λαφαζάνης] ροδίτης 40%, σαββατιανό 40%, μοσχοφίλερο 20%",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Βιβλία Χώρα ασύρτικο, sauvignon blanc",
-                "cost": 7.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Βιβλία Χώρα ασύρτικο, sauvignon blanc",
-                "cost": 35.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Κτήμα Γεροβασιλείου ασύρτικο, μαλαγουζιά",
-                "cost": 7.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Κτήμα Γεροβασιλείου ασύρτικο, μαλαγουζιά",
-                "cost": 35.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μαλαγουζιά Γεροβασιλείου μαλαγουζιά",
-                "cost": 7.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Μαλαγουζιά Γεροβασιλείου μαλαγουζιά",
-                "cost": 35.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Πύργος Ιουλία chardonnay",
-                "cost": 7.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Πύργος Ιουλία chardonnay",
-                "cost": 35.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Λευκό Ημίγλυκο Πρόρωγος ροδίτης, μοσχοφίλερο, μοσχάτο",
-                "cost": 5.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Λευκό Ημίγλυκο Πρόρωγος ροδίτης, μοσχοφίλερο, μοσχάτο",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Πρόρωγος ~ Λαφαζάνης αγιωργίτικο 60%, merlot 40%",
-                "cost": 5.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Πρόρωγος ~ Λαφαζάνης αγιωργίτικο 60%, merlot 40%",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Βιβλία Χώρα cabernet sauvignon, merlot, αγιωργίτικο",
-                "cost": 8.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Βιβλία Χώρα cabernet sauvignon, merlot, αγιωργίτικο",
-                "cost": 40.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Γεροβασιλείου syrah, merlot, λημνιό",
-                "cost": 8.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Γεροβασιλείου syrah, merlot, λημνιό",
-                "cost": 40.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Πύργος Ιουλία merlot",
-                "cost": 8.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Πύργος Ιουλία merlot",
-                "cost": 40.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Οινότρια Γη cabernet sauvignon, αγιωργίτικο",
-                "cost": 50.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Τριλογία Κόκκαλης cabernet sauvignon",
-                "cost": 60.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Φουντή Ροζέ ξινόμαυρο Ναούσης",
-                "cost": 5.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Φουντή Ροζέ ξινόμαυρο Ναούσης",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Πρόρωγος Ημίγλυκο Ροζέ αγιωργίτικο 10%, ροδίτης 75%, μοσχάτο 15%",
-                "cost": 5.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Πρόρωγος Ημίγλυκο Ροζέ αγιωργίτικο 10%, ροδίτης 75%, μοσχάτο 15%",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Λαλίκος Variete Ροζέ Grenache Rouge",
-                "cost": 5.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Λαλίκος Variete Ροζέ Grenache Rouge",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Βίβλια Χώρα Ροζέ Ξηρός, Ήπιος, Syrah",
-                "cost": 6.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Βίβλια Χώρα Ροζέ Ξηρός, Ήπιος, Syrah",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Moscato D'Asti μοσχάτο bianco Ιταλίας",
-                "cost": 6.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Moscato D'Asti μοσχάτο bianco Ιταλίας",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Sangria Παραδοσιακό ποτό Ισπανίας από φυσικά εκχυλίσματα φρούτων",
-                "cost": 6.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-            {
-                "title": "Μπουκάλι: Sangria Παραδοσιακό ποτό Ισπανίας από φυσικά εκχυλίσματα φρούτων",
-                "cost": 25.00,
-                "categoryId": 10,
-                "itemProperties": []
-            },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {
-                "title": "Garden Flowers",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Bubbie Trouble",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Mediterranean Delight",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Mistico",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Gordons Premium Pink Spritz",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Frozen Pink Daiquiri",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Don Julio",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Golden Summer Nighs",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Lemon Pie Martini",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Time Line",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Whisky Sour",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Dominican",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Jucy Lucy",
-                "cost": 12.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Aloha",
-                "cost": 12.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Dolce Vita",
-                "cost": 12.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Paloma",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Mojito",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Cuba Libre",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Margarita",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Negroni",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-            {
-                "title": "Aperol Spritz",
-                "cost": 9.00,
-                "categoryId": 11,
-                "itemProperties": []
-            },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {
-                "title": "Τορτίγια Κοτόπουλο",
-                "cost": 6.00,
-                "categoryId": 12,
-                "itemProperties": [
-                    {"propertyName": "Λαχανικά", "propertyValue": "Ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Καρότο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Πιπεριά", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "Φιλαδέλφια", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "Σως", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Σαλάτα 1",
-                "cost": 7.00,
-                "categoryId": 12,
-                 "itemProperties": [
-                    {"propertyName": "Αλλαντικά", "propertyValue": "Κοτόπουλο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Καρότο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Αγγούρι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "Παρμεζάνα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "Σως", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Διάφορα", "propertyValue": "κρουτόν", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Σαλάτα 2",
-                "cost": 7.00,
-                "categoryId": 12,
-                 "itemProperties": [
-                    {"propertyName": "Λαχανικά", "propertyValue": "Μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "λιαστή ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "ντοματίνια", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "πιπεριά", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "Παρμεζάνα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "vinaigre", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Διάφορα", "propertyValue": "κρουτόν", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Σαλάτα 3",
-                "cost": 7.00,
-                "categoryId": 12,
-                "itemProperties": [
-                    {"propertyName": "Αλλαντικά", "propertyValue": "Κοτόπουλο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "λιαστή ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "πιπεριά", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "βαλσάμικο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Διάφορα", "propertyValue": "κρουτόν", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Μπέργκερ 100% μοσχαρίσιο μπιφτέκι",
-                "cost": 6.50,
-                "categoryId": 12,
-                "itemProperties": [
-                    {"propertyName": "Αλλαντικά", "propertyValue": "Κοτόπουλο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλλαντικά", "propertyValue": "μπέικον", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "καραμελωμένο κρεμμύδι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "πατάτες", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "cheddar", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "σως", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Μπέργκερ +1€ spicy πατάτες",
-                "cost": 1.00,
-                "categoryId": 12,
-                "itemProperties": []
-            },
-            {
-                "title": "Τοστ γκούντα, γαλοπούλα",
-                "cost": 2.50,
-                "categoryId": 12,
-                "itemProperties": []
-            },
-            {
-                "title": "Club Sandwich 1",
-                "cost": 6.00,
-                "categoryId": 12,
-                "itemProperties": [
-                    {"propertyName": "Αλλαντικά", "propertyValue": "ζαμπόν", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλλαντικά", "propertyValue": "μπέικον", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "πατάτες", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "γκούντα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "μαγιονέζα", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Club Sandwich 2",
-                "cost": 7.00,
-                "categoryId": 12,
-                "itemProperties": [
-                    {"propertyName": "Αλλαντικά", "propertyValue": "κοτόπουλο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλλαντικά", "propertyValue": "μπέικον", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "Ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "πατάτες", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "γκούντα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "μαγιονέζα", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Μπουρίτος κοτόπουλο",
-                "cost": 7.00,
-                "categoryId": 12,
-                "itemProperties": [
-                    {"propertyName": "Λαχανικά", "propertyValue": "πιπεριά", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "καρότο", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "μαρούλι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Λαχανικά", "propertyValue": "ντομάτα", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "σως", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Ριγκατόνι μπέικον",
-                "cost": 7.00,
-                "categoryId": 12,
-                "itemProperties": [
-                    {"propertyName": "Αλλαντικά", "propertyValue": "μπέικον", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "4 τυριά", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Τυρί", "propertyValue": "τριμμένο κεφαλοτύρι", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Αλοιφές", "propertyValue": "σως", "propertyType": "multiselect", "selected": true},
-                    {"propertyName": "Διάφορα", "propertyValue": "κρέμα γάλακτος", "propertyType": "multiselect", "selected": true}
-                ]
-            },
-            {
-                "title": "Spicy Πατάτες με σως γιαουρτιού",
-                "cost": 4.00,
-                "categoryId": 12,
-                "itemProperties": []
-            },
-            {
-                "title": "Πανκ Κέικ πραλίνα φουντουκιού, σιρόπι σοκολάτας, τριμμένο μπισκότο",
-                "cost": 6.50,
-                "categoryId": 12,
-                "itemProperties": []
-            },
-            {
-                "title": "Πανκ Κέικ πραλίνα, κόκκινα φρούτα",
-                "cost": 7.00,
-                "categoryId": 12,
-                "itemProperties": []
-            },
-            {
-                "title": "Πανκ Κέικ γιαούρτι, μέλι, μπισκότα, φρούτα",
-                "cost": 7.00,
-                "categoryId": 12,
-                "itemProperties": []
-            },
-            {
-                "title": "Φρουτοσαλάτα με φρούτα εποχής",
-                "cost": 6.00,
-                "categoryId": 12,
-                "itemProperties": []
-            }
+  {
+    "title": "Ελληνικός",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Ελληνικός διπλός",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Φραπές",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Φραπές baileys",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Νες Καφέ",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Εσπρέσσο κανονικός",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Εσπρέσσο lungo",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Εσπρέσσο ristretto",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Εσπρέσσο διπλός",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Εσπρέσσο ντεκαφενεϊνέ",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Εσπρέσσο μακιάτο",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Καπουτσίνο",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Καπουτσίνο διπλός",
+    "cost": 3.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Καπουτσίνο σαντιγύ",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Φρέντο Καπουτσίνο",
+    "cost": 3.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Φρέντο Καπουτσίνο Σαντιγύ",
+    "cost": 3.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Μοκατσίνο",
+    "cost": 4.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Φρέντο Μοκατσίνο",
+    "cost": 4.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Αμερικάνο",
+    "cost": 2.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Αμερικάνο διπλό",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Καφές Φίλτρου",
+    "cost": 3.0,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Λάττε κρύο",
+    "cost": 3.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+  {
+    "title": "Λάττε ζεστό",
+    "cost": 3.5,
+    "categoryId": 7,
+    "itemProperties": [
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Σκέτος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Μέτριος",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Ζάχαρη",
+        "propertyValue": "Γλυκός",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Κρυσταλλική",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Καστανή",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Τύπος Ζάχαρης",
+        "propertyValue": "Ζαχαρίνη",
+        "propertyType": "singleselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Φρέσκο Γάλα",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Εβαπορέ",
+        "propertyType": "multiselect"
+      },
+      {
+        "propertyName": "Γάλα",
+        "propertyValue": "Αμυγδάλου",
+        "propertyType": "multiselect"
+      }
+    ]
+  },
+
+  {
+    "title": "Σοκολάτα",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Σοκολάτα Φράουλα",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Σοκολάτα Φουντούκι",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Σοκολάτα Καραμέλα",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Σοκολάτα Ρούμι",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Dark Chocolate",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Salted Caramel",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Pinky Strawberry",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Λευκή Σοκολάτα",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Λευκή Σοκολάτα Oreo",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Λευκή Σοκολάτα Καραμέλα",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Κρύα Σοκολάτα σαντιγύ",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Κακάο",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Κρύο Κακάο",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Milkshake Βανίλια",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Milkshake Σοκολάτα",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Ζεστό Τσάι",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Κρύο Τσάι",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "lemonodasos σπιτικό αναψυκτικό λεμόνι",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "lemonodasos σπιτικό αναψυκτικό βύσσινο",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "lemonodasos σπιτικό αναψυκτικό ρόδι",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "lemonodasos σπιτικό αναψυκτικό αγγούρι",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "lemonodasos σπιτικό αναψυκτικό τζίντζερ & στέβια",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Γρανίτα Φράουλα",
+    "cost": 3.5,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Premium Tea Χαβανέζικο Κοκτέιλ",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Premium Tea Φρούτα του Κήπου",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Premium Tea Ευεξία",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Premium Tea Μπλε Περγαμόντο",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Χυμός εμφιαλωμένος",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Φυσικός Χυμός Πορτοκάλι",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Φυσικός Χυμός Ανάμικτος",
+    "cost": 5.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Πορτοκαλάδα",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Λεμονάδα",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Κόκα Κόλα",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Κόκα Κόλα χωρίς ζάχαρη",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Σόδα με ροζ γκρέιπφρουτ",
+    "cost": 4.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Σόδα",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Red Bull",
+    "cost": 5.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+  {
+    "title": "Ανθρακούχο Νερό",
+    "cost": 3.0,
+    "categoryId": 8,
+    "itemProperties": []
+  },
+
+  {
+    "title": "Amstel 330ml",
+    "cost": 3.5,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Amstel χωρίς αλκοόλ 330ml",
+    "cost": 3.5,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Amstel Radler 330ml",
+    "cost": 3.5,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Heineken 330ml",
+    "cost": 3.5,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Kaiser 330ml",
+    "cost": 4.0,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Fix 330ml",
+    "cost": 3.5,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Fix μαύρη 330ml",
+    "cost": 4.0,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Mythos 330ml",
+    "cost": 3.5,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Mamos 330ml",
+    "cost": 4.0,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Sol 330ml",
+    "cost": 5.0,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Erdinger 500ml",
+    "cost": 6.0,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Mcfarland 330ml",
+    "cost": 5.0,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+  {
+    "title": "Paulaner 500ml",
+    "cost": 6.0,
+    "categoryId": 9,
+    "itemProperties": []
+  },
+
+  {
+    "title": "Πρόρωγος [Λαφαζάνης] ροδίτης 40%, σαββατιανό 40%, μοσχοφίλερο 20%",
+    "cost": 5.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Πρόρωγος [Λαφαζάνης] ροδίτης 40%, σαββατιανό 40%, μοσχοφίλερο 20%",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Βιβλία Χώρα ασύρτικο, sauvignon blanc",
+    "cost": 7.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Βιβλία Χώρα ασύρτικο, sauvignon blanc",
+    "cost": 35.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Κτήμα Γεροβασιλείου ασύρτικο, μαλαγουζιά",
+    "cost": 7.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Κτήμα Γεροβασιλείου ασύρτικο, μαλαγουζιά",
+    "cost": 35.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μαλαγουζιά Γεροβασιλείου μαλαγουζιά",
+    "cost": 7.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Μαλαγουζιά Γεροβασιλείου μαλαγουζιά",
+    "cost": 35.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Πύργος Ιουλία chardonnay",
+    "cost": 7.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Πύργος Ιουλία chardonnay",
+    "cost": 35.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Λευκό Ημίγλυκο Πρόρωγος ροδίτης, μοσχοφίλερο, μοσχάτο",
+    "cost": 5.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Λευκό Ημίγλυκο Πρόρωγος ροδίτης, μοσχοφίλερο, μοσχάτο",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Πρόρωγος ~ Λαφαζάνης αγιωργίτικο 60%, merlot 40%",
+    "cost": 5.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Πρόρωγος ~ Λαφαζάνης αγιωργίτικο 60%, merlot 40%",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Βιβλία Χώρα cabernet sauvignon, merlot, αγιωργίτικο",
+    "cost": 8.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Βιβλία Χώρα cabernet sauvignon, merlot, αγιωργίτικο",
+    "cost": 40.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Γεροβασιλείου syrah, merlot, λημνιό",
+    "cost": 8.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Γεροβασιλείου syrah, merlot, λημνιό",
+    "cost": 40.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Πύργος Ιουλία merlot",
+    "cost": 8.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Πύργος Ιουλία merlot",
+    "cost": 40.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Οινότρια Γη cabernet sauvignon, αγιωργίτικο",
+    "cost": 50.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Τριλογία Κόκκαλης cabernet sauvignon",
+    "cost": 60.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Φουντή Ροζέ ξινόμαυρο Ναούσης",
+    "cost": 5.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Φουντή Ροζέ ξινόμαυρο Ναούσης",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Πρόρωγος Ημίγλυκο Ροζέ αγιωργίτικο 10%, ροδίτης 75%, μοσχάτο 15%",
+    "cost": 5.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Πρόρωγος Ημίγλυκο Ροζέ αγιωργίτικο 10%, ροδίτης 75%, μοσχάτο 15%",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Λαλίκος Variete Ροζέ Grenache Rouge",
+    "cost": 5.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Λαλίκος Variete Ροζέ Grenache Rouge",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Βίβλια Χώρα Ροζέ Ξηρός, Ήπιος, Syrah",
+    "cost": 6.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Βίβλια Χώρα Ροζέ Ξηρός, Ήπιος, Syrah",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Moscato D'Asti μοσχάτο bianco Ιταλίας",
+    "cost": 6.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Moscato D'Asti μοσχάτο bianco Ιταλίας",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Sangria Παραδοσιακό ποτό Ισπανίας από φυσικά εκχυλίσματα φρούτων",
+    "cost": 6.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+  {
+    "title": "Μπουκάλι: Sangria Παραδοσιακό ποτό Ισπανίας από φυσικά εκχυλίσματα φρούτων",
+    "cost": 25.0,
+    "categoryId": 10,
+    "itemProperties": []
+  },
+
+  {
+    "title": "Garden Flowers",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Bubbie Trouble",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Mediterranean Delight",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Mistico",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Gordons Premium Pink Spritz",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Frozen Pink Daiquiri",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Don Julio",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Golden Summer Nighs",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Lemon Pie Martini",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Time Line",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Whisky Sour",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Dominican",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Jucy Lucy",
+    "cost": 12.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Aloha",
+    "cost": 12.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Dolce Vita",
+    "cost": 12.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Paloma",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Mojito",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Cuba Libre",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Margarita",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Negroni",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+  {
+    "title": "Aperol Spritz",
+    "cost": 9.0,
+    "categoryId": 11,
+    "itemProperties": []
+  },
+
+  {
+    "title": "Τορτίγια Κοτόπουλο",
+    "cost": 6.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Καρότο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Πιπεριά",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "Φιλαδέλφια",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "Σως",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Σαλάτα 1",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "Κοτόπουλο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Καρότο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Αγγούρι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "Παρμεζάνα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "Σως",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Διάφορα",
+        "propertyValue": "κρουτόν",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Σαλάτα 2",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "λιαστή ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "ντοματίνια",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "πιπεριά",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "Παρμεζάνα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "vinaigre",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Διάφορα",
+        "propertyValue": "κρουτόν",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Σαλάτα 3",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "Κοτόπουλο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "λιαστή ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "πιπεριά",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "βαλσάμικο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Διάφορα",
+        "propertyValue": "κρουτόν",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Μπέργκερ 100% μοσχαρίσιο μπιφτέκι",
+    "cost": 6.5,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "Κοτόπουλο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "μπέικον",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "καραμελωμένο κρεμμύδι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "πατάτες",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "cheddar",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "σως",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Μπέργκερ +1€ spicy πατάτες",
+    "cost": 1.0,
+    "categoryId": 12,
+    "itemProperties": []
+  },
+  {
+    "title": "Τοστ γκούντα, γαλοπούλα",
+    "cost": 2.5,
+    "categoryId": 12,
+    "itemProperties": []
+  },
+  {
+    "title": "Club Sandwich 1",
+    "cost": 6.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "ζαμπόν",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "μπέικον",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "πατάτες",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "γκούντα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "μαγιονέζα",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Club Sandwich 2",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "κοτόπουλο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "μπέικον",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "Ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "πατάτες",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "γκούντα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "μαγιονέζα",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Μπουρίτος κοτόπουλο",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "πιπεριά",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "καρότο",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "μαρούλι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Λαχανικά",
+        "propertyValue": "ντομάτα",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "σως",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Ριγκατόνι μπέικον",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": [
+      {
+        "propertyName": "Αλλαντικά",
+        "propertyValue": "μπέικον",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "4 τυριά",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Τυρί",
+        "propertyValue": "τριμμένο κεφαλοτύρι",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Αλοιφές",
+        "propertyValue": "σως",
+        "propertyType": "multiselect",
+        "selected": true
+      },
+      {
+        "propertyName": "Διάφορα",
+        "propertyValue": "κρέμα γάλακτος",
+        "propertyType": "multiselect",
+        "selected": true
+      }
+    ]
+  },
+  {
+    "title": "Spicy Πατάτες με σως γιαουρτιού",
+    "cost": 4.0,
+    "categoryId": 12,
+    "itemProperties": []
+  },
+  {
+    "title": "Πανκ Κέικ πραλίνα φουντουκιού, σιρόπι σοκολάτας, τριμμένο μπισκότο",
+    "cost": 6.5,
+    "categoryId": 12,
+    "itemProperties": []
+  },
+  {
+    "title": "Πανκ Κέικ πραλίνα, κόκκινα φρούτα",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": []
+  },
+  {
+    "title": "Πανκ Κέικ γιαούρτι, μέλι, μπισκότα, φρούτα",
+    "cost": 7.0,
+    "categoryId": 12,
+    "itemProperties": []
+  },
+  {
+    "title": "Φρουτοσαλάτα με φρούτα εποχής",
+    "cost": 6.0,
+    "categoryId": 12,
+    "itemProperties": []
+  }
 ]

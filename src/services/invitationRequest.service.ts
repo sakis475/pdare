@@ -49,8 +49,12 @@ export class InvitationRequestService {
       .leftJoinAndSelect('invitation.inviteTo', 'inviteTo')
       .leftJoinAndSelect('invitation.inviteFrom', 'inviteFrom')
       .leftJoinAndSelect('invitation.restaurant', 'restaurant')
-      .where('invitation.invitationStatus = :status', { status: invitationStatus })
-      .andWhere('invitation.restaurant = :restaurantId', { restaurantId: restaurant.id })
+      .where('invitation.invitationStatus = :status', {
+        status: invitationStatus,
+      })
+      .andWhere('invitation.restaurant = :restaurantId', {
+        restaurantId: restaurant.id,
+      })
       .getMany();
   }
   // Read a single invitation request by ID

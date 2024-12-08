@@ -29,11 +29,7 @@ userRouter.get('/', authMiddleware, catchWrapper(getUsers));
 userRouter.get('/search', authMiddleware, catchWrapper(searchUser));
 
 //routes
-userRouter.get(
-  '/invite',
-  basicAuthMiddleware,
-  catchWrapper(getInvitation)
-);
+userRouter.get('/invite', basicAuthMiddleware, catchWrapper(getInvitation));
 
 //admin routes
 userRouter.post(
@@ -49,7 +45,10 @@ userRouter.delete(
 );
 
 //waiter routes
-userRouter.post('/invite/response/:invitationId', catchWrapper(waiterResponseInvite));
+userRouter.post(
+  '/invite/response/:invitationId',
+  catchWrapper(waiterResponseInvite)
+);
 
 userRouter.post(
   '/restaurant/create',

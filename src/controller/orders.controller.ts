@@ -328,7 +328,11 @@ export async function updateOrder(
   const savedOrder: Order = await orderService.saveOrder(order);
 
   const tableCopy = _.cloneDeep(savedOrder.table);
-  tableCopy.occupiedByOrder = order;
+  if (order.orderItems?.length === 0) {
+    tableCopy.occupiedByOrder = null;
+  } else {
+    tableCopy.occupiedByOrder = order;
+  }
   await tableService.saveTable(tableCopy);
 
   res.send(savedOrder);

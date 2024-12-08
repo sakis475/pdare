@@ -18,7 +18,7 @@ export const basicAuthMiddleware = async (
       const token = auth.split(' ')[1]; //auth looks like this "Bearer a1Ddsa21f2312..."
 
       const userService = new UserService();
- 
+
       if (token === process.env.ADMIN_TOKEN && process.env.ENV_TYPE === 'DEV') {
         const user = await userService.getUserByID(2);
         res.locals.user = user;

@@ -28,7 +28,7 @@ export class UserService {
 
     const users = await this.userRepository.find({
       where: whereQuery,
-      relations: ['invitations']
+      relations: ['invitations'],
     });
 
     return users;
@@ -56,9 +56,9 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         email,
-        active: true
+        active: true,
       },
-      relations: ['invitations']
+      relations: ['invitations'],
     });
     return user;
   }

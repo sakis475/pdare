@@ -47,12 +47,14 @@ export class User {
   @Column({ default: 'user', nullable: false })
   displayName?: string;
 
-  @OneToMany(() => InvitationRequest, (invitationRequest) => invitationRequest.inviteTo)
+  @OneToMany(
+    () => InvitationRequest,
+    (invitationRequest) => invitationRequest.inviteTo
+  )
   invitations?: InvitationRequest[];
 
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
   restaurant?: Restaurant;
-
 
   @CreateDateColumn({ select: false })
   createdAt?: Date;
