@@ -6,12 +6,12 @@ import { passwordHash } from '../auth/password-hash';
 import { UserService } from '../services/user.service';
 import { RestaurantService } from '../services/restaurant.service';
 import { customResponseError } from '../error_handler/error-handler';
-import { io } from '../server';
-import { TableService } from '../services/table.service';
-import { ItemService } from '../services/item.service';
-import { CategoryService } from '../services/category.service';
-import { ItemPropertiesPatternService } from '../services/itemPropertiesPattern.service';
-import { usersUpdatedEmitter } from '../lib/socketio';
+import {
+  itemPropertiesPatternEmitter,
+  itemsUpdatedEmitter,
+  orderUpdatedEmitter,
+  usersUpdatedEmitter,
+} from '../lib/socketio';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
@@ -68,29 +68,11 @@ export async function createRestaurantAdmin(
 
 export async function testio(req: Request, res: Response, next: NextFunction) {
   console.log('testio executed');
-  const tableService = new TableService();
   const restaurantService = new RestaurantService();
   const restaurant = await restaurantService.getRestaurantById(1);
-  const tables = await tableService.getEnabledTablesWithOrder(restaurant);
-  io.emit('tableOrdersUpdated:1', tables);
-
-  const itemService = new ItemService();
-  const items = await itemService.getEnabledItems(restaurant);
-  io.emit('itemsUpdated:1', items);
-
-  const categoryService = new CategoryService();
-  const categories = await categoryService.getActiveCategories(restaurant);
-  io.emit('categoriesUpdated:1', categories);
-
-  const itemPropertiesPatternService = new ItemPropertiesPatternService();
-  const propertyPatterns =
-    await itemPropertiesPatternService.getEnabledPatterns(restaurant);
-  io.emit('itemPropertyPatternsUpdated:1', propertyPatterns);
-
-  const enabledTables = await tableService.getEnabledTables(restaurant);
-  console.log(enabledTables);
-  io.emit('tablesUpdated:1', enabledTables);
-
+  await orderUpdatedEmitter(restaurant);
+  await itemsUpdatedEmitter(restaurant);
+  await itemPropertiesPatternEmitter(restaurant);
   await usersUpdatedEmitter(restaurant);
 
   res.json();

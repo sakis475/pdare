@@ -1,5 +1,4 @@
-import { io } from '../server';
-import { Order } from '../database/entity/Order.entity';
+import { socketIO } from '../server';
 import { Restaurant } from '../database/entity/Restaurant.entity';
 import { TableService } from '../services/table.service';
 import { ItemService } from '../services/item.service';
@@ -12,16 +11,20 @@ export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
   const tables = await tableService.getEnabledTablesWithOrder(restaurant);
   const emitSignal = `tableOrdersUpdated:${restaurant.id}`;
-  console.log(emitSignal);
-  io.emit(emitSignal, tables);
+  const roomName = `restaurant:${restaurant.id}`;
+
+  console.log(`Emitting ${emitSignal} to room ${roomName}`);
+  socketIO.to(roomName).emit(emitSignal, tables);
 }
 
 export async function itemsUpdatedEmitter(restaurant: Restaurant) {
   const itemService = new ItemService();
   const items = await itemService.getEnabledItems(restaurant);
   const emitSignal = `itemsUpdated:${restaurant.id}`;
-  console.log(emitSignal);
-  io.emit(emitSignal, items);
+  const roomName = `restaurant:${restaurant.id}`;
+
+  console.log(`Emitting ${emitSignal} to room ${roomName}`);
+  socketIO.to(roomName).emit(emitSignal, items);
 }
 
 export async function itemPropertiesPatternEmitter(restaurant: Restaurant) {
@@ -29,13 +32,16 @@ export async function itemPropertiesPatternEmitter(restaurant: Restaurant) {
   const propertyPatterns =
     await itemPropertiesPatternService.getEnabledPatterns(restaurant);
   const emitSignal = `itemPropertyPatternsUpdated:${restaurant.id}`;
-  console.log(emitSignal);
-  io.emit(emitSignal, propertyPatterns);
+  const roomName = `restaurant:${restaurant.id}`;
+
+  console.log(`Emitting ${emitSignal} to room ${roomName}`);
+  socketIO.to(roomName).emit(emitSignal, propertyPatterns);
 }
 
 export async function usersUpdatedEmitter(restaurant: Restaurant) {
   const userService = new UserService();
   const invitationRequestService = new InvitationRequestService();
+
   const users = await userService.getUsersByRestaurant(restaurant);
   const activeInvitations = await invitationRequestService.getAllRequests(
     restaurant,
@@ -44,8 +50,10 @@ export async function usersUpdatedEmitter(restaurant: Restaurant) {
 
   const usersAndInvitations = { users, activeInvitations };
   const emitSignal = `usersUpdated:${restaurant.id}`;
-  console.log(emitSignal);
-  io.emit(emitSignal, usersAndInvitations);
+  const roomName = `restaurant:${restaurant.id}`;
+
+  console.log(`Emitting ${emitSignal} to room ${roomName}`);
+  socketIO.to(roomName).emit(emitSignal, usersAndInvitations);
 }
 
 export enum EventId {
