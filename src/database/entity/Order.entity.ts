@@ -18,6 +18,9 @@ export class Order {
   @PrimaryGeneratedColumn()
   id?: number;
 
+  @Column({ nullable: true })
+  uniqueId?: string;
+
   @ManyToOne(() => User)
   user: User;
 
@@ -50,6 +53,9 @@ export class Order {
     nullable: true,
   })
   couvert?: number;
+
+  @Column({ default: false })
+  orderReady?: boolean;
 
   @Column({
     type: 'float',

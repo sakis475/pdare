@@ -21,6 +21,7 @@ import { OrderItem } from '../database/entity/OrderItem.entity';
 import dayjs from '../lib/dayjs';
 import { orderUpdatedEmitter } from '../lib/socketio';
 import _ from 'lodash';
+import { InventoryService } from '../services/inventory.service';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -28,6 +29,8 @@ const itemPropertyOfItemService = new OrderItemPropertyService();
 
 const itemService = new ItemService();
 const tableService = new TableService();
+
+const inventoryService = new InventoryService();
 
 export async function createOrder(
   req: Request,
@@ -94,15 +97,21 @@ export async function createOrder(
     }
   }
 
+  const orderCount = (
+    await inventoryService.getInventoryByRestaurant(restaurant)
+  ).orderCount;
+
   // Create the order
   const createOrder = orderService.create({
     user,
     table,
     comment: orderComment,
     couvert,
+    uniqueId: `#${orderCount + 1}`,
   });
 
   const draftOrder = await orderService.saveOrder(createOrder);
+  await inventoryService.incrementOrderCount(restaurant);
 
   // delete draftOrder.table.occupiedByOrder; //if i dont delete it typeorm throws tableId not-null constaint
 
@@ -338,6 +347,30 @@ export async function updateOrder(
   res.send(savedOrder);
 
   savedOrder.user = user;
+  orderUpdatedEmitter(restaurant);
+}
+
+export async function orderReady(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const restaurant: Restaurant = res.locals.user.restaurant;
+
+  const orderId: number = Number(req.params.orderId);
+
+  if (typeof orderId !== 'number') {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  const order = await orderService.getOrderById(orderId, restaurant);
+
+  if (!order) {
+    return next(new ErrorException(ErrorCode.NotFound));
+  }
+
+  await orderService.markOrderAsReady(order.id);
+  res.send(order);
   orderUpdatedEmitter(restaurant);
 }
 

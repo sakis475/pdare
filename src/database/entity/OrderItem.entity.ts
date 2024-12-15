@@ -38,6 +38,9 @@ export class OrderItem {
   @Column({ type: 'integer', default: 1 })
   quantity: number;
 
+  @Column({ default: false })
+  orderItemReady?: boolean;
+
   @Column({ default: '' })
   comment?: string;
 

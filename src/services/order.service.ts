@@ -35,6 +35,24 @@ export class OrderService {
     return order;
   }
 
+  async markOrderAsReady(orderId: number): Promise<Order> {
+    const order = await this.orderRepository.findOne({
+      where: { id: orderId },
+      relations: ['orderItems'],
+    });
+
+    if (!order) {
+      throw new Error('Order not found');
+    }
+
+    order.orderReady = true;
+    order.orderItems?.forEach((item) => {
+      item.orderItemReady = true;
+    });
+
+    return await this.orderRepository.save(order);
+  }
+
   async getOrders(
     restaurant: Restaurant,
     fromDate?: Date,

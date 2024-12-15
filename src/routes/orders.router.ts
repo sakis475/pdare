@@ -8,6 +8,7 @@ import {
   updateOrder,
   closeOrder,
   getOrders,
+  orderReady,
 } from '../controller/orders.controller';
 
 /**
@@ -32,6 +33,8 @@ ordersRouter.post('/', catchWrapper(createOrder));
 
 //Update an order
 ordersRouter.patch('/:orderId', catchWrapper(updateOrder));
+
+ordersRouter.patch('/ready/:orderId', catchWrapper(orderReady));
 
 // //Cancel an order
 // ordersRouter.delete(
