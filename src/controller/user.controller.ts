@@ -360,17 +360,8 @@ export async function updateUser(
     user.email = email.trim().toLowerCase();
   }
 
-  if (user.role === UserType.OWNER) {
-    await userService.saveUser(user);
-    const allNoOwnerUsers = await userService.getUsersByRestaurant(
-      user.restaurant,
-      true
-    );
-    return res.json(allNoOwnerUsers);
-  } else {
-    const sessionBearer = await prepareUserSessionBearer(user);
-    return res.json(sessionBearer);
-  }
+  const sessionBearer = await prepareUserSessionBearer(user);
+  return res.json(sessionBearer);
 }
 
 export async function updateUserFromAdmin(
