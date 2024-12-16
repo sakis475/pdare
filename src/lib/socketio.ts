@@ -56,7 +56,22 @@ export async function usersUpdatedEmitter(restaurant: Restaurant) {
   socketIO.to(roomName).emit(emitSignal, usersAndInvitations);
 }
 
+export async function healthCheckEmitter(restaurant: Restaurant) {
+  const emitSignal = `healthCheck:${restaurant.id}`;
+  const roomName = `restaurant:${restaurant.id}`;
+  console.log(`Emitting ${emitSignal} to room ${roomName}`);
+  socketIO.to(roomName).emit(emitSignal, {
+    timestamp: Date.now(),
+    restaurantId: restaurant.id,
+  });
+}
+
 export enum EventId {
   tableOrdersUpdated = 'tableOrdersUpdated',
   itemsUpdated = 'itemsUpdated',
+  categoriesUpdated = 'categoriesUpdated',
+  itemPropertyPatternsUpdated = 'itemPropertyPatternsUpdated',
+  tablesUpdated = 'tablesUpdated',
+  usersUpdated = 'usersUpdated',
+  healthCheck = 'healthCheck',
 }

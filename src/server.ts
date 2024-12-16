@@ -1,6 +1,8 @@
 import { app } from './app';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
+import { healthCheckEmitter } from './lib/socketio';
+import { Restaurant } from './database/entity/Restaurant.entity';
 
 const server = createServer(app);
 
@@ -41,6 +43,25 @@ const initializeSocket = () => {
     socket.on('disconnect', () => {
       console.log(`Client disconnected: ${socket.id}`);
       connectedClients.delete(socket.id);
+    });
+
+    socket.on('requestHealthCheck', async (data: { restaurantId: number }) => {
+      try {
+        // Verify socket is in the correct room
+        const roomName = `restaurant:${data.restaurantId}`;
+        const rooms = Array.from(socket.rooms);
+
+        if (rooms.includes(roomName)) {
+          const restaurant = { id: data.restaurantId } as Restaurant; // Minimal restaurant object
+          await healthCheckEmitter(restaurant);
+        } else {
+          console.log(
+            `Health check failed - socket ${socket.id} not in room ${roomName}`
+          );
+        }
+      } catch (error) {
+        console.error('Error in health check:', error);
+      }
     });
   });
 
