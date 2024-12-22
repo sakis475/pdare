@@ -10,6 +10,8 @@ import { InvitationRequestService } from '../services/invitationRequest.service'
 import { InvitationRequestStatus } from '../database/entity/InvitationRequest.entity';
 import { RestaurantService } from '../services/restaurant.service';
 import { isEmailValid, isPasswordValid } from '../lib/helpers/formUtils';
+import { usersUpdatedEmitter } from '../lib/socketio';
+import _ from 'lodash';
 
 const restaurantService = new RestaurantService();
 const userService = new UserService();
@@ -196,7 +198,6 @@ export async function waiterResponseInvite(
   }
 
   const user: User = res.locals.user;
-
   if (!user) {
     return next(new ErrorException(ErrorCode.NoUserFoundError));
   }
@@ -211,7 +212,7 @@ export async function waiterResponseInvite(
   ) {
     return next(new ErrorException(ErrorCode.AssetNotFound));
   }
-
+  let sessionBearer;
   if (response === true) {
     invitation.invitationStatus = InvitationRequestStatus.ACCEPTED;
     await invitationRequestService.saveRequest(invitation);
@@ -219,14 +220,14 @@ export async function waiterResponseInvite(
     user.displayName = 'user';
     user.role = UserType.WAITER;
 
-    const sessionBearer = await prepareUserSessionBearer(user);
-    return res.json(sessionBearer);
+    sessionBearer = await prepareUserSessionBearer(user);
   } else if (response === false) {
     invitation.invitationStatus = InvitationRequestStatus.DENIED;
     await invitationRequestService.saveRequest(invitation);
   }
 
-  res.json();
+  res.json(sessionBearer);
+  usersUpdatedEmitter(invitation.restaurant);
 }
 
 export async function createNewRestaurant(
@@ -279,7 +280,7 @@ export async function deleteRestaurant(
   next: NextFunction
 ) {
   const user: User = res.locals.user;
-
+  const restaurant = _.cloneDeep(user.restaurant);
   // Check if user exists and has permission
   if (!user) {
     return next(new ErrorException(ErrorCode.NoUserFoundError));
@@ -302,6 +303,8 @@ export async function deleteRestaurant(
 
   const sessionBearer = await prepareUserSessionBearer(user);
   res.json(sessionBearer);
+
+  usersUpdatedEmitter(restaurant);
 }
 
 export async function deleteUser(
@@ -310,6 +313,7 @@ export async function deleteUser(
   next: NextFunction
 ) {
   const user: User = res.locals.user;
+  const restaurant = _.cloneDeep(user.restaurant);
 
   // Check if user exists
   if (!user) {
@@ -325,8 +329,32 @@ export async function deleteUser(
   user.active = false;
 
   const sessionBearer = await prepareUserSessionBearer(user);
+  res.json(sessionBearer);
+
+  usersUpdatedEmitter(restaurant);
+}
+
+export async function leaveRestaurant(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const user: User = res.locals.user;
+  const restaurant = _.cloneDeep(user.restaurant);
+  // Check if user exists
+  if (!user) {
+    return next(new ErrorException(ErrorCode.NoUserFoundError));
+  }
+
+  user.role = UserType.GUEST;
+  user.restaurant = null;
+
+  const sessionBearer = await prepareUserSessionBearer(user);
+
+  console.log(sessionBearer, 'sessionBearer');
 
   res.json(sessionBearer);
+  usersUpdatedEmitter(restaurant);
 }
 
 export async function updateUser(
@@ -334,7 +362,7 @@ export async function updateUser(
   res: Response,
   next: NextFunction
 ) {
-  const { firstName, lastName, email } = req.body;
+  const { firstName, lastName, email, displayName } = req.body;
   const user: User = res.locals.user;
 
   // Validate email format
@@ -360,8 +388,13 @@ export async function updateUser(
     user.email = email.trim().toLowerCase();
   }
 
+  if (displayName && existingUser.role === UserType.OWNER) {
+    user.displayName = displayName.trim();
+  }
+
   const sessionBearer = await prepareUserSessionBearer(user);
-  return res.json(sessionBearer);
+  res.json(sessionBearer);
+  usersUpdatedEmitter(user.restaurant);
 }
 
 export async function updateUserFromAdmin(
@@ -371,6 +404,7 @@ export async function updateUserFromAdmin(
 ) {
   const { email, displayName, markForDelete } = req.body;
   const user: User = res.locals.user;
+  const restaurant = _.cloneDeep(user.restaurant);
 
   if (user.role !== UserType.OWNER) {
     return next(new ErrorException(ErrorCode.NoPermission));
@@ -403,7 +437,8 @@ export async function updateUserFromAdmin(
     user.restaurant,
     true
   );
-  return res.json(allNoOwnerUsers);
+  res.json(allNoOwnerUsers);
+  usersUpdatedEmitter(user.restaurant);
 }
 
 export async function updatePassword(
@@ -430,6 +465,8 @@ export async function updatePassword(
   const sessionBearer = await prepareUserSessionBearer(user);
 
   res.json(sessionBearer);
+
+  usersUpdatedEmitter(user.restaurant);
 }
 
 export async function updateRestaurantName(

@@ -59,6 +59,7 @@ export class TableService {
       .leftJoinAndSelect('orderItems.item', 'item')
       .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
       .leftJoinAndSelect('itemPropertyOfItem.itemProperty', 'itemProperty')
+      .leftJoinAndSelect('order.user', 'user')
       .where('table.restaurant = :restaurantId', {
         restaurantId: restaurant.id,
       })

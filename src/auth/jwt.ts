@@ -54,7 +54,7 @@ export const prepareUserSessionBearer = async (
   return { ...tokenJWT, user };
 };
 
-type SessionBearer = {
+export type SessionBearer = {
   user: User;
   token: string;
   info: {

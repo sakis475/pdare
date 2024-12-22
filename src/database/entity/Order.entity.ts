@@ -21,7 +21,7 @@ export class Order {
   @Column({ nullable: true })
   uniqueId?: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false })
   user: User;
 
   @ManyToOne(() => Table, {

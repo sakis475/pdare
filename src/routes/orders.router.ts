@@ -9,6 +9,7 @@ import {
   closeOrder,
   getOrders,
   orderReady,
+  reopenOrder,
 } from '../controller/orders.controller';
 
 /**
@@ -44,6 +45,9 @@ ordersRouter.patch('/ready/:orderId', catchWrapper(orderReady));
 
 //Close an order
 ordersRouter.patch('/close/:orderId', catchWrapper(closeOrder));
+
+//Re-open an order
+ordersRouter.patch('/reopen/:orderId', catchWrapper(reopenOrder));
 
 //Get print image for order
 ordersRouter.get('/orderPrint/:orderId', catchWrapper(getOrderPrint));

@@ -97,7 +97,7 @@ export class OrderService {
     // Pagination logic
     const skip = pageNumber * rowNumber;
     query.skip(skip).take(rowNumber);
-    query.orderBy('order.createdAt', 'DESC');
+    query.addOrderBy('order.createdAt', 'DESC');
     // Execute the query and return results
     const orders = await query.getMany();
 

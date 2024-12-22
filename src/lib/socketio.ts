@@ -6,6 +6,7 @@ import { ItemPropertiesPatternService } from '../services/itemPropertiesPattern.
 import { UserService } from '../services/user.service';
 import { InvitationRequestService } from '../services/invitationRequest.service';
 import { InvitationRequestStatus } from '../database/entity/InvitationRequest.entity';
+import { CategoryService } from '../services/category.service';
 
 export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
@@ -15,6 +16,18 @@ export async function orderUpdatedEmitter(restaurant: Restaurant) {
 
   console.log(`Emitting ${emitSignal} to room ${roomName}`);
   socketIO.to(roomName).emit(emitSignal, tables);
+}
+
+export async function categoriesUpdatedEmitter(restaurant: Restaurant) {
+  const categoryService = new CategoryService();
+  const categoriesUpdated = await categoryService.getActiveCategories(
+    restaurant
+  );
+  const emitSignal = `categoriesUpdated:${restaurant.id}`;
+  const roomName = `restaurant:${restaurant.id}`;
+
+  console.log(`Emitting ${emitSignal} to room ${roomName}`);
+  socketIO.to(roomName).emit(emitSignal, categoriesUpdated);
 }
 
 export async function itemsUpdatedEmitter(restaurant: Restaurant) {

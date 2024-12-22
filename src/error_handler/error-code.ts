@@ -173,4 +173,10 @@ export class ErrorCode extends ErrorModel {
     appcode: 'CL05',
     code: 400,
   };
+
+  public static readonly UpdateIsForbidden = {
+    message: 'Update is forbidden.',
+    appcode: 'CL06',
+    code: 400,
+  };
 }

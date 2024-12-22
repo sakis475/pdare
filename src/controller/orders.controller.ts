@@ -436,7 +436,45 @@ export async function closeOrder(
 
   const savedOrder: Order = await orderService.saveOrder(order);
   orderUpdatedEmitter(restaurant);
-  res.send();
+  res.json({ success: true });
+}
+
+export async function reopenOrder(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const restaurant: Restaurant = res.locals.user.restaurant;
+
+  const orderId: number = Number(req.params.orderId);
+
+  if (typeof orderId !== 'number') {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  const order = await orderService.getOrderById(orderId, restaurant);
+
+  if (!order) {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+  const tableNow = await tableService.getTableById(order.table.id, restaurant);
+  if (tableNow.occupiedByOrder) {
+    return next(new ErrorException(ErrorCode.TableIsOccupied));
+  }
+
+  if (dayjs(order.closedAt).isAfter(dayjs().subtract(15, 'minute'))) {
+    return next(new ErrorException(ErrorCode.UpdateIsForbidden));
+  }
+
+  order.closedAt = null;
+  const savedOrder: Order = await orderService.saveOrder(order);
+
+  tableNow.occupiedByOrder = order;
+
+  const savedTable: Table = await tableService.saveTable(tableNow);
+
+  orderUpdatedEmitter(restaurant);
+  res.json({ success: true });
 }
 
 export async function deleteOrder(

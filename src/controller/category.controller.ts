@@ -4,6 +4,7 @@ import { ErrorException } from '../error_handler/error-exception';
 import { CategoryService } from '../services/category.service';
 import { Restaurant } from '../database/entity/Restaurant.entity';
 import { Category } from '../database/entity/Category.entity';
+import { categoriesUpdatedEmitter } from '../lib/socketio';
 
 const categoryService = new CategoryService();
 
@@ -27,6 +28,7 @@ export async function createCategories(
   await categoryService.saveCategories(newCategories);
 
   res.json();
+  categoriesUpdatedEmitter(restaurant);
 }
 
 export async function updateCategories(
@@ -81,6 +83,7 @@ export async function updateCategories(
     restaurant
   );
   res.json(categoriesUpdated);
+  categoriesUpdatedEmitter(restaurant);
 }
 
 export async function getActiveCategories(

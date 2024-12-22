@@ -7,6 +7,7 @@ import {
   deleteUser,
   getInvitation,
   getUsers,
+  leaveRestaurant,
   searchUser,
   sendInvitationToJoinRestaurant,
   updatePassword,
@@ -63,6 +64,12 @@ userRouter.patch('/admin', authMiddleware, catchWrapper(updateUserFromAdmin));
 userRouter.patch('/password', authMiddleware, catchWrapper(updatePassword));
 
 userRouter.delete('/delete', authMiddleware, catchWrapper(deleteUser));
+
+userRouter.delete(
+  '/restaurant/leaveRestaurant',
+  authMiddleware,
+  catchWrapper(leaveRestaurant)
+);
 
 userRouter.delete(
   '/restaurant/delete',
