@@ -399,15 +399,29 @@ export async function getOrders(
 ) {
   const restaurant: Restaurant = res.locals.user.restaurant;
 
-  let fromDate: any = req.query.string as string;
+  let fromDate: any = req.query.fromDate;
+
+  let pageNumber: any = req.query.pageNumber;
 
   if (fromDate && typeof fromDate !== 'string') {
     return next(new ErrorException(ErrorCode.WrongInput));
-  } else {
-    fromDate = dayjs(fromDate).toDate();
   }
 
-  const order = await orderService.getOrders(restaurant);
+  if (pageNumber && typeof pageNumber !== 'string') {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  } else if (pageNumber) {
+    pageNumber = +pageNumber;
+  } else {
+    pageNumber = 0;
+  }
+
+  const order = await orderService.getOrders(
+    restaurant,
+    undefined,
+    undefined,
+    undefined,
+    pageNumber
+  );
 
   res.send(order);
 }
