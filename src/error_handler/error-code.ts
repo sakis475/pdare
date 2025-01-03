@@ -97,7 +97,7 @@ export class ErrorCode extends ErrorModel {
   };
 
   public static readonly NoUserOrDisabledError = {
-    message: 'User Name does not exist or disabled',
+    message: 'User Name does not exist',
     appcode: 'DT05',
     code: 404,
   };

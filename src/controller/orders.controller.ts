@@ -164,7 +164,7 @@ export async function createOrder(
 
   let finalCost = 0;
   draftOrderItems.forEach((orderItem) => {
-    finalCost += orderItem.item.cost;
+    finalCost += orderItem.item.cost * orderItem.quantity;
   });
   draftOrder.finalCost = finalCost;
   draftOrder.activeTable = table;

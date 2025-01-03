@@ -11,7 +11,7 @@ import {
   searchUser,
   sendInvitationToJoinRestaurant,
   updatePassword,
-  updateRestaurantName,
+  updateRestaurant,
   updateUser,
   updateUserFromAdmin,
   waiterResponseInvite,
@@ -80,5 +80,5 @@ userRouter.delete(
 userRouter.patch(
   '/restaurant/update',
   authOwnerMiddleware,
-  catchWrapper(updateRestaurantName)
+  catchWrapper(updateRestaurant)
 );

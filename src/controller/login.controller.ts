@@ -24,7 +24,7 @@ export async function postLogin(
     undefined,
     true
   );
-  if (!user) {
+  if (!user || !user.active) {
     return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
   }
 

@@ -327,6 +327,7 @@ export async function deleteUser(
   }
   user.role = UserType.GUEST;
   user.active = false;
+  user.restaurant = null;
 
   const sessionBearer = await prepareUserSessionBearer(user);
   res.json(sessionBearer);
@@ -469,16 +470,32 @@ export async function updatePassword(
   usersUpdatedEmitter(user.restaurant);
 }
 
-export async function updateRestaurantName(
+export async function updateRestaurant(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const { restaurantDisplayName } = req.body;
+  const { restaurantDisplayName, currencySymbol, couvertCost } = req.body;
+
   const user: User = res.locals.user;
 
-  user.restaurant.restaurantDisplayName = restaurantDisplayName.trim();
+  if (restaurantDisplayName) {
+    user.restaurant.restaurantDisplayName = restaurantDisplayName.trim();
+  }
+
+  if (currencySymbol) {
+    user.restaurant.currencySymbol = currencySymbol.trim();
+  }
+
+  if (couvertCost && couvertCost >= 0) {
+    const parsedCost = Number(couvertCost);
+    if (!isNaN(parsedCost) && parsedCost >= 0) {
+      user.restaurant.couvertCost = parsedCost;
+    }
+  }
   await restaurantService.saveRestaurant(user.restaurant);
 
-  res.json(user.restaurant);
+  const sessionBearer = await prepareUserSessionBearer(user);
+
+  res.json(sessionBearer);
 }
