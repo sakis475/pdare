@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { ErrorCode } from '../error_handler/error-code';
 import { comparePassword, passwordHash } from '../auth/password-hash';
-import { generateAuthToken, prepareUserSessionBearer } from '../auth/jwt';
+import {
+  generateAuthToken,
+  generatePrinterAppToken,
+  prepareUserSessionBearer,
+} from '../auth/jwt';
 import { UserService } from '../services/user.service';
 import { ErrorException } from '../error_handler/error-exception';
 import { UserType } from '../database/interfaces';
@@ -498,4 +502,42 @@ export async function updateRestaurant(
   const sessionBearer = await prepareUserSessionBearer(user);
 
   res.json(sessionBearer);
+}
+
+export async function connectPrinterApp(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { email, password } = req.body;
+
+  console.log(email, password);
+
+  if (!email || !password) {
+    return next(
+      new ErrorException(new ErrorException(ErrorCode.NoNameOrPassword))
+    );
+  }
+  const userService = new UserService();
+
+  const user = await userService.getUserByEmailOrUsername(null, email, true);
+
+  if (!user || !user.active) {
+    return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
+  }
+
+  if (!comparePassword(password, user.passwordHashed)) {
+    return next(new ErrorException(ErrorCode.WrongPasswordError));
+  }
+
+  const restaurant = user.restaurant;
+
+  const connectionCode = generatePrinterAppToken(user);
+
+  restaurant.printerAppConnectionCode = connectionCode;
+  await restaurantService.saveRestaurant(restaurant);
+
+  delete user.passwordHashed;
+
+  res.json({ connectionCode, user });
 }

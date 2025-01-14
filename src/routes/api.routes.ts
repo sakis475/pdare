@@ -17,6 +17,7 @@ import { itemPropertyRouter } from './itemProperty.router';
 import { userRouter } from './user.router';
 import { itemPropertyPatternRouter } from './itemPropertyPattern.router';
 import { healthCheckEmitter } from '../lib/socketio';
+import { printerApp } from './printerApp.router';
 
 export const api = Router();
 
@@ -51,3 +52,5 @@ api.get('/health-check', basicAuthMiddleware, async (req, res) => {
       .json({ success: false, error: 'Failed to emit health check' });
   }
 });
+
+api.use('/printerApp', printerApp);

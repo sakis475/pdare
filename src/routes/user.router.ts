@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { catchWrapper } from '../error_handler/error-handler';
 import {
   cancelInvitationToJoinRestaurant,
+  connectPrinterApp,
   createNewRestaurant,
   deleteRestaurant,
   deleteUser,

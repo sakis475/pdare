@@ -7,10 +7,9 @@ import { errorHandler } from './error_handler/error-handler';
 import cors from 'cors';
 import { api } from './routes/api.routes';
 import morgan from 'morgan';
-import { initBrowser } from './lib/orderPrint';
 import { redisConnection } from './database/redis';
 
-initBrowser();
+// initBrowser();
 redisConnection();
 const app = express();
 

@@ -52,7 +52,7 @@ export class UserService {
     return user;
   }
 
-  public async getUserByEmail(email: string) {
+  public async getUserByEmail(email: string, getTokens = false) {
     const user = await this.userRepository.findOne({
       where: {
         email,
@@ -64,21 +64,34 @@ export class UserService {
   }
 
   public async getUserByEmailOrUsername(
-    name: string,
+    name: string | null,
     email?: string,
     getTokens = false
   ): Promise<User | undefined> {
-    const query = this.userRepository
-      .createQueryBuilder('user')
-      .where('user.email = :name', { name: email ?? name })
-      .orWhere('user.username = :name', { name })
-      .setFindOptions({
-        loadEagerRelations: true,
-      });
+    const query = this.userRepository.createQueryBuilder('user').select('user');
 
+    // Add password and token if needed
     if (getTokens) {
       query.addSelect(['user.passwordHashed', 'user.token']);
     }
+
+    // Build WHERE conditions based on provided values
+    if (email) {
+      query.orWhere('user.email = :email', { email });
+    }
+    if (name) {
+      query.orWhere('user.username = :name', { name });
+    }
+
+    // If no conditions were added (both null/undefined), search by email as name
+    if (!email && !name) {
+      query.where('user.email = :email', { email: name });
+    }
+
+    // Add eager relations
+    query.setFindOptions({
+      loadEagerRelations: true,
+    });
 
     return await query.getOne();
   }

@@ -475,8 +475,11 @@ export async function reopenOrder(
   if (tableNow.occupiedByOrder) {
     return next(new ErrorException(ErrorCode.TableIsOccupied));
   }
+  const isReopenDisabled =
+    order?.closedAt &&
+    new Date().getTime() - new Date(order.closedAt).getTime() > 15 * 60 * 1000;
 
-  if (dayjs(order.closedAt).isAfter(dayjs().subtract(15, 'minute'))) {
+  if (isReopenDisabled) {
     return next(new ErrorException(ErrorCode.UpdateIsForbidden));
   }
 

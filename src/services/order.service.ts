@@ -73,26 +73,26 @@ export class OrderService {
       .where('user.restaurantId = :restaurantId', {
         restaurantId: restaurant.id,
       });
-    if (fromDate) {
-      query.andWhere('order.createdAt >= :fromDate', {
-        fromDate: fromDate.toString(),
-      });
-    }
-    // If `toDate` is provided, add it to the query
-    if (toDate) {
-      query.andWhere('order.createdAt <= :toDate', {
-        toDate: toDate.toString(),
-      });
-    }
+    // if (fromDate) {
+    //   query.andWhere('order.createdAt >= :fromDate', {
+    //     fromDate: fromDate.toString(),
+    //   });
+    // }
+    // // If `toDate` is provided, add it to the query
+    // if (toDate) {
+    //   query.andWhere('order.createdAt <= :toDate', {
+    //     toDate: toDate.toString(),
+    //   });
+    // }
 
     // If `isClosed` is specified, add the appropriate condition
-    if (typeof isClosed === 'boolean') {
-      if (isClosed) {
-        query.andWhere('order.closedAt IS NOT NULL');
-      } else {
-        query.andWhere('order.closedAt IS NULL');
-      }
-    }
+    // if (typeof isClosed === 'boolean') {
+    //   if (isClosed) {
+    //     query.andWhere('order.closedAt IS NOT NULL');
+    //   } else {
+    //     query.andWhere('order.closedAt IS NULL');
+    //   }
+    // }
 
     // Pagination logic
     const skip = pageNumber * rowNumber;

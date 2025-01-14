@@ -32,6 +32,9 @@ export class Restaurant {
   @Column({ type: 'boolean', default: true })
   active?: boolean; // Fixed type and removed optional since it has default
 
+  @Column({ nullable: true })
+  printerAppConnectionCode?: string;
+
   @CreateDateColumn({ select: false })
   createdAt?: Date;
 

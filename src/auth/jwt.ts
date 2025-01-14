@@ -54,6 +54,18 @@ export const prepareUserSessionBearer = async (
   return { ...tokenJWT, user };
 };
 
+export const generatePrinterAppToken = (user: Partial<User>) => {
+  const token = jwt.sign(
+    {
+      email: user.email,
+      role: user.role,
+    },
+    jwtKey
+  );
+
+  return token;
+};
+
 export type SessionBearer = {
   user: User;
   token: string;
