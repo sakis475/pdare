@@ -8,6 +8,7 @@ import {
   adminAuthMiddleware,
   authMiddleware,
   basicAuthMiddleware,
+  printerAuthMiddleware,
 } from '../auth/auth-middleware';
 
 import { categoryRouter } from './categories.router';
@@ -18,6 +19,7 @@ import { userRouter } from './user.router';
 import { itemPropertyPatternRouter } from './itemPropertyPattern.router';
 import { healthCheckEmitter } from '../lib/socketio';
 import { printerApp } from './printerApp.router';
+import { printerRouter } from './printers.router';
 
 export const api = Router();
 
@@ -38,8 +40,6 @@ api.use('/itemPropertyPatterns', authMiddleware, itemPropertyPatternRouter);
 
 api.use('/orders', authMiddleware, ordersRouter);
 
-api.use('/test', testRouter);
-
 api.get('/health-check', basicAuthMiddleware, async (req, res) => {
   try {
     const restaurant = res.locals.user.restaurant;
@@ -53,4 +53,21 @@ api.get('/health-check', basicAuthMiddleware, async (req, res) => {
   }
 });
 
+api.get('/health-check-printer', printerAuthMiddleware, async (req, res) => {
+  try {
+    const restaurant = res.locals.restaurant;
+    await healthCheckEmitter(restaurant);
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Health check error:', error);
+    res
+      .status(500)
+      .json({ success: false, error: 'Failed to emit health check' });
+  }
+});
+
 api.use('/printerApp', printerApp);
+
+api.use('/printers', basicAuthMiddleware, printerRouter);
+
+api.use('/test', testRouter);

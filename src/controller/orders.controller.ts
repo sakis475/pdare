@@ -19,9 +19,10 @@ import { Order } from '../database/entity/Order.entity';
 import { Item } from '../database/entity/Item.entity';
 import { OrderItem } from '../database/entity/OrderItem.entity';
 import dayjs from '../lib/dayjs';
-import { orderUpdatedEmitter } from '../lib/socketio';
+import { orderUpdatedEmitter, printOrderEmitter } from '../lib/socketio';
 import _ from 'lodash';
 import { InventoryService } from '../services/inventory.service';
+import { PrintType } from '../services/printer.service';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -162,17 +163,18 @@ export async function createOrder(
 
   draftOrder.orderItems = draftOrderItems;
 
-  let finalCost = 0;
-  draftOrderItems.forEach((orderItem) => {
-    finalCost += orderItem.item.cost * orderItem.quantity;
-  });
-  draftOrder.finalCost = finalCost;
+  draftOrder.finalCost = orderService.calculateFinal(
+    draftOrder,
+    restaurant
+  ).total;
+
   draftOrder.activeTable = table;
   const savedOrder = await orderService.saveOrder(draftOrder);
   res.send(savedOrder);
 
   savedOrder.user = user;
   orderUpdatedEmitter(restaurant);
+  printOrderEmitter(savedOrder, PrintType.PERSONEL);
 }
 
 export async function updateOrder(
@@ -320,11 +322,8 @@ export async function updateOrder(
   await orderItemService.deleteOrderItems(orderItemToDelete);
   // Save the updated order
   order.orderItems = order.orderItems.concat(savedOrderItems);
-  let finalCost = 0;
-  order.orderItems.forEach((orderItem) => {
-    finalCost += orderItem?.item?.cost ?? 0;
-  });
-  order.finalCost = finalCost;
+
+  order.finalCost = orderService.calculateFinal(order, restaurant).total;
 
   if (order.orderItems?.length === 0) {
     order.closedAt = dayjs().toDate();
@@ -476,8 +475,7 @@ export async function reopenOrder(
     return next(new ErrorException(ErrorCode.TableIsOccupied));
   }
   const isReopenDisabled =
-    order?.closedAt &&
-    new Date().getTime() - new Date(order.closedAt).getTime() > 15 * 60 * 1000;
+    order?.closedAt && dayjs().diff(dayjs(order.closedAt), 'minute') < 15;
 
   if (isReopenDisabled) {
     return next(new ErrorException(ErrorCode.UpdateIsForbidden));

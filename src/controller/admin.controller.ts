@@ -10,8 +10,12 @@ import {
   itemPropertiesPatternEmitter,
   itemsUpdatedEmitter,
   orderUpdatedEmitter,
+  printOrderEmitter,
   usersUpdatedEmitter,
 } from '../lib/socketio';
+import { connectedSocketClients } from '../server';
+import { OrderService } from '../services/order.service';
+import { PrintType } from '../services/printer.service';
 
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
@@ -75,5 +79,23 @@ export async function testio(req: Request, res: Response, next: NextFunction) {
   await itemPropertiesPatternEmitter(restaurant);
   await usersUpdatedEmitter(restaurant);
 
+  res.json();
+}
+
+export async function printerTest(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  console.log('printerTest executed');
+  const restaurantService = new RestaurantService();
+  const restaurant = await restaurantService.getRestaurantById(1);
+
+  const orderService = new OrderService();
+
+  const order = await orderService.getOrderById(190, restaurant);
+
+  await printOrderEmitter(order, PrintType.PERSONEL);
+  console.log(connectedSocketClients);
   res.json();
 }

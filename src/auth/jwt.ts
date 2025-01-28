@@ -60,9 +60,11 @@ export const generatePrinterAppToken = (user: Partial<User>) => {
       email: user.email,
       role: user.role,
     },
-    jwtKey
+    jwtKey,
+    {
+      expiresIn: '20y',
+    }
   );
-
   return token;
 };
 

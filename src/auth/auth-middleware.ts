@@ -6,6 +6,57 @@ import { User } from '../database/entity/User.entity';
 import { UserService } from '../services/user.service';
 import { ErrorException } from '../error_handler/error-exception';
 import { UserType } from '../database/interfaces';
+import { RestaurantService } from '../services/restaurant.service';
+
+export const printerAuthMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const auth = req.headers.authorization;
+    if (auth) {
+      const token = auth; //auth looks like this "a1Ddsa21f2312..."
+
+      if (!token) {
+        return next(new ErrorException(ErrorCode.JWTExpired));
+      }
+      const restaurantService = new RestaurantService();
+
+      let userJWT: Partial<User> = null;
+      try {
+        // @ts-ignore
+        userJWT = verifyToken(token);
+      } catch (error) {
+        return next(new ErrorException(ErrorCode.JWTExpired));
+      }
+
+      if (!userJWT?.email)
+        return next(new ErrorException(ErrorCode.Unauthorized));
+
+      const restaurant = await restaurantService.getRestaurantByConnectionCode(
+        token as string
+      );
+
+      if (!restaurant || restaurant.printerAppConnectionCode !== token) {
+        return next(new ErrorException(ErrorCode.JWTExpired));
+      }
+
+      if (!restaurant.active) {
+        return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
+      }
+
+      res.locals.restaurant = restaurant;
+
+      return next();
+    } else {
+      return next(new ErrorException(ErrorCode.Unauthorized));
+    }
+  } catch (error) {
+    console.error(error);
+    return next(new ErrorException(ErrorCode.ServerError));
+  }
+};
 
 export const basicAuthMiddleware = async (
   req: Request,
@@ -101,7 +152,7 @@ export const userHasRestaurantMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    if (!res.locals.user.restaurant) {
+    if (!res.locals.user?.restaurant) {
       return next(new ErrorException(ErrorCode.UserNoRestaurant));
     } else {
       return next();

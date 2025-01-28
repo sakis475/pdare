@@ -24,6 +24,7 @@ export class OrderService {
       .leftJoinAndSelect('order.orderItems', 'orderItems')
       .leftJoinAndSelect('orderItems.item', 'items')
       .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
+      .leftJoinAndSelect('items.category', 'category')
       .leftJoinAndSelect('itemPropertyOfItem.itemProperty', 'itemProperty')
 
       .where('order.id = :id', { id })
@@ -110,5 +111,28 @@ export class OrderService {
 
   async deleteOrder(order: Order) {
     return await this.orderRepository.remove(order);
+  }
+
+  calculateFinal(order: Order, restaurant: Restaurant) {
+    // Use a helper function to ensure precision
+    const round = (num: number): number => {
+      return Math.round(num * 100) / 100;
+    };
+
+    // Calculate total cost including VAT
+    let finalCost = 0;
+    order.orderItems.forEach((orderItem) => {
+      // Round each line item calculation
+      const lineTotal = round(orderItem.item.cost * orderItem.quantity);
+      finalCost += lineTotal;
+    });
+
+    // Add couvert cost
+    const couvertCost = round(order.couvert * restaurant.couvertCost);
+    finalCost = round(finalCost + couvertCost);
+
+    return {
+      total: finalCost,
+    };
   }
 }

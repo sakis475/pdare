@@ -27,6 +27,14 @@ export class RestaurantService {
     return user;
   }
 
+  public async getRestaurantByConnectionCode(connectionCode: string) {
+    const restaurant = await this.restaurantRepository.findOneBy({
+      printerAppConnectionCode: connectionCode,
+    });
+
+    return restaurant;
+  }
+
   public async saveRestaurant(restaurant: Restaurant) {
     return await this.restaurantRepository.save(restaurant);
   }

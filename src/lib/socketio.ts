@@ -8,6 +8,14 @@ import { InvitationRequestService } from '../services/invitationRequest.service'
 import { InvitationRequestStatus } from '../database/entity/InvitationRequest.entity';
 import { CategoryService } from '../services/category.service';
 
+import { PrinterService, PrintType } from '../services/printer.service';
+import { Printer } from '../database/entity/Printer.entity';
+import { Order } from '../database/entity/Order.entity';
+import { OrderService } from '../services/order.service';
+
+const printerService = new PrinterService();
+const orderService = new OrderService();
+
 export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
   const tables = await tableService.getEnabledTablesWithOrder(restaurant);
@@ -69,6 +77,24 @@ export async function usersUpdatedEmitter(restaurant: Restaurant) {
   socketIO.to(roomName).emit(emitSignal, usersAndInvitations);
 }
 
+export async function printesDiscoveredEmitter(
+  restaurant: Restaurant,
+  printers?: Printer[]
+) {
+  const printerService = new PrinterService();
+
+  if (!printers) {
+    printers = await printerService.getPrinters(restaurant);
+  }
+
+  const emitSignal = `printersDiscovered:${restaurant.id}`;
+  const roomName = `restaurant:${restaurant.id}`;
+
+  console.log('Printers Discovered', printers);
+
+  socketIO.to(roomName).emit(emitSignal, printers);
+}
+
 export async function healthCheckEmitter(restaurant: Restaurant) {
   const emitSignal = `healthCheck:${restaurant.id}`;
   const roomName = `restaurant:${restaurant.id}`;
@@ -79,14 +105,29 @@ export async function healthCheckEmitter(restaurant: Restaurant) {
   });
 }
 
-export async function printOrderEmitter(restaurant: Restaurant) {
+export async function printOrderEmitter(
+  order: Order,
+  printType = PrintType.PERSONEL
+) {
+  const restaurant = order.user.restaurant;
   const emitSignal = `printOrder:${restaurant.id}`;
   const roomName = `restaurant:${restaurant.id}`;
+
+  let freshOrder = await orderService.getOrderById(order.id, restaurant);
+
+  console.log(JSON.stringify(freshOrder, null, 2), 'freshOrder');
+  freshOrder = await printerService.addOrderPrintInfo(freshOrder, printType);
+
   console.log(`Emitting ${emitSignal} to room ${roomName}`);
-  socketIO.to(roomName).emit(emitSignal, {
-    timestamp: Date.now(),
-    restaurantId: restaurant.id,
-  });
+
+  socketIO.to(roomName).emit(emitSignal, freshOrder);
+}
+
+export async function requestPrinterScanEmitter(restaurant: Restaurant) {
+  const emitSignal = `requestPrinterScan:${restaurant.id}`;
+  const roomName = `restaurant:${restaurant.id}`;
+  console.log(`Emitting ${emitSignal} to room ${roomName}`);
+  socketIO.to(roomName).emit(emitSignal);
 }
 
 export enum EventId {

@@ -44,6 +44,9 @@ export class OrderItem {
   @Column({ default: '' })
   comment?: string;
 
+  @Column({ nullable: true })
+  removedAt?: Date;
+
   @CreateDateColumn({ select: false })
   createdAt?: Date;
 

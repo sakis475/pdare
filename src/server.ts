@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { verifyToken } from './auth/jwt';
 
 interface AuthenticatedSocket extends Socket {
-  user?: { username: string; role: string };
+  user?: { username?: string; email?: string; role: string };
 }
 
 const server = createServer(app);
@@ -24,55 +24,74 @@ io.use((socket: AuthenticatedSocket, next) => {
   let token = socket.handshake.auth.token;
 
   if (!token) {
-    console.log('No token found in request');
     return next(new Error('Authentication token is required'));
   }
 
   try {
     // Verify JWT token
-    const decoded = verifyToken(token);
-    socket.user = decoded as { username: string; role: string };
-    console.log(socket.user, 'socket.user');
+    const decoded = verifyToken(token) as any;
+
+    if (decoded.username) {
+      socket.user = { username: decoded.username, role: decoded.role };
+      console.log('[mobile]', decoded.username, decoded.role);
+    } else if (decoded.email) {
+      socket.user = { email: decoded.email, role: decoded.role };
+      console.log('[printer]', decoded.email, decoded.role);
+    }
     next();
   } catch (error) {
     console.error('Token verification failed:', error);
     return next(new Error('Invalid authentication token'));
   }
 });
+export const connectedSocketClients = new Map<string, Set<string>>();
 
 const initializeSocket = () => {
   // Track connected clients and their rooms
-  const connectedClients = new Map<string, Set<string>>();
 
   io.on('connection', (socket: AuthenticatedSocket) => {
     console.log(
-      `Client connected: ${socket.id} (User: ${socket.user?.username})`
+      `Client connected: ${socket.id} (${
+        socket.user?.username ? 'User' : 'Printer'
+      }: ${socket.user?.username ?? socket.user?.email})`
     );
-    connectedClients.set(socket.id, new Set());
+    connectedSocketClients.set(socket.id, new Set());
+
+    // Listen for client's hello response
+    socket.on('client:hello', (message: string) => {
+      console.log(`Received from client: ${message}`);
+    });
 
     socket.on('joinRestaurant', (restaurantId: string) => {
       const roomName = `restaurant:${restaurantId}`;
       socket.join(roomName);
-      connectedClients.get(socket.id)?.add(roomName);
+      connectedSocketClients.get(socket.id)?.add(roomName);
       console.log(
-        `Client ${socket.id} (User: ${socket.user?.username}) joined room ${roomName}`
+        `Client ${socket.id} (${socket.user?.username ? 'User' : 'Printer'}: ${
+          socket.user?.username ?? socket.user?.email
+        }) joined room ${roomName}`
       );
     });
 
     socket.on('leaveRestaurant', (restaurantId: string) => {
       const roomName = `restaurant:${restaurantId}`;
       socket.leave(roomName);
-      connectedClients.get(socket.id)?.delete(roomName);
+      connectedSocketClients.get(socket.id)?.delete(roomName);
       console.log(
-        `Client ${socket.id} (User: ${socket.user?.username}) left room ${roomName}`
+        `Client ${socket.id} (${socket.user?.username ? 'User' : 'Printer'}: ${
+          socket.user?.username ?? socket.user?.email
+        }) left room ${roomName}`
       );
     });
 
     socket.on('disconnect', () => {
       console.log(
-        `Client disconnected: ${socket.id} (User: ${socket.user?.username})`
+        `Client disconnected: ${socket.id} (${
+          socket.user?.username ? 'User' : 'Printer'
+        }: ${socket.user?.username ?? socket.user?.email})`
       );
-      connectedClients.delete(socket.id);
+
+      connectedSocketClients.delete(socket.id);
     });
   });
 
