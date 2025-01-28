@@ -260,7 +260,6 @@ export async function updateOrder(
   const itemIdsReq: number[] = orderItemsReq.map((e) => e.id);
   const items = await itemService.getItemByIds(itemIdsReq, restaurant);
 
-  const orderItemToDelete: OrderItem[] = [];
   const createOrderItems = orderItemsReq
     .map((itemDescriptionReq) => {
       const item: Item | undefined = items.find(
@@ -268,17 +267,13 @@ export async function updateOrder(
       );
 
       if (itemDescriptionReq.oItemId && itemDescriptionReq.delete === true) {
-        const itemIndex = order.orderItems.findIndex(
+        const itemToMarkRemove = order.orderItems.find(
           (e) => e.id === itemDescriptionReq.oItemId
         );
 
-        if (itemIndex !== -1) {
-          // Remove the item from the array using splice (in place)
-          const deletedOrderItem = order.orderItems.splice(itemIndex, 1);
-          if (deletedOrderItem?.length === 1) {
-            orderItemToDelete.push(deletedOrderItem[0]);
-          }
-          return null;
+        if (itemToMarkRemove) {
+          itemToMarkRemove.removedAt = dayjs().toDate();
+          return itemToMarkRemove;
         }
       }
 
@@ -289,7 +284,7 @@ export async function updateOrder(
         comment: itemDescriptionReq.comment ?? '',
       });
     })
-    .filter((e) => e);
+    .filter(Boolean); //skip empty and removed items
 
   // Save the new and updated order items
   const savedOrderItems = await orderItemService.orderItemRepository.save(
@@ -315,11 +310,7 @@ export async function updateOrder(
       })
     );
   }
-  // console.log(order.orderItems, "order.orderItems");
-  // console.log(savedOrderItems, "savedOrderItems");
 
-  //Delete orderItems
-  await orderItemService.deleteOrderItems(orderItemToDelete);
   // Save the updated order
   order.orderItems = order.orderItems.concat(savedOrderItems);
 
