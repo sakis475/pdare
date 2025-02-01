@@ -12,6 +12,7 @@ import { PrinterService, PrintType } from '../services/printer.service';
 import { Printer } from '../database/entity/Printer.entity';
 import { Order } from '../database/entity/Order.entity';
 import { OrderService } from '../services/order.service';
+import { PrintLocation } from '../database/entity/Category.entity';
 
 const printerService = new PrinterService();
 const orderService = new OrderService();
@@ -107,20 +108,32 @@ export async function healthCheckEmitter(restaurant: Restaurant) {
 
 export async function printOrderEmitter(
   order: Order,
-  printType = PrintType.PERSONEL
+  printType = PrintType.PERSONEL,
+  printCouvert = true,
+  printLocation: PrintLocation = PrintLocation.ALL,
+  isReprint = false
 ) {
   const restaurant = order.user.restaurant;
   const emitSignal = `printOrder:${restaurant.id}`;
   const roomName = `restaurant:${restaurant.id}`;
 
-  let freshOrder = await orderService.getOrderById(order.id, restaurant);
+  if (!printCouvert) {
+    order.couvert = null;
+  }
+  order = await printerService.addOrderPrintInfo(
+    order,
+    printType,
+    printLocation,
+    isReprint
+  );
 
-  console.log(JSON.stringify(freshOrder, null, 2), 'freshOrder');
-  freshOrder = await printerService.addOrderPrintInfo(freshOrder, printType);
+  if (!order) {
+    console.log('No printers found, nothing to emit.');
+  }
 
   console.log(`Emitting ${emitSignal} to room ${roomName}`);
 
-  socketIO.to(roomName).emit(emitSignal, freshOrder);
+  socketIO.to(roomName).emit(emitSignal, order);
 }
 
 export async function requestPrinterScanEmitter(restaurant: Restaurant) {

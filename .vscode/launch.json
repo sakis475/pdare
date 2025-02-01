@@ -6,7 +6,6 @@
       "type": "node",
       "request": "launch",
       "killBehavior": "polite",
-      "preLaunchTask": "kill-port",
       "localRoot": "${workspaceFolder}",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/nodemon",
       "args": ["src/server.ts"],

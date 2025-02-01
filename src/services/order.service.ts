@@ -15,8 +15,13 @@ export class OrderService {
     return newOrder;
   }
 
-  async getOrderById(id: number, restaurant: Restaurant): Promise<Order> {
-    const order = await this.orderRepository
+  async getOrderById(
+    id: number,
+    restaurant: Restaurant,
+    getTimestamps = false,
+    getOnlyActiveOrderItems = false
+  ): Promise<Order> {
+    const query = this.orderRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.user', 'user')
       .leftJoinAndSelect('user.restaurant', 'restaurant')
@@ -26,13 +31,20 @@ export class OrderService {
       .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
       .leftJoinAndSelect('items.category', 'category')
       .leftJoinAndSelect('itemPropertyOfItem.itemProperty', 'itemProperty')
-
       .where('order.id = :id', { id })
       .andWhere('user.restaurantId = :restaurantId', {
         restaurantId: restaurant.id,
-      })
-      .getOne();
+      });
 
+    if (getOnlyActiveOrderItems) {
+      query.andWhere('orderItems.removedAt IS NULL');
+    }
+
+    if (getTimestamps) {
+      query.addSelect('orderItems.createdAt').addSelect('orderItems.updatedAt');
+    }
+
+    const order = await query.getOne();
     return order;
   }
 
@@ -122,9 +134,11 @@ export class OrderService {
     // Calculate total cost including VAT
     let finalCost = 0;
     order.orderItems.forEach((orderItem) => {
-      // Round each line item calculation
-      const lineTotal = round(orderItem.item.cost * orderItem.quantity);
-      finalCost += lineTotal;
+      if (!orderItem.removedAt) {
+        // Round each line item calculation
+        const lineTotal = round(orderItem.item.cost * orderItem.quantity);
+        finalCost += lineTotal;
+      }
     });
 
     // Add couvert cost

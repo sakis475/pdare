@@ -479,7 +479,12 @@ export async function updateRestaurant(
   res: Response,
   next: NextFunction
 ) {
-  const { restaurantDisplayName, currencySymbol, couvertCost } = req.body;
+  const {
+    restaurantDisplayName,
+    currencySymbol,
+    couvertCost,
+    restaurantLanguage,
+  } = req.body;
 
   const user: User = res.locals.user;
 
@@ -496,6 +501,10 @@ export async function updateRestaurant(
     if (!isNaN(parsedCost) && parsedCost >= 0) {
       user.restaurant.couvertCost = parsedCost;
     }
+  }
+
+  if (restaurantLanguage) {
+    user.restaurant.restaurantLanguage = restaurantLanguage.trim();
   }
   await restaurantService.saveRestaurant(user.restaurant);
 

@@ -3,10 +3,13 @@ import { createServer } from 'node:http';
 import { Server, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { verifyToken } from './auth/jwt';
+import { RestaurantService } from './services/restaurant.service';
 
 interface AuthenticatedSocket extends Socket {
   user?: { username?: string; email?: string; role: string };
 }
+
+const restaurantService = new RestaurantService();
 
 const server = createServer(app);
 
@@ -20,7 +23,7 @@ const io = new Server(server, {
 });
 
 // Authentication middleware
-io.use((socket: AuthenticatedSocket, next) => {
+io.use(async (socket: AuthenticatedSocket, next) => {
   let token = socket.handshake.auth.token;
 
   if (!token) {
@@ -37,6 +40,14 @@ io.use((socket: AuthenticatedSocket, next) => {
     } else if (decoded.email) {
       socket.user = { email: decoded.email, role: decoded.role };
       console.log('[printer]', decoded.email, decoded.role);
+      const restaurant = await restaurantService.getRestaurantByConnectionCode(
+        token
+      );
+      if (!restaurant) {
+        return next(
+          new Error('Invalid authentication token [Not Found ConnectionCode]')
+        );
+      }
     }
     next();
   } catch (error) {

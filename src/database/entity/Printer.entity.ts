@@ -42,6 +42,9 @@ export class Printer {
   })
   printLocation?: PrintLocation;
 
+  @Column({ default: false })
+  analysisPrinter: boolean;
+
   @Column({ type: 'boolean', default: true })
   active?: boolean;
 

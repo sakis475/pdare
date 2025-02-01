@@ -51,18 +51,60 @@ export class PrinterService {
     return await this.printerRepository.findOneBy(whereCondition);
   }
 
-  public async addOrderPrintInfo(order: Order, printType: PrintType) {
+  public async addOrderPrintInfo(
+    order: Order,
+    printType: PrintType = PrintType.PERSONEL,
+    printLocation: PrintLocation = PrintLocation.ALL,
+    isReprint = false //Print all items
+  ) {
     const restaurant = order.user.restaurant;
-    const printers = await this.getPrinters(restaurant, true);
 
+    //1. Get active printers of this restaurant
+    let printers = await this.getPrinters(restaurant, true);
+
+    if (!printers.length) return null;
+    //1.5 Dont filter if printlocation is all. It means to print everywhere
+    if (printType === PrintType.FINAL) {
+      printers =
+        printers.filter((e) => e.analysisPrinter === true) || [
+          printers.find((e) => e.printLocation === PrintLocation.BAR),
+        ] || [printers[0]] ||
+        [];
+    } else if (printLocation && printLocation !== PrintLocation.ALL) {
+      printers = printers.filter(
+        (e) =>
+          e.printLocation === PrintLocation.ALL ||
+          e.printLocation === printLocation
+      );
+    }
+
+    if (!isReprint && printType !== PrintType.FINAL) {
+      const latestCreatedAt = Math.max(
+        ...order.orderItems.map((item) =>
+          item.createdAt ? item.createdAt.getTime() : 0
+        )
+      );
+
+      //2. Filter orderItems of not removed and latestCreated only
+      order.orderItems = order.orderItems.filter(
+        (item) =>
+          item.createdAt &&
+          !item.removedAt &&
+          item.createdAt.getTime() === latestCreatedAt
+      );
+    }
+
+    //3. Filter orderItems by printLocation (only kitchen items or only bar items )
     const orderPrinters: OrderPrinters[] = printers.map((printer) => {
       const orderItemsFiltered =
-        printer.printLocation === PrintLocation.ALL
+        printer.printLocation === PrintLocation.ALL ||
+        printType === PrintType.FINAL
           ? order.orderItems
           : order.orderItems.filter(
               (e) => e.item.category.printLocation === printer.printLocation
             );
 
+      //4. Sort Bar items first
       const orderItemsSorted = orderItemsFiltered.sort((a, b) =>
         a.item.category.printLocation === PrintLocation.BAR ? -1 : 1
       );

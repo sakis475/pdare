@@ -23,6 +23,7 @@ import { orderUpdatedEmitter, printOrderEmitter } from '../lib/socketio';
 import _ from 'lodash';
 import { InventoryService } from '../services/inventory.service';
 import { PrintType } from '../services/printer.service';
+import { PrintLocation } from '../database/entity/Category.entity';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -114,12 +115,6 @@ export async function createOrder(
   const draftOrder = await orderService.saveOrder(createOrder);
   await inventoryService.incrementOrderCount(restaurant);
 
-  // delete draftOrder.table.occupiedByOrder; //if i dont delete it typeorm throws tableId not-null constaint
-
-  // const draftOrder = await orderService.getOrderById(
-  //   createdOrder.id,
-  //   restaurant
-  // );
   const itemIdsReq = orderItemsReq.map((e) => e.id);
 
   const items = await itemService.getItemByIds(itemIdsReq, restaurant);
@@ -254,8 +249,10 @@ export async function updateOrder(
   // Update the order comment and table if provided
   order.comment = orderComment ?? order.comment;
   order.table = table ?? order.table;
-  order.couvert = typeof couvert === 'number' ? couvert : order.couvert;
 
+  const couvertChanged = order.couvert !== couvert;
+
+  order.couvert = typeof couvert === 'number' ? couvert : order.couvert;
   // Process order_items for update and addition
   const itemIdsReq: number[] = orderItemsReq.map((e) => e.id);
   const items = await itemService.getItemByIds(itemIdsReq, restaurant);
@@ -316,7 +313,7 @@ export async function updateOrder(
 
   order.finalCost = orderService.calculateFinal(order, restaurant).total;
 
-  if (order.orderItems?.length === 0) {
+  if (order.orderItems?.filter((e) => !e.removedAt)?.length === 0) {
     order.closedAt = dayjs().toDate();
     order.table.occupiedByOrder = null;
   }
@@ -337,7 +334,64 @@ export async function updateOrder(
   res.send(savedOrder);
 
   savedOrder.user = user;
-  orderUpdatedEmitter(restaurant);
+  await orderUpdatedEmitter(restaurant);
+
+  if (
+    !order.closedAt &&
+    (savedOrderItems.filter((e) => !e.removedAt)?.length || couvertChanged)
+  ) {
+    savedOrder.orderItems = savedOrderItems;
+    await printOrderEmitter(savedOrder, PrintType.PERSONEL, couvertChanged);
+  }
+}
+
+export async function printOrder(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const restaurant: Restaurant = res.locals.user.restaurant;
+
+  let printType: PrintType = [PrintType.FINAL, PrintType.PERSONEL].includes(
+    req.body.printType
+  )
+    ? req.body.printType
+    : PrintType.PERSONEL;
+
+  const printLocation: PrintLocation = [
+    PrintLocation.ALL,
+    PrintLocation.BAR,
+    PrintLocation.KITCHEN,
+  ].includes(req.body.printLocation)
+    ? req.body.printLocation
+    : PrintLocation.ALL;
+
+  const isAnalysisPrint: boolean =
+    typeof req.body.isAnalysis === 'boolean' ? req.body.isAnalysis : false;
+
+  if (isAnalysisPrint) {
+    printType = PrintType.FINAL;
+  }
+
+  const orderId: number = Number(req.params.orderId);
+
+  if (typeof orderId !== 'number') {
+    return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  const order = await orderService.getOrderById(
+    orderId,
+    restaurant,
+    true,
+    true
+  );
+  if (!order) {
+    return next(new ErrorException(ErrorCode.NotFound));
+  }
+
+  await printOrderEmitter(order, printType, true, printLocation, true);
+
+  res.json();
 }
 
 export async function orderReady(

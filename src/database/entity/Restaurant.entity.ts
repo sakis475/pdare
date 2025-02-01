@@ -35,6 +35,9 @@ export class Restaurant {
   @Column({ nullable: true })
   printerAppConnectionCode?: string;
 
+  @Column({ type: 'text', nullable: true })
+  restaurantLanguage?: string;
+
   @CreateDateColumn({ select: false })
   createdAt?: Date;
 

@@ -10,6 +10,7 @@ import {
   getOrders,
   orderReady,
   reopenOrder,
+  printOrder,
 } from '../controller/orders.controller';
 
 /**
@@ -50,4 +51,4 @@ ordersRouter.patch('/close/:orderId', catchWrapper(closeOrder));
 ordersRouter.patch('/reopen/:orderId', catchWrapper(reopenOrder));
 
 //Get print image for order
-ordersRouter.get('/orderPrint/:orderId', catchWrapper(getOrderPrint));
+ordersRouter.post('/orderPrint/:orderId', catchWrapper(printOrder));
