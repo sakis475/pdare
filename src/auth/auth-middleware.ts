@@ -15,12 +15,9 @@ export const printerAuthMiddleware = async (
 ) => {
   try {
     const auth = req.headers.authorization;
+    console.log(auth, 'auth');
     if (auth) {
       const token = auth; //auth looks like this "a1Ddsa21f2312..."
-
-      if (!token) {
-        return next(new ErrorException(ErrorCode.JWTExpired));
-      }
       const restaurantService = new RestaurantService();
 
       let userJWT: Partial<User> = null;
@@ -28,21 +25,32 @@ export const printerAuthMiddleware = async (
         // @ts-ignore
         userJWT = verifyToken(token);
       } catch (error) {
+        console.log('userJWT error');
         return next(new ErrorException(ErrorCode.JWTExpired));
       }
 
-      if (!userJWT?.email)
+      if (!userJWT?.email) {
+        console.log('userJWT email');
         return next(new ErrorException(ErrorCode.Unauthorized));
+      }
 
       const restaurant = await restaurantService.getRestaurantByConnectionCode(
-        token as string
+        token as string,
+        true
       );
 
-      if (!restaurant || restaurant.printerAppConnectionCode !== token) {
+      if (!restaurant) {
+        console.log(restaurant, 'restaurant');
+        return next(new ErrorException(ErrorCode.JWTExpired));
+      }
+      if (restaurant.printerAppConnectionCode !== token) {
+        console.log(restaurant.id);
+        console.log(restaurant, 'restaurant wrong token');
         return next(new ErrorException(ErrorCode.JWTExpired));
       }
 
       if (!restaurant.active) {
+        console.log(restaurant, 'restaurant active');
         return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
       }
 

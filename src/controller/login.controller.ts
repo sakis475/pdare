@@ -21,7 +21,7 @@ export async function postLogin(
 
   const user = await userService.getUserByEmailOrUsername(
     username,
-    undefined,
+    username,
     true
   );
   if (!user || !user.active) {

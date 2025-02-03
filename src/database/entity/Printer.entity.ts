@@ -48,6 +48,9 @@ export class Printer {
   @Column({ type: 'boolean', default: true })
   active?: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  isDeleted?: boolean;
+
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
   restaurant?: Restaurant;
 

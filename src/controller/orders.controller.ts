@@ -24,6 +24,7 @@ import _ from 'lodash';
 import { InventoryService } from '../services/inventory.service';
 import { PrintType } from '../services/printer.service';
 import { PrintLocation } from '../database/entity/Category.entity';
+import { UserType } from '../database/interfaces';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -459,9 +460,15 @@ export async function getOrders(
     pageNumber = 0;
   }
 
+  const user: User = res.locals.user;
+
+  if (user.role !== UserType.OWNER) {
+    fromDate = dayjs().startOf('day').subtract(2, 'day').toDate();
+  }
+
   const order = await orderService.getOrders(
     restaurant,
-    undefined,
+    fromDate,
     undefined,
     undefined,
     pageNumber
@@ -519,10 +526,10 @@ export async function reopenOrder(
   if (tableNow.occupiedByOrder) {
     return next(new ErrorException(ErrorCode.TableIsOccupied));
   }
-  const isReopenDisabled =
+  const isReopenAllowed =
     order?.closedAt && dayjs().diff(dayjs(order.closedAt), 'minute') < 15;
 
-  if (isReopenDisabled) {
+  if (!isReopenAllowed) {
     return next(new ErrorException(ErrorCode.UpdateIsForbidden));
   }
 

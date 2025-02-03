@@ -32,7 +32,10 @@ export class Restaurant {
   @Column({ type: 'boolean', default: true })
   active?: boolean; // Fixed type and removed optional since it has default
 
-  @Column({ nullable: true })
+  @Column({ default: false })
+  isPrinterAppInstalled?: boolean;
+
+  @Column({ nullable: true, select: false })
   printerAppConnectionCode?: string;
 
   @Column({ type: 'text', nullable: true })

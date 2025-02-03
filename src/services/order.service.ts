@@ -86,11 +86,11 @@ export class OrderService {
       .where('user.restaurantId = :restaurantId', {
         restaurantId: restaurant.id,
       });
-    // if (fromDate) {
-    //   query.andWhere('order.createdAt >= :fromDate', {
-    //     fromDate: fromDate.toString(),
-    //   });
-    // }
+    if (fromDate) {
+      query.andWhere('order.createdAt >= :fromDate', {
+        fromDate: fromDate,
+      });
+    }
     // // If `toDate` is provided, add it to the query
     // if (toDate) {
     //   query.andWhere('order.createdAt <= :toDate', {

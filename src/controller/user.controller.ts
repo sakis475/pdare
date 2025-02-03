@@ -239,7 +239,10 @@ export async function createNewRestaurant(
   res: Response,
   next: NextFunction
 ) {
-  const { restaurantName }: { restaurantName: string } = req.body;
+  const {
+    restaurantName,
+    restaurantLanguage,
+  }: { restaurantName: string; restaurantLanguage: string } = req.body;
   if (!restaurantName) {
     return next(new ErrorException(ErrorCode.WrongInput));
   }
@@ -259,6 +262,10 @@ export async function createNewRestaurant(
   }
 
   const newRestaurant = restaurantService.createRestaurant({ restaurantName });
+
+  if (restaurantLanguage) {
+    newRestaurant.restaurantLanguage = restaurantLanguage;
+  }
 
   const savedRestaurant = await restaurantService.saveRestaurant(newRestaurant);
 
@@ -544,6 +551,7 @@ export async function connectPrinterApp(
   const connectionCode = generatePrinterAppToken(user);
 
   restaurant.printerAppConnectionCode = connectionCode;
+  restaurant.isPrinterAppInstalled = true;
   await restaurantService.saveRestaurant(restaurant);
 
   delete user.passwordHashed;

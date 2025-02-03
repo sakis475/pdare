@@ -27,12 +27,21 @@ export class RestaurantService {
     return user;
   }
 
-  public async getRestaurantByConnectionCode(connectionCode: string) {
-    const restaurant = await this.restaurantRepository.findOneBy({
-      printerAppConnectionCode: connectionCode,
-    });
+  public async getRestaurantByConnectionCode(
+    connectionCode: string,
+    getTokens: boolean = false
+  ): Promise<Restaurant> {
+    const queryBuilder = this.restaurantRepository
+      .createQueryBuilder('restaurant')
+      .where('restaurant.printerAppConnectionCode = :connectionCode', {
+        connectionCode,
+      });
 
-    return restaurant;
+    if (getTokens) {
+      queryBuilder.addSelect('restaurant.printerAppConnectionCode');
+    }
+
+    return queryBuilder.getOne();
   }
 
   public async saveRestaurant(restaurant: Restaurant) {

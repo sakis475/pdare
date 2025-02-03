@@ -8,10 +8,26 @@ import cors from 'cors';
 import { api } from './routes/api.routes';
 import morgan from 'morgan';
 import { redisConnection } from './database/redis';
+import path from 'path';
 
 // initBrowser();
 redisConnection();
 const app = express();
+
+app.use(
+  '/public',
+  express.static(path.join(__dirname, '../public'), {
+    // Enable directory listing (optional)
+    dotfiles: 'ignore',
+    etag: true,
+    // Add cache control (optional)
+    maxAge: '1d',
+    // Add custom headers (optional)
+    setHeaders: (res, path, stat) => {
+      res.set('x-timestamp', Date.now().toString());
+    },
+  })
+);
 
 app.use(express.json());
 app.use(
