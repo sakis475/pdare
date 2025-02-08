@@ -68,8 +68,6 @@ export class PrinterService {
       printers =
         printers.filter((e) => e.analysisPrinter === true).length > 0
           ? printers.filter((e) => e.analysisPrinter === true)
-          : printers.find((e) => e.printLocation === PrintLocation.BAR)
-          ? [printers.find((e) => e.printLocation === PrintLocation.BAR)]
           : printers.length > 0
           ? [printers[0]]
           : [];
