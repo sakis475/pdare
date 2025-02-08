@@ -8,7 +8,7 @@ console.log('Environment variables:', {
   port: process.env.DB_PORT,
   username: process.env.DB_USERNAME,
   database: process.env.DB_DATABASE,
-  env_type: process.env.ENV_TYPE
+  env_type: process.env.ENV_TYPE,
 });
 
 const isDev = process.env.ENV_TYPE?.toUpperCase() === 'DEV';
@@ -30,9 +30,14 @@ const config: DataSourceOptions = {
   migrations: [path.join(__dirname, 'migrations', `*.${extension}`)],
   dropSchema: false,
   synchronize: true,
-  ssl: {
-    rejectUnauthorized: false
-  },
 };
+
+if (process.env.ENV_TYPE !== 'DEV') {
+  Object.assign(config, {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
+}
 
 export const AppDataSource = new DataSource(config);
