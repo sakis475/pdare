@@ -66,10 +66,13 @@ export class PrinterService {
     //1.5 Dont filter if printlocation is all. It means to print everywhere
     if (printType === PrintType.FINAL) {
       printers =
-        printers.filter((e) => e.analysisPrinter === true) || [
-          printers.find((e) => e.printLocation === PrintLocation.BAR),
-        ] || [printers[0]] ||
-        [];
+        printers.filter((e) => e.analysisPrinter === true).length > 0
+          ? printers.filter((e) => e.analysisPrinter === true)
+          : printers.find((e) => e.printLocation === PrintLocation.BAR)
+          ? [printers.find((e) => e.printLocation === PrintLocation.BAR)]
+          : printers.length > 0
+          ? [printers[0]]
+          : [];
     } else if (printLocation && printLocation !== PrintLocation.ALL) {
       printers = printers.filter(
         (e) =>
