@@ -45,7 +45,7 @@ morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 
 app.use(morgan(`:date[iso] :response-time ms :method :status :url`));
 
-app.use('/api/v1', api);
+app.use(`/api${process.env.OBS_PATH}/v1`, api);
 
 //express custom error handler
 app.use(errorHandler);
