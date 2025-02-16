@@ -32,8 +32,8 @@ export class InventoryService {
   }
 
   public async incrementOrderCount(restaurant: Restaurant) {
-    // First ensure inventory exists
-    const inventory = await this.getInventoryByRestaurant(restaurant);
+    // We need this to check inventory exists
+    await this.getInventoryByRestaurant(restaurant);
 
     // Now we can safely increment
     await this.inventoryRepository.increment(

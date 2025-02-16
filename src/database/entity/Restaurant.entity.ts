@@ -41,6 +41,9 @@ export class Restaurant {
   @Column({ type: 'text', nullable: true })
   restaurantLanguage?: string;
 
+  @Column({ default: 20, nullable: true })
+  orderDailyLimit?: number;
+
   @CreateDateColumn({ select: false })
   createdAt?: Date;
 

@@ -25,6 +25,7 @@ import { InventoryService } from '../services/inventory.service';
 import { PrintType } from '../services/printer.service';
 import { PrintLocation } from '../database/entity/Category.entity';
 import { UserType } from '../database/interfaces';
+import { addOrderToCountLimit } from '../lib/orderLimitting';
 
 const orderService = new OrderService();
 const orderItemService = new OrderItemService();
@@ -100,9 +101,20 @@ export async function createOrder(
     }
   }
 
-  const orderCount = (
-    await inventoryService.getInventoryByRestaurant(restaurant)
-  ).orderCount;
+  //This will ensure that inventory is created if not exists
+  const inventory = await inventoryService.getInventoryByRestaurant(restaurant);
+
+  //Do orders limit check
+  const rateLimitPass = await addOrderToCountLimit(inventory);
+
+  if (rateLimitPass === false) {
+    return res.status(200).json({
+      limitReached: true,
+      inventory,
+    });
+  }
+
+  const orderCount = inventory.orderCount;
 
   // Create the order
   const createOrder = orderService.create({

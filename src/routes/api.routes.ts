@@ -3,7 +3,6 @@ import { loginRouter } from './login.router';
 import { registerRouter } from './register.router';
 import { tablesRouter } from './tables.router';
 import { ordersRouter } from './orders.router';
-import { testRouter } from './test.router';
 import {
   adminAuthMiddleware,
   authMiddleware,
@@ -20,6 +19,7 @@ import { itemPropertyPatternRouter } from './itemPropertyPattern.router';
 import { healthCheckEmitter } from '../lib/socketio';
 import { printerApp } from './printerApp.router';
 import { printerRouter } from './printers.router';
+import { inventoryRouter } from './inventory.router';
 
 export const api = Router();
 
@@ -39,6 +39,8 @@ api.use('/itemProperties', authMiddleware, itemPropertyRouter);
 api.use('/itemPropertyPatterns', authMiddleware, itemPropertyPatternRouter);
 
 api.use('/orders', authMiddleware, ordersRouter);
+
+api.use('/inventory', authMiddleware, inventoryRouter);
 
 api.get('/health-check', basicAuthMiddleware, async (req, res) => {
   try {
@@ -69,5 +71,3 @@ api.get('/health-check-printer', printerAuthMiddleware, async (req, res) => {
 api.use('/printerApp', printerApp);
 
 api.use('/printers', basicAuthMiddleware, printerRouter);
-
-api.use('/test', testRouter);

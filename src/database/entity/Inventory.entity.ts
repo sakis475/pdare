@@ -16,7 +16,16 @@ export class Inventory {
   @Column({ default: 0 })
   orderCount: number;
 
-  @ManyToOne(() => Restaurant, { nullable: false })
+  @Column({ default: 0 })
+  currentLimitCount?: number;
+
+  @Column({ nullable: true })
+  currentLimitStart?: Date;
+
+  @Column({ nullable: true })
+  currentLimitEnd?: Date;
+
+  @ManyToOne(() => Restaurant, { nullable: false, eager: true })
   restaurant: Restaurant;
 
   @CreateDateColumn({ select: false })
