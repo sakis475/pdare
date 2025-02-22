@@ -99,3 +99,13 @@ export async function printerTest(
   console.log(connectedSocketClients);
   res.json();
 }
+
+export async function getActiveSocketConnections(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  console.log('getActiveSocketConnections');
+
+  res.json(connectedSocketClients);
+}
