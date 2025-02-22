@@ -109,9 +109,10 @@ export async function getActiveSocketConnections(
 
   // Convert the Map to an array of objects
   const activeConnections = Array.from(connectedSocketClients).map(
-    ([socketId, rooms]) => ({
+    ([socketId, clientInfo]) => ({
       socketId,
-      rooms: Array.from(rooms), // Convert Set to Array
+      user: clientInfo.user,
+      rooms: Array.from(clientInfo.rooms), // Convert Set to Array
     })
   );
 

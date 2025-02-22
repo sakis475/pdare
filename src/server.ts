@@ -6,7 +6,22 @@ import { verifyToken } from './auth/jwt';
 import { RestaurantService } from './services/restaurant.service';
 
 interface AuthenticatedSocket extends Socket {
-  user?: { username?: string; email?: string; role: string };
+  user?: {
+    username?: string;
+    email?: string;
+    role: string;
+    source: 'mobile_app' | 'printer_app';
+  };
+}
+
+interface SocketClientInfo {
+  user: {
+    username?: string;
+    email?: string;
+    role: string;
+    source: 'mobile_app' | 'printer_app';
+  };
+  rooms: Set<string>;
 }
 
 const restaurantService = new RestaurantService();
@@ -35,10 +50,18 @@ io.use(async (socket: AuthenticatedSocket, next) => {
     const decoded = verifyToken(token) as any;
 
     if (decoded.username) {
-      socket.user = { username: decoded.username, role: decoded.role };
+      socket.user = {
+        username: decoded.username,
+        role: decoded.role,
+        source: 'mobile_app',
+      };
       console.log('[mobile]', decoded.username, decoded.role);
     } else if (decoded.email) {
-      socket.user = { email: decoded.email, role: decoded.role };
+      socket.user = {
+        email: decoded.email,
+        role: decoded.role,
+        source: 'printer_app',
+      };
       console.log('[printer]', decoded.email, decoded.role);
       const restaurant = await restaurantService.getRestaurantByConnectionCode(
         token
@@ -55,7 +78,7 @@ io.use(async (socket: AuthenticatedSocket, next) => {
     return next(new Error('Invalid authentication token'));
   }
 });
-export const connectedSocketClients = new Map<string, Set<string>>();
+export const connectedSocketClients = new Map<string, SocketClientInfo>();
 
 const initializeSocket = () => {
   // Track connected clients and their rooms
@@ -66,7 +89,12 @@ const initializeSocket = () => {
         socket.user?.username ? 'User' : 'Printer'
       }: ${socket.user?.username ?? socket.user?.email})`
     );
-    connectedSocketClients.set(socket.id, new Set());
+
+    // Store user information and initialize rooms
+    connectedSocketClients.set(socket.id, {
+      user: socket.user!, // Use non-null assertion since the user is set in the middleware
+      rooms: new Set(),
+    });
 
     // Listen for client's hello response
     socket.on('client:hello', (message: string) => {
@@ -76,7 +104,13 @@ const initializeSocket = () => {
     socket.on('joinRestaurant', (restaurantId: string) => {
       const roomName = `restaurant:${restaurantId}`;
       socket.join(roomName);
-      connectedSocketClients.get(socket.id)?.add(roomName);
+
+      // Add the room to the client's room set
+      const clientInfo = connectedSocketClients.get(socket.id);
+      if (clientInfo) {
+        clientInfo.rooms.add(roomName);
+      }
+
       console.log(
         `Client ${socket.id} (${socket.user?.username ? 'User' : 'Printer'}: ${
           socket.user?.username ?? socket.user?.email
@@ -87,7 +121,13 @@ const initializeSocket = () => {
     socket.on('leaveRestaurant', (restaurantId: string) => {
       const roomName = `restaurant:${restaurantId}`;
       socket.leave(roomName);
-      connectedSocketClients.get(socket.id)?.delete(roomName);
+
+      // Remove the room from the client's room set
+      const clientInfo = connectedSocketClients.get(socket.id);
+      if (clientInfo) {
+        clientInfo.rooms.delete(roomName);
+      }
+
       console.log(
         `Client ${socket.id} (${socket.user?.username ? 'User' : 'Printer'}: ${
           socket.user?.username ?? socket.user?.email
@@ -102,6 +142,7 @@ const initializeSocket = () => {
         }: ${socket.user?.username ?? socket.user?.email})`
       );
 
+      // Remove the client from the map
       connectedSocketClients.delete(socket.id);
     });
   });
