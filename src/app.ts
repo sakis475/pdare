@@ -7,11 +7,11 @@ import { errorHandler } from './error_handler/error-handler';
 import cors from 'cors';
 import { api } from './routes/api.routes';
 import morgan from 'morgan';
-import { redisConnection } from './database/redis';
+// import { redisConnection } from './database/redis';
 import path from 'path';
 
 // initBrowser();
-redisConnection();
+// redisConnection();
 const app = express();
 
 app.use(

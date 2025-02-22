@@ -1,25 +1,66 @@
+version: '3.8'
+
 services:
-  postgres:
-    image: postgres:15.3
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=pda_db
-      - TZ=Europe/Athens
-    container_name: postgres-pdare
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pdare
     ports:
-      - 5436:5432
-    expose:
-      - 5436
-    volumes:
-      - ./docker-data/postgres-data:/var/lib/postgresql/data
+      - '8000:8000'
+    environment:
+      - ENV_TYPE=${ENV_TYPE}
+      - OBS_PATH=${OBS_PATH}
+      - SERVER_PORT=${SERVER_PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - JWT_EXPIRATION_MINUTES=${JWT_EXPIRATION_MINUTES}
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
+    depends_on:
+      - redis
+      - postgres
+    network_mode: 'host'
   redis:
     image: redis:6.2-alpine
     restart: unless-stopped
     container_name: redis-pdare
     ports:
-      - 6377:6379
+      - 6379:6379
     command: redis-server --save 20 1 --loglevel warning
     volumes:
       - ./docker-data/redis-data:/data
+  nginx:
+    image: nginx:latest
+    container_name: my-nginx
+    ports:
+      - '80:80'
+    environment:
+      - SERVER_NAME=${NGINX_SERVER_NAME}
+    volumes:
+      - ./docker/nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template
+    command: /bin/sh -c "envsubst '$$SERVER_NAME' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+    depends_on:
+      - app
+
+  postgres:
+    image: postgres:16
+    container_name: my-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pda_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    profiles:
+      - dev # This only runs in development profile
+volumes:
+  postgres-data:

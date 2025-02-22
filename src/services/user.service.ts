@@ -42,16 +42,6 @@ export class UserService {
     return user;
   }
 
-  public async getUserByUsername(username: string) {
-    const user = await this.userRepository.findOne({
-      where: {
-        username,
-        active: true,
-      },
-    });
-    return user;
-  }
-
   public async getUserByEmail(email: string, getTokens = false) {
     const user = await this.userRepository.findOne({
       where: {

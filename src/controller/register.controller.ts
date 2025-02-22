@@ -21,6 +21,11 @@ export async function postRegister(
   }
 
   const userService = new UserService();
+  const existingEmail = userService.getUserByEmail(email);
+
+  if (existingEmail) {
+    return next(new ErrorException(ErrorCode.DuplicateEmailError));
+  }
 
   const passwordHashed = passwordHash(password);
 

@@ -144,6 +144,12 @@ export class ErrorCode extends ErrorModel {
     code: 400,
   };
 
+  public static readonly DuplicateEmailError = {
+    message: 'Email already registered',
+    appcode: 'DT13',
+    code: 409,
+  };
+
   public static readonly BadRequestError = {
     message: 'Bad Request',
     appcode: 'CL01',

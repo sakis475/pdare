@@ -19,11 +19,7 @@ export async function postLogin(
   }
   const userService = new UserService();
 
-  const user = await userService.getUserByEmailOrUsername(
-    username,
-    username,
-    true
-  );
+  const user = await userService.getUserByEmailOrUsername(null, username, true);
   if (!user || !user.active) {
     return next(new ErrorException(ErrorCode.NoUserOrDisabledError));
   }
