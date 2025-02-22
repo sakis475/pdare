@@ -16,6 +16,6 @@ adminRouter.post('/testio', catchWrapper(testio));
 adminRouter.post('/printer-test-order', catchWrapper(printerTest));
 
 adminRouter.get(
-  'socket-active-connections',
+  '/socket-active-connections',
   catchWrapper(getActiveSocketConnections)
 );
