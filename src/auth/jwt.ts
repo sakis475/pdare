@@ -14,7 +14,7 @@ export const generateAuthToken = (user: Partial<User>) => {
   const token = jwt.sign(
     {
       email: user.email,
-      restaurant: user.restaurant.id,
+      restaurant: user?.restaurant?.id,
       role: user.role,
       source: 'mobile_app',
     },

@@ -91,7 +91,7 @@ export const basicAuthMiddleware = async (
         return next(new ErrorException(ErrorCode.JWTExpired));
       }
 
-      if (!userJWT?.username)
+      if (!userJWT?.email)
         return next(new ErrorException(ErrorCode.Unauthorized));
 
       const user = await userService.getUserByJWT(token);

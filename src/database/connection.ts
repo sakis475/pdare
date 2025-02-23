@@ -12,7 +12,7 @@ console.log('Environment variables:', {
 });
 
 const isDev = process.env.ENV_TYPE?.toUpperCase() === 'DEV';
-const extension = 'js'; //isDev ? 'ts' : 'js';
+const extension = isDev ? 'ts' : 'js';
 
 console.log('Running in', isDev ? 'development' : 'production', 'mode');
 console.log('Using file extension:', extension);

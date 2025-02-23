@@ -58,7 +58,7 @@ io.use(async (socket: AuthenticatedSocket, next) => {
     };
     socket.initializedAt = new Date();
     if (decoded.source === 'mobile_app') {
-      console.log('[mobile]', decoded.username, decoded.role);
+      console.log('[mobile]', decoded.email, decoded.role);
       const user = await userService.getUserByJWT(token);
       if (!user) {
         return next(
@@ -147,6 +147,26 @@ const initializeSocket = () => {
 
   return io;
 };
+
+const removeDeadConnections = () => {
+  connectedSocketClients.forEach((clientInfo, socketId) => {
+    const socket = io.sockets.sockets.get(socketId);
+    if (socket) {
+      // If the client is not in any rooms except their own socket room, disconnect them
+      if (clientInfo.rooms.size === 0) {
+        console.log(`Disconnecting dead connection: ${socketId}`);
+        socket.disconnect(true);
+        connectedSocketClients.delete(socketId);
+      }
+    } else {
+      // If the socket is not found, remove it from the map
+      connectedSocketClients.delete(socketId);
+    }
+  });
+};
+
+// Run cleanup every 30 seconds
+setInterval(removeDeadConnections, 30 * 1000);
 
 // Start the server and initialize sockets
 const startServer = () => {
