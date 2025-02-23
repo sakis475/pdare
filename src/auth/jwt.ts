@@ -13,8 +13,10 @@ const userService = new UserService();
 export const generateAuthToken = (user: Partial<User>) => {
   const token = jwt.sign(
     {
-      username: user.username,
+      email: user.email,
+      restaurant: user.restaurant.id,
       role: user.role,
+      source: 'mobile_app',
     },
     jwtKey,
     {
@@ -58,7 +60,9 @@ export const generatePrinterAppToken = (user: Partial<User>) => {
   const token = jwt.sign(
     {
       email: user.email,
+      restaurant: user.restaurant.id,
       role: user.role,
+      source: 'printer_app',
     },
     jwtKey,
     {

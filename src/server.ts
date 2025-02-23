@@ -1,14 +1,15 @@
 import { app } from './app';
 import { createServer } from 'node:http';
 import { Server, Socket } from 'socket.io';
-import jwt from 'jsonwebtoken';
 import { verifyToken } from './auth/jwt';
 import { RestaurantService } from './services/restaurant.service';
+import { UserService } from './services/user.service';
 
 interface AuthenticatedSocket extends Socket {
+  initializedAt?: Date;
   user?: {
-    username?: string;
-    email?: string;
+    email: string;
+    restaurant: number;
     role: string;
     source: 'mobile_app' | 'printer_app';
   };
@@ -25,6 +26,7 @@ interface SocketClientInfo {
 }
 
 const restaurantService = new RestaurantService();
+const userService = new UserService();
 
 const server = createServer(app);
 
@@ -48,20 +50,24 @@ io.use(async (socket: AuthenticatedSocket, next) => {
   try {
     // Verify JWT token
     const decoded = verifyToken(token) as any;
-
-    if (decoded.username) {
-      socket.user = {
-        username: decoded.username,
-        role: decoded.role,
-        source: 'mobile_app',
-      };
+    socket.user = {
+      email: decoded.email,
+      restaurant: decoded.restaurant,
+      role: decoded.role,
+      source: decoded.source,
+    };
+    socket.initializedAt = new Date();
+    if (decoded.source === 'mobile_app') {
       console.log('[mobile]', decoded.username, decoded.role);
-    } else if (decoded.email) {
-      socket.user = {
-        email: decoded.email,
-        role: decoded.role,
-        source: 'printer_app',
-      };
+      const user = await userService.getUserByJWT(token);
+      if (!user) {
+        return next(
+          new Error(
+            'Invalid authentication user token [Not Found ConnectionCode]'
+          )
+        );
+      }
+    } else if (decoded.source === 'printer_app') {
       console.log('[printer]', decoded.email, decoded.role);
       const restaurant = await restaurantService.getRestaurantByConnectionCode(
         token
@@ -84,11 +90,7 @@ const initializeSocket = () => {
   // Track connected clients and their rooms
 
   io.on('connection', (socket: AuthenticatedSocket) => {
-    console.log(
-      `Client connected: ${socket.id} (${
-        socket.user?.username ? 'User' : 'Printer'
-      }: ${socket.user?.username ?? socket.user?.email})`
-    );
+    console.log(`Client connected: ${socket.id}: ${socket.user?.email}`);
 
     // Store user information and initialize rooms
     connectedSocketClients.set(socket.id, {
@@ -112,9 +114,7 @@ const initializeSocket = () => {
       }
 
       console.log(
-        `Client ${socket.id} (${socket.user?.username ? 'User' : 'Printer'}: ${
-          socket.user?.username ?? socket.user?.email
-        }) joined room ${roomName}`
+        `Client ${socket.id}: ${socket.user?.email}) joined room ${roomName}`
       );
     });
 
@@ -129,17 +129,15 @@ const initializeSocket = () => {
       }
 
       console.log(
-        `Client ${socket.id} (${socket.user?.username ? 'User' : 'Printer'}: ${
-          socket.user?.username ?? socket.user?.email
-        }) left room ${roomName}`
+        `Client ${socket.id}: ${socket.user?.email}) left room ${roomName}`
       );
     });
 
     socket.on('disconnect', () => {
       console.log(
         `Client disconnected: ${socket.id} (${
-          socket.user?.username ? 'User' : 'Printer'
-        }: ${socket.user?.username ?? socket.user?.email})`
+          socket.user?.email ? 'User' : 'Printer'
+        }`
       );
 
       // Remove the client from the map
