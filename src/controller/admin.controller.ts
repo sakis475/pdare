@@ -16,7 +16,8 @@ import {
 import { connectedSocketClients } from '../server';
 import { OrderService } from '../services/order.service';
 import { PrintType } from '../services/printer.service';
-
+import { sendEmail } from '../lib/sendEmail';
+import { otpFallbackText, otpTemplate } from '../lib/emailVerification/content';
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
   req: Request,
@@ -117,4 +118,18 @@ export async function getActiveSocketConnections(
   );
 
   res.json(activeConnections);
+}
+
+export async function sendTestEmail(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  await sendEmail({
+    to: 'sakis475@gmail.com',
+    subject: 'ServeTab - Email Verification',
+    html: otpTemplate('123456'),
+    text: otpFallbackText('123456'),
+  });
+  res.json();
 }

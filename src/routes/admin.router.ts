@@ -4,6 +4,7 @@ import {
   createRestaurantAdmin,
   getActiveSocketConnections,
   printerTest,
+  sendTestEmail,
   testio,
 } from '../controller/admin.controller';
 
@@ -19,3 +20,5 @@ adminRouter.get(
   '/socket-active-connections',
   catchWrapper(getActiveSocketConnections)
 );
+
+adminRouter.post('/sendTestEmail', catchWrapper(sendTestEmail));

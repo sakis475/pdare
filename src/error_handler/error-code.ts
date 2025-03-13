@@ -69,7 +69,19 @@ export class ErrorCode extends ErrorModel {
   public static readonly NoPermission = {
     message: 'No permission to do that',
     appcode: 'AU07',
-    code: 401,
+    code: 400,
+  };
+
+  public static readonly OTPIsNotCorrect = {
+    message: 'OTP Entered is not correct',
+    appcode: 'AU08',
+    code: 400,
+  };
+
+  public static readonly OTPISExpired = {
+    message: 'OTP is Expired',
+    appcode: 'AU09',
+    code: 400,
   };
 
   public static readonly NotFound = {
@@ -91,7 +103,7 @@ export class ErrorCode extends ErrorModel {
   };
 
   public static readonly NoUserFoundError = {
-    message: 'User Name does not exist',
+    message: 'Email does not exist',
     appcode: 'DT04',
     code: 404,
   };

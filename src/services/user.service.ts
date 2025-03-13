@@ -7,6 +7,8 @@ import {
   PaginationParams,
   UserType,
 } from '../database/interfaces';
+import { passwordHash } from '../auth/password-hash';
+import { getRandomString } from '../lib/helpers/formUtils';
 
 export class UserService {
   userRepository: Repository<User>;
@@ -101,6 +103,17 @@ export class UserService {
 
   public async disableUser(user: User): Promise<User> {
     return await this.userRepository.save(user);
+  }
+
+  public async resetPassword(user: User) {
+    const password = getRandomString(8);
+    const passwordHashed = passwordHash(password);
+
+    user.passwordHashed = passwordHashed;
+
+    await this.userRepository.save(user);
+
+    return password;
   }
 
   private clearJWTtoken(user: User): User {

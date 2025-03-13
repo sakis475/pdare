@@ -20,6 +20,8 @@ import { healthCheckEmitter } from '../lib/socketio';
 import { printerApp } from './printerApp.router';
 import { printerRouter } from './printers.router';
 import { inventoryRouter } from './inventory.router';
+import { catchWrapper } from '../error_handler/error-handler';
+import { resetPassword } from '../controller/user.controller';
 
 export const api = Router();
 
@@ -28,6 +30,9 @@ api.use('/admin', adminAuthMiddleware, adminRouter);
 
 api.use('/login', loginRouter);
 api.use('/register', registerRouter);
+
+//reset password endpoint is public
+api.post('/resetPassword', catchWrapper(resetPassword));
 
 api.use('/user', basicAuthMiddleware, userRouter);
 

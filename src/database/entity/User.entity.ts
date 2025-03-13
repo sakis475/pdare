@@ -22,6 +22,9 @@ export class User {
   @Column({ type: 'text', unique: true })
   email: string;
 
+  @Column({ default: false })
+  emailVerified?: boolean;
+
   @Column({ type: 'text', nullable: true })
   firstName?: string;
 

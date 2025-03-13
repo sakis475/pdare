@@ -13,9 +13,25 @@ import { User } from '../database/entity/User.entity';
 import { InvitationRequestService } from '../services/invitationRequest.service';
 import { InvitationRequestStatus } from '../database/entity/InvitationRequest.entity';
 import { RestaurantService } from '../services/restaurant.service';
-import { isEmailValid, isPasswordValid } from '../lib/helpers/formUtils';
+import {
+  getRandomInt,
+  isEmailValid,
+  isPasswordValid,
+} from '../lib/helpers/formUtils';
 import { usersUpdatedEmitter } from '../lib/socketio';
 import _ from 'lodash';
+import {
+  redisDel,
+  redisGet,
+  redisGetWithTTL,
+  redisSet,
+} from '../database/redis';
+import { sendEmail } from '../lib/sendEmail';
+import { otpFallbackText, otpTemplate } from '../lib/emailVerification/content';
+import {
+  resetPasswordFallbackText,
+  resetPasswordTemplate,
+} from '../lib/emailReset/content';
 
 const restaurantService = new RestaurantService();
 const userService = new UserService();
@@ -99,6 +115,119 @@ export async function getInvitation(
     (e) => e.invitationStatus === InvitationRequestStatus.AWAITING
   );
   res.json(userWithInvitations);
+}
+
+export async function verifyOTP(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const user: User = res.locals.user;
+
+  if (user.emailVerified === true) {
+    return res.json({ success: true });
+  }
+
+  const otpEntered: string = req.body.otp;
+
+  console.log(otpEntered, 'otpEntered');
+  const otpKey = `otp-${user.id}`;
+  const activeOTP = await redisGet(otpKey);
+  console.log(activeOTP, 'activeOTP');
+
+  if (!activeOTP) {
+    return next(new ErrorException(ErrorCode.OTPISExpired));
+  } else if (otpEntered === activeOTP) {
+    user.emailVerified = true;
+    await userService.saveUser(user);
+    await redisDel(otpKey);
+
+    return res.json({ success: true });
+  } else {
+    return next(new ErrorException(ErrorCode.OTPIsNotCorrect));
+  }
+}
+
+export async function createOTP(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const user: User = res.locals.user;
+
+  if (user.emailVerified) {
+    return next(new ErrorException(ErrorCode.BadRequestError));
+  }
+  const otpKey = `otp-${user.id}`;
+
+  const otpttl = 60 * 5; //  5 minutes
+
+  const activeOTP = await redisGetWithTTL(otpKey);
+
+  console.log(activeOTP.ttl > otpttl - 60, 'activeOTP.ttl > otpttl - 60');
+  if (activeOTP?.value && activeOTP.ttl > otpttl - 60) {
+    return res.json({ ttl: activeOTP.ttl });
+  }
+
+  const otp = [4, 1, 6, 0, 9, 3].map((e) => getRandomInt(10)).join('');
+
+  await redisSet(otpKey, otp, otpttl);
+
+  await sendEmail({
+    to: user.email,
+    subject: 'ServeTab - Email Verification',
+    html: otpTemplate(otp),
+    text: otpFallbackText(otp),
+  });
+
+  res.json({ ttl: otpttl - 1 });
+}
+
+export async function existsOTP(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const user: User = res.locals.user;
+
+  const otpKey = `otp-${user.id}`;
+
+  const activeOTP = await redisGetWithTTL(otpKey);
+
+  res.json({ ttl: activeOTP?.ttl ?? null });
+}
+
+export async function resetPassword(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const email = req.body.email;
+
+  const user = await userService.getUserByEmail(email);
+
+  if (!user) {
+    return next(new ErrorException(ErrorCode.NoUserFoundError));
+  }
+
+  const passwordResetKey = `resetpassword-${user.id}`;
+  const passwordResetTimeout = 60 * 1;
+  const activeReset = await redisGetWithTTL(passwordResetKey);
+
+  if (activeReset?.ttl) {
+    return res.json({ ttl: activeReset.ttl });
+  } else {
+    await redisSet(passwordResetKey, user.email, passwordResetTimeout);
+    const password = await userService.resetPassword(user);
+    await sendEmail({
+      to: user.email,
+      subject: 'ServeTab - Reset Password',
+      html: resetPasswordTemplate(password),
+      text: resetPasswordFallbackText(password),
+    });
+
+    res.json({ success: true });
+  }
 }
 
 export async function sendInvitationToJoinRestaurant(

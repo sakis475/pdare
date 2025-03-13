@@ -4,8 +4,10 @@ import {
   cancelInvitationToJoinRestaurant,
   connectPrinterApp,
   createNewRestaurant,
+  createOTP,
   deleteRestaurant,
   deleteUser,
+  existsOTP,
   getInvitation,
   getUsers,
   leaveRestaurant,
@@ -15,6 +17,7 @@ import {
   updateRestaurant,
   updateUser,
   updateUserFromAdmin,
+  verifyOTP,
   waiterResponseInvite,
 } from '../controller/user.controller';
 import {
@@ -32,6 +35,12 @@ userRouter.get('/search', authMiddleware, catchWrapper(searchUser));
 
 //routes
 userRouter.get('/invite', basicAuthMiddleware, catchWrapper(getInvitation));
+
+userRouter.post('/existsOTP', basicAuthMiddleware, catchWrapper(existsOTP));
+
+userRouter.post('/createOTP', basicAuthMiddleware, catchWrapper(createOTP));
+
+userRouter.post('/verifyOTP', basicAuthMiddleware, catchWrapper(verifyOTP));
 
 //admin routes
 userRouter.post(
