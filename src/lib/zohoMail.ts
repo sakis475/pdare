@@ -52,7 +52,7 @@ export async function sendZohoEmail({
     console.error('❌ Failed to get access token. Cannot send email.');
     return false;
   }
-  content = otpTemplate(123456);
+  content = otpTemplate('123456');
   try {
     const response = await axios.post(
       `https://mail.zoho.eu/api/accounts/${process.env.ZOHO_ACCOUNT_ID}/messages`,
