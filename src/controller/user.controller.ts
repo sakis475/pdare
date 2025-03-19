@@ -139,10 +139,15 @@ export async function verifyOTP(
     return next(new ErrorException(ErrorCode.OTPISExpired));
   } else if (otpEntered === activeOTP) {
     user.emailVerified = true;
+
+    const tokenJWT = generateAuthToken(user);
+    user.token = tokenJWT.token;
+
     await userService.saveUser(user);
     await redisDel(otpKey);
 
-    return res.json({ success: true });
+    const responseData = { ...tokenJWT, user };
+    res.json(responseData);
   } else {
     return next(new ErrorException(ErrorCode.OTPIsNotCorrect));
   }
@@ -443,6 +448,15 @@ export async function deleteRestaurant(
 
   const sessionBearer = await prepareUserSessionBearer(user);
   res.json(sessionBearer);
+
+  const restaurantUsers = await userService.getUsersByRestaurant(restaurant);
+
+  for (const restaurantUser of restaurantUsers) {
+    restaurantUser.role = UserType.GUEST;
+    restaurantUser.restaurant = null;
+  }
+
+  await userService.userRepository.save(restaurantUsers);
 
   usersUpdatedEmitter(restaurant);
 }

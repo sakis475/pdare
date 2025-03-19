@@ -17,6 +17,12 @@ const extension = isDev ? 'ts' : 'js';
 console.log('Running in', isDev ? 'development' : 'production', 'mode');
 console.log('Using file extension:', extension);
 
+console.log('Entities Path:', path.join(__dirname, 'entity', `*.${extension}`));
+console.log(
+  'Migrations Path:',
+  path.join(__dirname, 'migrations', `*.${extension}`)
+);
+
 const config: DataSourceOptions = {
   type: 'postgres',
   driver: PlatformTools.load('pg'),

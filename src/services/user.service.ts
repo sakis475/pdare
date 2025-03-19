@@ -101,10 +101,6 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
-  public async disableUser(user: User): Promise<User> {
-    return await this.userRepository.save(user);
-  }
-
   public async resetPassword(user: User) {
     const password = getRandomString(8);
     const passwordHashed = passwordHash(password);
