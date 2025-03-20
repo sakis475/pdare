@@ -8,6 +8,7 @@ import cors from 'cors';
 import { api } from './routes/api.routes';
 import morgan from 'morgan';
 import { redisConnection } from './database/redis';
+import fs from 'fs';
 import path from 'path';
 
 // initBrowser();
@@ -33,7 +34,15 @@ app.use(morgan(`:date[iso] :response-time ms :method :status :url`));
 app.use(`/api${process.env.OBS_PATH}/v1`, api);
 
 app.get('/servetab-printer-app', (req, res) => {
-  res.redirect(process.env.PRINTER_APP_WIN_URL);
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const userAgent = req.headers['user-agent'];
+
+  const logMessage = `[${new Date().toISOString()}] IP: ${ip} - User-Agent: ${userAgent}\n`;
+
+  const logFilePath = path.join(__dirname, 'redirect.log');
+  fs.appendFileSync(logFilePath, logMessage, 'utf8');
+
+  res.redirect(process.env.PRINTER_APP_WIN_URL as string);
 });
 
 //express custom error handler
