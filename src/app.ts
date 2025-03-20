@@ -14,21 +14,6 @@ import path from 'path';
 redisConnection();
 const app = express();
 
-app.use(
-  '/public',
-  express.static(path.join(__dirname, '../public'), {
-    // Enable directory listing (optional)
-    dotfiles: 'ignore',
-    etag: true,
-    // Add cache control (optional)
-    maxAge: '1d',
-    // Add custom headers (optional)
-    setHeaders: (res, path, stat) => {
-      res.set('x-timestamp', Date.now().toString());
-    },
-  })
-);
-
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -46,6 +31,10 @@ morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 app.use(morgan(`:date[iso] :response-time ms :method :status :url`));
 
 app.use(`/api${process.env.OBS_PATH}/v1`, api);
+
+app.get('/servetab-printer-app', (req, res) => {
+  res.redirect(process.env.PRINTER_APP_WIN_URL);
+});
 
 //express custom error handler
 app.use(errorHandler);
