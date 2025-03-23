@@ -5,7 +5,6 @@ import {
   Entity,
   Index,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -14,7 +13,6 @@ import {
 } from 'typeorm';
 import { Order } from './Order.entity';
 import { Restaurant } from './Restaurant.entity';
-import { OrderService } from '../../services/order.service';
 
 @Entity()
 export class Table {
@@ -30,12 +28,15 @@ export class Table {
   @Column({ nullable: true })
   tableOrder?: number;
 
+  @Index()
   @ManyToOne(() => Restaurant)
   restaurant: Restaurant;
 
+  @Index()
   @OneToMany(() => Order, (order) => order.table, { eager: false })
   orders?: Order[];
 
+  @Index()
   @OneToOne(() => Order, (Order) => Order.activeTable, { eager: true })
   @JoinColumn()
   occupiedByOrder?: Order;

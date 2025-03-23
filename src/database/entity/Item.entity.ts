@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -31,12 +32,14 @@ export class Item {
   @Column({ type: 'float' })
   cost: number;
 
+  @Index()
   @ManyToOne(() => Category, { eager: true })
   category: Category;
 
   @Column({ nullable: true })
   orderItem?: number;
 
+  @Index()
   @ManyToOne(() => Restaurant, { eager: true })
   restaurant: Restaurant;
 

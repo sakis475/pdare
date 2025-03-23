@@ -5,6 +5,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import { Restaurant } from './Restaurant.entity';
 import { Category } from './Category.entity';
@@ -30,12 +31,14 @@ export class ItemPropertiesPattern {
     dependsOn?: number;
   }[];
 
+  @Index()
   @ManyToOne(() => Restaurant, { onDelete: 'CASCADE' })
   restaurant: Restaurant;
 
   @Column({ default: 0 })
   propertyPatternOrder?: number;
 
+  @Index()
   @ManyToOne(() => Category, { eager: true, onDelete: 'CASCADE' })
   category: Category;
 

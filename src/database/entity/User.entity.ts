@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -56,6 +57,7 @@ export class User {
   )
   invitations?: InvitationRequest[];
 
+  @Index()
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
   restaurant?: Restaurant;
 

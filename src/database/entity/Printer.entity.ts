@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -51,6 +52,7 @@ export class Printer {
   @Column({ type: 'boolean', default: false })
   isDeleted?: boolean;
 
+  @Index()
   @ManyToOne(() => Restaurant, { eager: true, cascade: true, nullable: true })
   restaurant?: Restaurant;
 

@@ -23,9 +23,11 @@ export class InvitationRequest {
   @PrimaryGeneratedColumn()
   id?: number;
 
+  @Index()
   @ManyToOne(() => User, { eager: true })
   inviteFrom: User;
 
+  @Index()
   @ManyToOne(() => User, { eager: true })
   inviteTo: User;
 
@@ -36,6 +38,7 @@ export class InvitationRequest {
   })
   invitationStatus?: InvitationRequestStatus;
 
+  @Index()
   @ManyToOne(() => Restaurant, { eager: true })
   restaurant: Restaurant;
 

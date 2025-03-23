@@ -57,9 +57,11 @@ export class ItemProperty {
   @Column({ nullable: true })
   orderItem?: number;
 
+  @Index()
   @ManyToOne(() => Item, (item) => item.itemProperties)
   item: Item;
 
+  @Index()
   @ManyToOne(() => Restaurant)
   restaurant: Restaurant;
 }

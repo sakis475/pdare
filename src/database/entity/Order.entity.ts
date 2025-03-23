@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -21,9 +22,11 @@ export class Order {
   @Column({ nullable: true })
   uniqueId?: string;
 
+  @Index()
   @ManyToOne(() => User, { nullable: false })
   user: User;
 
+  @Index()
   @ManyToOne(() => Table, {
     eager: false,
     cascade: true,

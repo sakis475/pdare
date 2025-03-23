@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -25,6 +26,7 @@ export class Inventory {
   @Column({ nullable: true })
   currentLimitEnd?: Date;
 
+  @Index()
   @ManyToOne(() => Restaurant, { nullable: false, eager: true })
   restaurant: Restaurant;
 

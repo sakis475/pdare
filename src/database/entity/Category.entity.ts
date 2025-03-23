@@ -40,6 +40,7 @@ export class Category {
   @Column({ default: true })
   isEnabled?: boolean;
 
+  @Index()
   @ManyToOne(() => Restaurant, { nullable: false })
   restaurant: Restaurant;
 

@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -16,12 +17,14 @@ export class OrderItem {
   @PrimaryGeneratedColumn()
   id?: number;
 
+  @Index()
   @ManyToOne(() => Order, (order) => order.orderItems, {
     onDelete: 'CASCADE',
     nullable: false,
   })
   order: Order;
 
+  @Index()
   @ManyToOne(() => Item, { onDelete: 'CASCADE', eager: true, nullable: false })
   item: Item;
 
