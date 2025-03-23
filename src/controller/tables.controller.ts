@@ -14,8 +14,11 @@ export async function getTables(
   next: NextFunction
 ) {
   const restaurant: Restaurant = res.locals.user.restaurant;
-
-  const tables = await tableService.getEnabledTablesWithOrder(restaurant);
+  const onlyAvailableTables: boolean = req.query.availableOnly === 'true';
+  const tables = await tableService.getEnabledTablesWithOrder(
+    restaurant,
+    onlyAvailableTables
+  );
 
   res.json(tables);
 }

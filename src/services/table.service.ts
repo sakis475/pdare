@@ -50,9 +50,10 @@ export class TableService {
     return categories;
   }
   public async getEnabledTablesWithOrder(
-    restaurant: Restaurant
+    restaurant: Restaurant,
+    onlyAvailableTables = false
   ): Promise<Table[]> {
-    const tables = await this.tableRepository
+    const query = this.tableRepository
       .createQueryBuilder('table')
       .leftJoinAndSelect('table.occupiedByOrder', 'order')
       .leftJoinAndSelect('order.orderItems', 'orderItems')
@@ -63,11 +64,20 @@ export class TableService {
       .where('table.restaurant = :restaurantId', {
         restaurantId: restaurant.id,
       })
-      .andWhere('order.id IS NOT NULL')
+      .andWhere(
+        '(table.isEnabled = true OR (table.isEnabled = false AND order.id IS NOT NULL))'
+      )
       .andWhere('order.closedAt IS NULL')
       .orderBy('order.id', 'DESC')
-      .addOrderBy('orderItems.id', 'ASC')
-      .getMany();
+      .addOrderBy('orderItems.id', 'ASC');
+
+    // If onlyAvailableTables is true, filter tables that are not currently occupied by any orders
+    if (onlyAvailableTables) {
+      query.andWhere('order.id IS NULL');
+    }
+
+    // Execute the query
+    const tables = await query.getMany();
 
     return tables;
   }
