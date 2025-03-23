@@ -35,7 +35,7 @@ const config: DataSourceOptions = {
   entities: [path.join(__dirname, 'entity', `*.${extension}`)],
   migrations: [path.join(__dirname, 'migrations', `*.${extension}`)],
   dropSchema: false,
-  synchronize: true,
+  synchronize: false,
 };
 
 if (process.env.ENV_TYPE !== 'DEV') {
