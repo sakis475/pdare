@@ -326,7 +326,10 @@ export async function updateOrder(
 
   order.finalCost = orderService.calculateFinal(order, restaurant).total;
 
-  if (order.orderItems?.filter((e) => !e.removedAt)?.length === 0) {
+  const isOrderEmpty =
+    order.orderItems?.filter((e) => !e.removedAt)?.length === 0;
+
+  if (isOrderEmpty) {
     order.closedAt = dayjs().toDate();
     order.table.occupiedByOrder = null;
   }
@@ -337,7 +340,7 @@ export async function updateOrder(
   const savedOrder: Order = await orderService.saveOrder(order);
 
   const tableCopy = _.cloneDeep(savedOrder.table);
-  if (order.orderItems?.length === 0) {
+  if (isOrderEmpty) {
     tableCopy.occupiedByOrder = null;
   } else {
     tableCopy.occupiedByOrder = order;
