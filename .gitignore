@@ -6,4 +6,4 @@ dist
 
 .redirect.log
 
-/database/migrations/*
+**/migrations/*
