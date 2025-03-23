@@ -32,7 +32,6 @@ export class Table {
   @ManyToOne(() => Restaurant)
   restaurant: Restaurant;
 
-  @Index()
   @OneToMany(() => Order, (order) => order.table, { eager: false })
   orders?: Order[];
 

@@ -32,8 +32,8 @@ const config: DataSourceOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   logging: false,
-  entities: [path.join(__dirname, 'entity', `*.${extension}`)],
-  migrations: [path.join(__dirname, 'migrations', `*.${extension}`)],
+  entities: [path.join(__dirname, 'entity', '*.{js,ts}')],
+  migrations: [path.join(__dirname, 'database', 'migrations', '*.{js,ts}')],
   dropSchema: false,
   synchronize: false,
 };
