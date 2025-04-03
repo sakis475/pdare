@@ -52,7 +52,7 @@ export class ItemService {
   ): Promise<Item[]> {
     const whereQuery = {
       restaurant: { id: restaurant.id },
-      isEnabled: true,
+      // isEnabled: true,
     };
 
     if (category) {
