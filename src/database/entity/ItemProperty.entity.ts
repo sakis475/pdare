@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   Index,
@@ -64,4 +66,11 @@ export class ItemProperty {
   @Index()
   @ManyToOne(() => Restaurant)
   restaurant: Restaurant;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  trimProperties() {
+    this.propertyName = this.propertyName?.trim();
+    this.propertyValue = this.propertyValue?.trim();
+  }
 }
