@@ -96,7 +96,7 @@ export async function searchUser(
   const userSearched = await userService.getUserByEmail(searchKeyword);
 
   if (userSearched?.restaurant?.id === user?.restaurant?.id) {
-    return null;
+    return res.json();
   }
 
   res.json(userSearched);
