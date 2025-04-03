@@ -69,7 +69,7 @@ export class ItemProperty {
 
   @BeforeInsert()
   @BeforeUpdate()
-  trimProperties() {
+  trimProperties?() {
     this.propertyName = this.propertyName?.trim();
     this.propertyValue = this.propertyValue?.trim();
   }
