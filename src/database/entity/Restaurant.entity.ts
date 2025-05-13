@@ -49,4 +49,9 @@ export class Restaurant {
 
   @UpdateDateColumn({ select: false })
   updatedAt?: Date;
+
+  @Column({ default: null, nullable: true })
+  printersConnectionMethod?: PrintersConnectionMethod;
 }
+
+export type PrintersConnectionMethod = 'DesktopApp' | 'SmartphoneClient';

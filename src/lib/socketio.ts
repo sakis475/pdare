@@ -11,11 +11,12 @@ import { CategoryService } from '../services/category.service';
 import { PrinterService, PrintType } from '../services/printer.service';
 import { Printer } from '../database/entity/Printer.entity';
 import { Order } from '../database/entity/Order.entity';
-import { OrderService } from '../services/order.service';
 import { PrintLocation } from '../database/entity/Category.entity';
-
-const printerService = new PrinterService();
-const orderService = new OrderService();
+import { User } from '../database/entity/User.entity';
+import {
+  addPrintOrderSmartphoneQueue,
+  desktopAppSendPrint,
+} from './print/printHelpers';
 
 export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
@@ -111,29 +112,20 @@ export async function printOrderEmitter(
   printType = PrintType.PERSONEL,
   printCouvert = true,
   printLocation: PrintLocation = PrintLocation.ALL,
-  isReprint = false
+  isReprint = false,
+  user: User = null
 ) {
-  const restaurant = order.user.restaurant;
-  const emitSignal = `printOrder:${restaurant.id}`;
-  const roomName = `restaurant:${restaurant.id}`;
-
-  if (!printCouvert) {
-    order.couvert = null;
+  if (order.user.restaurant.printersConnectionMethod === 'DesktopApp') {
+    await desktopAppSendPrint(
+      order,
+      printType,
+      printCouvert,
+      printLocation,
+      isReprint
+    );
+  } else {
+    addPrintOrderSmartphoneQueue(user);
   }
-  order = await printerService.addOrderPrintInfo(
-    order,
-    printType,
-    printLocation,
-    isReprint
-  );
-
-  if (!order) {
-    console.log('No printers found, nothing to emit.');
-  }
-
-  console.log(`Emitting ${emitSignal} to room ${roomName}`);
-
-  socketIO.to(roomName).emit(emitSignal, order);
 }
 
 export async function requestPrinterScanEmitter(restaurant: Restaurant) {

@@ -182,7 +182,14 @@ export async function createOrder(
 
   savedOrder.user = user;
   orderUpdatedEmitter(restaurant);
-  printOrderEmitter(savedOrder, PrintType.PERSONEL);
+  printOrderEmitter(
+    savedOrder,
+    PrintType.PERSONEL,
+    undefined,
+    undefined,
+    undefined,
+    user
+  );
 }
 
 export async function updateOrder(
@@ -357,7 +364,14 @@ export async function updateOrder(
     (savedOrderItems.filter((e) => !e.removedAt)?.length || couvertChanged)
   ) {
     savedOrder.orderItems = savedOrderItems;
-    await printOrderEmitter(savedOrder, PrintType.PERSONEL, couvertChanged);
+    await printOrderEmitter(
+      savedOrder,
+      PrintType.PERSONEL,
+      couvertChanged,
+      undefined,
+      undefined,
+      user
+    );
   }
 }
 
@@ -367,6 +381,8 @@ export async function printOrder(
   next: NextFunction
 ) {
   const restaurant: Restaurant = res.locals.user.restaurant;
+
+  const user: User = res.locals.user;
 
   let printType: PrintType = [PrintType.FINAL, PrintType.PERSONEL].includes(
     req.body.printType
@@ -405,7 +421,7 @@ export async function printOrder(
     return next(new ErrorException(ErrorCode.NotFound));
   }
 
-  await printOrderEmitter(order, printType, true, printLocation, true);
+  await printOrderEmitter(order, printType, true, printLocation, true, user);
 
   res.json();
 }
