@@ -4,6 +4,10 @@ import { Server, Socket } from 'socket.io';
 import { verifyToken } from './auth/jwt';
 import { RestaurantService } from './services/restaurant.service';
 import { UserService } from './services/user.service';
+import {
+  connectedSocketClients,
+  socketClientManager,
+} from './lib/socketClientManager';
 
 interface AuthenticatedSocket extends Socket {
   initializedAt?: Date;
@@ -84,16 +88,14 @@ io.use(async (socket: AuthenticatedSocket, next) => {
     return next(new Error('Invalid authentication token'));
   }
 });
-export const connectedSocketClients = new Map<string, SocketClientInfo>();
 
 const initializeSocket = () => {
   // Track connected clients and their rooms
-
   io.on('connection', (socket: AuthenticatedSocket) => {
     console.log(`Client connected: ${socket.id}: ${socket.user?.email}`);
 
     // Store user information and initialize rooms
-    connectedSocketClients.set(socket.id, {
+    socketClientManager.set(socket.id, {
       user: socket.user!, // Use non-null assertion since the user is set in the middleware
       rooms: new Set(),
     });
@@ -108,7 +110,7 @@ const initializeSocket = () => {
       socket.join(roomName);
 
       // Add the room to the client's room set
-      const clientInfo = connectedSocketClients.get(socket.id);
+      const clientInfo = socketClientManager.getSocketClientInfo(socket.id);
       if (clientInfo) {
         clientInfo.rooms.add(roomName);
       }
@@ -123,7 +125,7 @@ const initializeSocket = () => {
       socket.leave(roomName);
 
       // Remove the room from the client's room set
-      const clientInfo = connectedSocketClients.get(socket.id);
+      const clientInfo = socketClientManager.getSocketClientInfo(socket.id);
       if (clientInfo) {
         clientInfo.rooms.delete(roomName);
       }
@@ -141,7 +143,7 @@ const initializeSocket = () => {
       );
 
       // Remove the client from the map
-      connectedSocketClients.delete(socket.id);
+      socketClientManager.delete(socket.id);
     });
   });
 
@@ -156,11 +158,11 @@ const removeDeadConnections = () => {
       if (clientInfo.rooms.size === 0) {
         console.log(`Disconnecting dead connection: ${socketId}`);
         socket.disconnect(true);
-        connectedSocketClients.delete(socketId);
+        socketClientManager.delete(socketId);
       }
     } else {
       // If the socket is not found, remove it from the map
-      connectedSocketClients.delete(socketId);
+      socketClientManager.delete(socketId);
     }
   });
 };
