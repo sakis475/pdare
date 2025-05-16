@@ -13,10 +13,8 @@ import { Printer } from '../database/entity/Printer.entity';
 import { Order } from '../database/entity/Order.entity';
 import { PrintLocation } from '../database/entity/Category.entity';
 import { User } from '../database/entity/User.entity';
-import {
-  addPrintOrderSmartphoneQueue,
-  desktopAppSendPrint,
-} from './print/printHelpers';
+import { desktopAppSendPrint } from './print/printHelpers';
+import { printOrderQueue } from '../queues/bullProducer';
 
 export async function orderUpdatedEmitter(restaurant: Restaurant) {
   const tableService = new TableService();
@@ -124,7 +122,14 @@ export async function printOrderEmitter(
       isReprint
     );
   } else {
-    addPrintOrderSmartphoneQueue(user);
+    printOrderQueue(
+      order,
+      printType,
+      printCouvert,
+      printLocation,
+      isReprint,
+      user
+    );
   }
 }
 

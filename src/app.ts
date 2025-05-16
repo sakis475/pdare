@@ -10,8 +10,10 @@ import morgan from 'morgan';
 import { redisConnection } from './database/redis';
 import fs from 'fs';
 import path from 'path';
+import { startWorkers } from './queues/bullWorker';
 
 // initBrowser();
+startWorkers();
 redisConnection();
 const app = express();
 
