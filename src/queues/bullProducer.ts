@@ -1,11 +1,9 @@
-import { Queue } from 'bullmq';
-import { bullConnection } from './bullmqConnection';
 import { User } from '../database/entity/User.entity';
 import { PrintLocation } from '../database/entity/Category.entity';
 import { Order } from '../database/entity/Order.entity';
 import { PrintType } from '../services/printer.service';
 import { printQueue } from './bullQueues';
-import dayjs from '../lib/dayjs';
+import { generatePrintQueueJobId } from '../lib/print/printHelpers';
 
 export async function printOrderQueue(
   order: Order,
@@ -16,7 +14,7 @@ export async function printOrderQueue(
   user: User
 ) {
   return await printQueue.add(
-    `print-order-${order.id}-${dayjs().toISOString()}`,
+    generatePrintQueueJobId(user.restaurant),
     {
       order,
       printType,
@@ -24,6 +22,10 @@ export async function printOrderQueue(
       printLocation,
       isReprint,
       user,
+    },
+    {
+      removeOnComplete: true,
+      removeOnFail: true,
     }
   );
 }
