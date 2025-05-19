@@ -26,6 +26,7 @@ export class PrinterService {
   ): Promise<Printer[]> {
     const whereCondition: any = {
       restaurant: { id: restaurant.id },
+      isDeleted: false,
     };
 
     if (onlyActive) {
