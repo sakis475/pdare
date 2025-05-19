@@ -5,7 +5,7 @@ import { printQueue } from './bullQueues';
 import { Request, Response, NextFunction } from 'express';
 
 export const serverAdapter = new ExpressAdapter();
-serverAdapter.setBasePath(`/admin/queues`);
+serverAdapter.setBasePath(`/api${process.env.OBS_PATH}/v1/admin/queues`);
 
 createBullBoard({
   queues: [new BullMQAdapter(printQueue)],
