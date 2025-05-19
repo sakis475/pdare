@@ -18,13 +18,13 @@ export class Printer {
   @Column({ type: 'text' })
   printerNickname: string;
 
-  @Column({ type: 'text', unique: true })
+  @Column({ type: 'text', nullable: true, unique: true })
   printerMac: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   printerIp: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   printerPort: string;
 
   @Column({ type: 'text', nullable: true })
