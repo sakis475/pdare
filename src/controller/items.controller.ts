@@ -62,6 +62,10 @@ export async function createItems(
     return next(new ErrorException(ErrorCode.WrongInput));
   }
 
+  for (const item of items) {
+    item.cost = parseFloat(item.cost?.toFixed(2));
+  }
+
   const restaurant: Restaurant = res.locals.user.restaurant;
   const categories = await categoryService.getCategoryByIds(
     items.map((e) => e.categoryId),
@@ -110,6 +114,10 @@ export async function updateItems(
 
   if (!Array.isArray(itemsReq)) {
     return next(new ErrorException(ErrorCode.WrongInput));
+  }
+
+  for (const item of itemsReq) {
+    item.cost = parseFloat(item.cost?.toFixed(2));
   }
 
   const restaurant: Restaurant = res.locals.user.restaurant;
