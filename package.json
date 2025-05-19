@@ -20,6 +20,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@bull-board/api": "^6.9.6",
+    "@bull-board/express": "^6.9.6",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.0",
     "bullmq": "^5.52.2",

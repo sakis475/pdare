@@ -10,6 +10,7 @@ import { sendPrintOrderBuffer } from '../lib/print/socketioPrint';
 export function startWorkers() {
   const orderPrintQueueWorker = new Worker(
     'order-print-queue',
+
     async (job) => {
       const buffer = job.data as {
         order: Order;
@@ -30,7 +31,11 @@ export function startWorkers() {
 
       await sendPrintOrderBuffer(buffer.user, printBuffers);
     },
-    { connection: bullConnection, concurrency: 1 }
+    {
+      connection: bullConnection,
+      concurrency: 1,
+      removeOnComplete: { age: 2592000 },
+    } //remove months old
   );
 
   orderPrintQueueWorker.on('completed', (job) =>
