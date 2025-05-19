@@ -35,12 +35,18 @@ morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 app.use(
   morgan(`:date[iso] :response-time ms :method :status :url`, {
     skip: (req) => {
-      return req.originalUrl.startsWith('/admin/queues');
+      return req.originalUrl.startsWith(
+        `/api${process.env.OBS_PATH}/v1/admin/queues`
+      );
     },
   })
 );
 
-app.use(`/admin/queues`, adminQueueAuthMiddleware, serverAdapter.getRouter());
+app.use(
+  `/api${process.env.OBS_PATH}/v1/admin/queues`,
+  adminQueueAuthMiddleware,
+  serverAdapter.getRouter()
+);
 
 app.use(`/api${process.env.OBS_PATH}/v1`, api);
 
