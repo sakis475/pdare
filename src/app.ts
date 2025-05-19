@@ -10,8 +10,11 @@ import morgan from 'morgan';
 import { redisConnection } from './database/redis';
 import fs from 'fs';
 import path from 'path';
+import { startWorkers } from './queues/bullWorker';
+import { adminQueueAuthMiddleware, serverAdapter } from './queues/bullBoard';
 
 // initBrowser();
+startWorkers();
 redisConnection();
 const app = express();
 
@@ -29,7 +32,15 @@ morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 // \x1b[33m:body`)
 // );
 
-app.use(morgan(`:date[iso] :response-time ms :method :status :url`));
+app.use(
+  morgan(`:date[iso] :response-time ms :method :status :url`, {
+    skip: (req) => {
+      return req.originalUrl.startsWith('/admin/queues');
+    },
+  })
+);
+
+app.use(`/admin/queues`, adminQueueAuthMiddleware, serverAdapter.getRouter());
 
 app.use(`/api${process.env.OBS_PATH}/v1`, api);
 

@@ -7,6 +7,7 @@ import { PrintLocation } from '../database/entity/Category.entity';
 import { Order } from '../database/entity/Order.entity';
 import { OrderItem } from '../database/entity/OrderItem.entity';
 import { sortBy } from 'lodash';
+import dayjs from '../lib/dayjs';
 
 export class PrinterService {
   printerRepository: Repository<Printer>;
@@ -25,6 +26,7 @@ export class PrinterService {
   ): Promise<Printer[]> {
     const whereCondition: any = {
       restaurant: { id: restaurant.id },
+      isDeleted: false,
     };
 
     if (onlyActive) {
@@ -82,7 +84,7 @@ export class PrinterService {
     if (!isReprint && printType !== PrintType.FINAL) {
       const latestCreatedAt = Math.max(
         ...order.orderItems.map((item) =>
-          item.createdAt ? item.createdAt.getTime() : 0
+          item.createdAt ? dayjs(item.createdAt).unix() : 0
         )
       );
 
@@ -91,7 +93,7 @@ export class PrinterService {
         (item) =>
           item.createdAt &&
           !item.removedAt &&
-          item.createdAt.getTime() === latestCreatedAt
+          dayjs(item.createdAt).unix() === latestCreatedAt
       );
     }
 

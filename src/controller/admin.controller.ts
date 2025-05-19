@@ -13,11 +13,11 @@ import {
   printOrderEmitter,
   usersUpdatedEmitter,
 } from '../lib/socketio';
-import { connectedSocketClients } from '../server';
 import { OrderService } from '../services/order.service';
 import { PrintType } from '../services/printer.service';
 import { sendEmail } from '../lib/sendEmail';
 import { otpFallbackText, otpTemplate } from '../lib/emailVerification/content';
+import { connectedSocketClients } from '../lib/socketClientManager';
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
   req: Request,
