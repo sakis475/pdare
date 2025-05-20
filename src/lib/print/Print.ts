@@ -8,6 +8,7 @@ import { PrintType } from '../../services/printer.service';
 import { Restaurant } from '../../database/entity/Restaurant.entity';
 import { OrderItem } from '../../database/entity/OrderItem.entity';
 import { Order } from '../../database/entity/Order.entity';
+import { PrintLocation } from '../../database/entity/Category.entity';
 
 interface PrinterConfig {
   printerIP: string;
@@ -107,7 +108,7 @@ class OrderPrinterAdapter {
     }`;
     this.printer = new ThermalPrinter({
       type: this.config.printerType,
-      interface: interfaceprinter,
+      interface: 'tcp://192.168.1.250',
       characterSet: this.config.characterSet,
       removeSpecialCharacters: false,
       options: { timeout: this.config.timeout },
@@ -168,7 +169,8 @@ class OrderPrinterAdapter {
     orderItems: OrderItem[],
     couvert: number,
     printType: PrintType,
-    restaurant: Restaurant | undefined
+    restaurant: Restaurant | undefined,
+    printerLocation: PrintLocation
   ): void {
     // Print title only for final print
     if (printType === 'final') {
@@ -190,10 +192,15 @@ class OrderPrinterAdapter {
         ? (restaurant.couvertCost * couvert).toFixed(2)
         : '0.00';
 
+    const isPrintCouvert =
+      printerLocation === 'kitchen' ||
+      printerLocation === 'all' ||
+      printType === PrintType.FINAL;
+
     // Print Couvert
-    if (couvert > 0) {
+    if (couvert > 0 && isPrintCouvert) {
       const couvertText = this.template.items?.couvertText || 'Κουβέρ';
-      if (printType === 'final') {
+      if (printType === PrintType.FINAL) {
         this.printItemLine(
           `${couvert}x ${couvertText}`,
           `${couvertCost}${this.currency}`
@@ -208,7 +215,7 @@ class OrderPrinterAdapter {
     orderItems.forEach((item) => {
       const text = `${item.quantity}x ${item.item.title}`;
 
-      if (printType === 'final') {
+      if (printType === PrintType.FINAL) {
         const total = item.item.cost * item.quantity;
         const price = `${total.toFixed(2)}${this.currency}`;
 
@@ -383,14 +390,11 @@ class OrderPrinterAdapter {
 
   async printOrder(
     order: Order & { printType: PrintType },
-    orderItems: OrderItem[]
+    orderItems: OrderItem[],
+    printerLocation: PrintLocation
   ): Promise<string> {
     try {
       if (!orderItems?.length) return null;
-      const isConnected = await this.printer.isPrinterConnected();
-      if (!isConnected) {
-        throw new Error('Printer not connected');
-      }
 
       this.currency = order.user?.restaurant?.currencySymbol
         ? order.user?.restaurant?.currencySymbol
@@ -409,7 +413,8 @@ class OrderPrinterAdapter {
         orderItems,
         order.couvert,
         order.printType,
-        order.user?.restaurant
+        order.user?.restaurant,
+        printerLocation
       );
       this.printTotals(order.finalCost, order.printType);
       this.printFooter(order.printType);

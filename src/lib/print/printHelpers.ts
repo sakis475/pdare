@@ -138,7 +138,8 @@ export const printOrder = async (
     );
     const buffer = await printerAdapter.printOrder(
       prepareOrder,
-      printer.orderItems
+      printer.orderItems,
+      printer.printLocation
     );
     if (buffer) {
       const printerAddress = `${printerIP}:${portString}`;
