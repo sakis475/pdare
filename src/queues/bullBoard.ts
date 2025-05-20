@@ -4,13 +4,16 @@ import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { printQueue } from './bullQueues';
 import { Request, Response, NextFunction } from 'express';
 
-export const serverAdapter = new ExpressAdapter();
-serverAdapter.setBasePath(`/api${process.env.OBS_PATH}/v1/admin/queues`);
+const serverAdapter = new ExpressAdapter();
 
 createBullBoard({
   queues: [new BullMQAdapter(printQueue)],
   serverAdapter: serverAdapter,
 });
+
+serverAdapter.setBasePath(`/api${process.env.OBS_PATH}/v1/admin/queues`);
+
+export const BullRouter = serverAdapter.getRouter();
 
 // Authentication middleware
 export const adminQueueAuthMiddleware = (

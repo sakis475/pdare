@@ -11,7 +11,7 @@ import { redisConnection } from './database/redis';
 import fs from 'fs';
 import path from 'path';
 import { startWorkers } from './queues/bullWorker';
-import { adminQueueAuthMiddleware, serverAdapter } from './queues/bullBoard';
+import { adminQueueAuthMiddleware, BullRouter } from './queues/bullBoard';
 
 // initBrowser();
 startWorkers();
@@ -44,8 +44,8 @@ app.use(
 
 app.use(
   `/api${process.env.OBS_PATH}/v1/admin/queues`,
-  adminQueueAuthMiddleware,
-  serverAdapter.getRouter()
+  // adminQueueAuthMiddleware,
+  BullRouter
 );
 
 app.use(`/api${process.env.OBS_PATH}/v1`, api);
