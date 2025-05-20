@@ -11,7 +11,11 @@ import { redisConnection } from './database/redis';
 import fs from 'fs';
 import path from 'path';
 import { startWorkers } from './queues/bullWorker';
-import { adminQueueAuthMiddleware, BullRouter } from './queues/bullBoard';
+import {
+  adminQueueAuthMiddleware,
+  bullBoardbasePath,
+  BullRouter,
+} from './queues/bullBoard';
 
 // initBrowser();
 startWorkers();
@@ -47,6 +51,15 @@ app.use(
   // adminQueueAuthMiddleware,
   BullRouter
 );
+
+// Debugging middleware registration
+console.log(`Registering Bull Board router at path: ${bullBoardbasePath}`);
+app.use(
+  bullBoardbasePath,
+  // adminQueueAuthMiddleware, // Uncomment if authentication is required
+  BullRouter
+);
+console.log('Bull Board router registered successfully.');
 
 app.use(`/api${process.env.OBS_PATH}/v1`, api);
 
