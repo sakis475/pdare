@@ -634,6 +634,7 @@ export async function updateRestaurant(
     currencySymbol,
     couvertCost,
     restaurantLanguage,
+    printersConnectionMethod,
   } = req.body;
 
   const user: User = res.locals.user;
@@ -655,6 +656,13 @@ export async function updateRestaurant(
 
   if (restaurantLanguage) {
     user.restaurant.restaurantLanguage = restaurantLanguage.trim();
+  }
+
+  if (
+    printersConnectionMethod === 'DesktopApp' ||
+    printersConnectionMethod === 'SmartphoneClient'
+  ) {
+    user.restaurant.printersConnectionMethod = printersConnectionMethod;
   }
   await restaurantService.saveRestaurant(user.restaurant);
 
