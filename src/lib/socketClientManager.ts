@@ -14,30 +14,51 @@ export const connectedSocketClients = new Map<string, SocketClientInfo>();
 export const connectedSocketUsers = new Map<string, string>();
 
 export const socketClientManager = {
+  // Remove all existing socket entries for a user email
+  removeByEmail(email: string) {
+    for (const [socketId, clientInfo] of connectedSocketClients.entries()) {
+      if (clientInfo.user.email === email) {
+        connectedSocketClients.delete(socketId);
+      }
+    }
+    connectedSocketUsers.delete(email);
+  },
+
   set(socketId: string, clientInfo: SocketClientInfo) {
-    connectedSocketClients.set(socketId, clientInfo);
     if (clientInfo.user.email) {
+      // Remove old sockets for this email before adding new one
+      this.removeByEmail(clientInfo.user.email);
+
       connectedSocketUsers.set(clientInfo.user.email, socketId);
     }
+
+    connectedSocketClients.set(socketId, clientInfo);
   },
 
   getSocketClientInfo(socketId: string) {
     return connectedSocketClients.get(socketId);
   },
 
+  getBySocketId(socketId: string) {
+    return socketIO.sockets.sockets.get(socketId);
+  },
+
   getByEmail(email: string) {
     const socketId = connectedSocketUsers.get(email);
-    if (socketId) {
-      return socketIO.sockets.sockets.get(socketId); // ✅ Return actual socket instance
-    }
-    return undefined;
+    return this.getBySocketId(socketId);
   },
 
   delete(socketId: string) {
     const clientInfo = connectedSocketClients.get(socketId);
-    if (clientInfo && clientInfo.user.email) {
-      connectedSocketUsers.delete(clientInfo.user.email);
+    if (clientInfo) {
+      connectedSocketClients.delete(socketId);
+
+      if (clientInfo.user.email) {
+        const mappedSocketId = connectedSocketUsers.get(clientInfo.user.email);
+        if (mappedSocketId === socketId) {
+          connectedSocketUsers.delete(clientInfo.user.email);
+        }
+      }
     }
-    connectedSocketClients.delete(socketId);
   },
 };
