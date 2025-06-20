@@ -95,12 +95,6 @@ const initializeSocket = () => {
   io.on('connection', (socket: AuthenticatedSocket) => {
     console.log(`Client connected: ${socket.id}: ${socket.user?.email}`);
 
-    // Store user information and initialize rooms
-    socketClientManager.set(socket.id, {
-      user: socket.user!, // Use non-null assertion since the user is set in the middleware
-      rooms: new Set(),
-    });
-
     // Listen for client's hello response
     socket.on('client:hello', (message: string) => {
       console.log(`Received from client: ${message}`);
@@ -110,17 +104,10 @@ const initializeSocket = () => {
       const roomName = `restaurant:${restaurantId}`;
       socket.join(roomName);
 
-      // Add the room to the client's room set
-      const clientInfo = socketClientManager.getSocketClientInfo(socket.id);
-      if (clientInfo) {
-        clientInfo.rooms.add(roomName);
-        // Store user information and initialize rooms
-        socketClientManager.set(socket.id, {
-          user: socket.user!, // Use non-null assertion since the user is set in the middleware
-          rooms: new Set(),
-        });
-      }
-
+      socketClientManager.set(socket.id, {
+        user: socket.user!, // Use non-null assertion since the user is set in the middleware
+        rooms: new Set([roomName]),
+      });
       console.log(
         `Client ${socket.id}: ${socket.user?.email}) joined room ${roomName}`
       );
