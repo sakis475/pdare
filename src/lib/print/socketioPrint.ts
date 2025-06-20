@@ -21,6 +21,12 @@ export const sendPrintOrderBuffer = async (
 
       socket.emit('printOrder', printBuffers, (ackResponse: any) => {
         clearTimeout(timeout); // Clear the timeout if acknowledgment is received
+
+        if (ackResponse.status !== 'success') {
+          return reject(
+            new Error(`Print order failed: ${ackResponse?.message}`)
+          );
+        }
         console.log('Acknowledgment received from client:', ackResponse);
         resolve();
       });

@@ -26,6 +26,11 @@ export async function printOrderQueue(
     {
       removeOnComplete: true,
       removeOnFail: true,
+      attempts: 3, // ✅ Allow 3 attempts
+      backoff: {
+        type: 'exponential', // Or 'exponential' if you prefer
+        delay: 2.6, // 2.6 seconds delay between retries
+      },
     }
   );
 }
