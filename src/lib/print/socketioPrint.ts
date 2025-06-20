@@ -39,5 +39,7 @@ export const sendPrintOrderBuffer = async (
       'Error in sendPrintOrderBuffer:',
       error instanceof Error ? error.message : 'Unknown error'
     );
+
+    throw error; // ✅ Rethrow so BullMQ will know the job failed
   }
 };
