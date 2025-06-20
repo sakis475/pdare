@@ -8,6 +8,7 @@ import {
   connectedSocketClients,
   socketClientManager,
 } from './lib/socketClientManager';
+import dayjs from './lib/dayjs';
 
 interface AuthenticatedSocket extends Socket {
   initializedAt?: Date;
@@ -98,6 +99,7 @@ const initializeSocket = () => {
     socketClientManager.set(socket.id, {
       user: socket.user!, // Use non-null assertion since the user is set in the middleware
       rooms: new Set(),
+      connectedAt: Date.now(),
     });
 
     // Listen for client's hello response

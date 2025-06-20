@@ -8,6 +8,7 @@ interface SocketClientInfo {
     source: 'mobile_app' | 'printer_app';
   };
   rooms: Set<string>;
+  connectedAt: number; // Timestamp to track connection time
 }
 
 export const connectedSocketClients = new Map<string, SocketClientInfo>();
@@ -29,13 +30,27 @@ export const socketClientManager = {
   },
 
   set(socketId: string, clientInfo: SocketClientInfo) {
-    if (clientInfo.user.email) {
-      // Remove old sockets for this email before adding new one
-      this.removeByEmail(clientInfo.user.email);
+    if (!clientInfo.user.email) return;
 
-      connectedSocketUsers.set(clientInfo.user.email, socketId);
+    const existingSocketId = connectedSocketUsers.get(clientInfo.user.email);
+
+    if (existingSocketId) {
+      const existingClient = connectedSocketClients.get(existingSocketId);
+
+      // If the new connection is older, ignore it
+      if (
+        existingClient &&
+        existingClient.connectedAt > clientInfo.connectedAt
+      ) {
+        return;
+      }
+
+      // Clean up the old connection
+      this.delete(existingSocketId);
     }
 
+    // Save the new socket
+    connectedSocketUsers.set(clientInfo.user.email, socketId);
     connectedSocketClients.set(socketId, clientInfo);
   },
 
