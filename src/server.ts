@@ -150,25 +150,25 @@ const initializeSocket = () => {
   return io;
 };
 
-const removeDeadConnections = () => {
-  connectedSocketClients.forEach((clientInfo, socketId) => {
-    const socket = io.sockets.sockets.get(socketId);
-    if (socket) {
-      // If the client is not in any rooms except their own socket room, disconnect them
-      if (clientInfo.rooms.size === 0) {
-        console.log(`Disconnecting dead connection: ${socketId}`);
-        socket.disconnect(true);
-        socketClientManager.delete(socketId);
-      }
-    } else {
-      // If the socket is not found, remove it from the map
-      socketClientManager.delete(socketId);
-    }
-  });
-};
+// const removeDeadConnections = () => {
+//   connectedSocketClients.forEach((clientInfo, socketId) => {
+//     const socket = io.sockets.sockets.get(socketId);
+//     if (socket) {
+//       // If the client is not in any rooms except their own socket room, disconnect them
+//       if (clientInfo.rooms.size === 0) {
+//         console.log(`Disconnecting dead connection: ${socketId}`);
+//         socket.disconnect(true);
+//         socketClientManager.delete(socketId);
+//       }
+//     } else {
+//       // If the socket is not found, remove it from the map
+//       socketClientManager.delete(socketId);
+//     }
+//   });
+// };
 
-// Run cleanup every 30 seconds
-setInterval(removeDeadConnections, 30 * 1000);
+// // Run cleanup every 30 seconds
+// setInterval(removeDeadConnections, 30 * 1000);
 
 // Start the server and initialize sockets
 const startServer = () => {

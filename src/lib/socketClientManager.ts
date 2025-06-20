@@ -24,6 +24,10 @@ export const socketClientManager = {
     connectedSocketUsers.delete(email);
   },
 
+  getBySocketId(socketId: string) {
+    return socketIO.sockets.sockets.get(socketId);
+  },
+
   set(socketId: string, clientInfo: SocketClientInfo) {
     if (clientInfo.user.email) {
       // Remove old sockets for this email before adding new one
@@ -37,10 +41,6 @@ export const socketClientManager = {
 
   getSocketClientInfo(socketId: string) {
     return connectedSocketClients.get(socketId);
-  },
-
-  getBySocketId(socketId: string) {
-    return socketIO.sockets.sockets.get(socketId);
   },
 
   getByEmail(email: string) {
