@@ -99,7 +99,6 @@ const initializeSocket = () => {
     socketClientManager.set(socket.id, {
       user: socket.user!, // Use non-null assertion since the user is set in the middleware
       rooms: new Set(),
-      connectedAt: Date.now(),
     });
 
     // Listen for client's hello response
