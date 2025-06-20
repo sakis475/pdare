@@ -114,6 +114,11 @@ const initializeSocket = () => {
       const clientInfo = socketClientManager.getSocketClientInfo(socket.id);
       if (clientInfo) {
         clientInfo.rooms.add(roomName);
+        // Store user information and initialize rooms
+        socketClientManager.set(socket.id, {
+          user: socket.user!, // Use non-null assertion since the user is set in the middleware
+          rooms: new Set(),
+        });
       }
 
       console.log(

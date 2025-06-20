@@ -36,24 +36,36 @@ export const socketClientManager = {
   ) {
     if (!clientInfo.user.email) return;
 
-    // 🚨 Only allow sockets that have joined at least one room
-    if (clientInfo.rooms.size === 0) {
-      console.warn(`Rejected socket ${socketId} - did not join any room`);
-      return;
-    }
-
     const email = clientInfo.user.email;
 
+    // Increment the version atomically
+    const newVersion = (connectionVersions.get(email) ?? 0) + 1;
+    connectionVersions.set(email, newVersion);
+
+    // Prepare the full client info
+    const fullClientInfo: SocketClientInfo = {
+      ...clientInfo,
+      connectionVersion: newVersion,
+    };
+
     const existingSocketId = connectedSocketUsers.get(email);
-    if (existingSocketId && existingSocketId !== socketId) {
-      // 🚨 Remove the previous connection regardless
+    if (existingSocketId) {
+      const existingClient = connectedSocketClients.get(existingSocketId);
+
+      // If existing client is newer, abort
+      if (
+        existingClient &&
+        existingClient.connectionVersion > fullClientInfo.connectionVersion
+      ) {
+        return;
+      }
+
+      // Remove old socket
       this.delete(existingSocketId);
     }
 
     connectedSocketUsers.set(email, socketId);
-    connectedSocketClients.set(socketId, {
-      ...clientInfo,
-    });
+    connectedSocketClients.set(socketId, fullClientInfo);
   },
 
   getSocketClientInfo(socketId: string) {
