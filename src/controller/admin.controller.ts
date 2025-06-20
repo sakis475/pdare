@@ -17,7 +17,10 @@ import { OrderService } from '../services/order.service';
 import { PrintType } from '../services/printer.service';
 import { sendEmail } from '../lib/sendEmail';
 import { otpFallbackText, otpTemplate } from '../lib/emailVerification/content';
-import { connectedSocketClients } from '../lib/socketClientManager';
+import {
+  connectedSocketClients,
+  connectedSocketUsers,
+} from '../lib/socketClientManager';
 //clients needs the REGISTER_AUTH_TOKEN to add it as a parameter of the URI
 export async function createRestaurantAdmin(
   req: Request,
@@ -106,10 +109,8 @@ export async function getActiveSocketConnections(
   res: Response,
   next: NextFunction
 ) {
-  console.log('getActiveSocketConnections');
-
   // Convert the Map to an array of objects
-  const activeConnections = Array.from(connectedSocketClients).map(
+  const connectedSocketClientsArray = Array.from(connectedSocketClients).map(
     ([socketId, clientInfo]) => ({
       socketId,
       user: clientInfo.user,
@@ -117,7 +118,14 @@ export async function getActiveSocketConnections(
     })
   );
 
-  res.json(activeConnections);
+  const connectedSocketUsersArray = Array.from(connectedSocketUsers).map(
+    ([email, socketId]) => ({
+      email,
+      socketId: socketId,
+    })
+  );
+
+  res.json({ connectedSocketClientsArray, connectedSocketUsersArray });
 }
 
 export async function sendTestEmail(
