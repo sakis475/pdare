@@ -30,37 +30,42 @@ export const socketClientManager = {
     return socketIO.sockets.sockets.get(socketId);
   },
 
-  set(socketId: string, clientInfo: SocketClientInfo) {
+  set(
+    socketId: string,
+    clientInfo: Omit<SocketClientInfo, 'connectionVersion'>
+  ) {
     if (!clientInfo.user.email) return;
 
     const email = clientInfo.user.email;
 
-    const currentVersion = connectionVersions.get(email) ?? 0;
-    const newVersion = currentVersion + 1;
-
-    clientInfo.connectionVersion = newVersion;
-
+    // Increment the version atomically
+    const newVersion = (connectionVersions.get(email) ?? 0) + 1;
     connectionVersions.set(email, newVersion);
 
-    const existingSocketId = connectedSocketUsers.get(email);
+    // Prepare the full client info
+    const fullClientInfo: SocketClientInfo = {
+      ...clientInfo,
+      connectionVersion: newVersion,
+    };
 
+    const existingSocketId = connectedSocketUsers.get(email);
     if (existingSocketId) {
       const existingClient = connectedSocketClients.get(existingSocketId);
 
-      // If the existing client has a newer version, ignore this connection
+      // If existing client is newer, abort
       if (
         existingClient &&
-        existingClient.connectionVersion > clientInfo.connectionVersion
+        existingClient.connectionVersion > fullClientInfo.connectionVersion
       ) {
         return;
       }
 
-      // Clean up the old socket
+      // Remove old socket
       this.delete(existingSocketId);
     }
 
     connectedSocketUsers.set(email, socketId);
-    connectedSocketClients.set(socketId, clientInfo);
+    connectedSocketClients.set(socketId, fullClientInfo);
   },
 
   getSocketClientInfo(socketId: string) {
