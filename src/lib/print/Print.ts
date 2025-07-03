@@ -395,7 +395,7 @@ class OrderPrinterAdapter {
   ): Promise<string> {
     try {
       if (!orderItems?.length) return null;
-
+      orderItems = orderItems.sort((a, b) => a.id - b.id);
       this.currency = order.user?.restaurant?.currencySymbol
         ? order.user?.restaurant?.currencySymbol
         : '€';
