@@ -423,7 +423,7 @@ export async function printOrder(
 
   await printOrderEmitter(order, printType, true, printLocation, true, user);
 
-  res.json();
+  res.json('ok');
 }
 
 export async function orderReady(
