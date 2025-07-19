@@ -78,8 +78,20 @@ export const basicAuthMiddleware = async (
 
       const userService = new UserService();
 
-      if (token === process.env.ADMIN_TOKEN && process.env.ENV_TYPE === 'DEV') {
-        const user = await userService.getUserByID(2);
+      if (token === process.env.ADMIN_TOKEN) {
+        const userIdHeader = req.headers['x-user-id'];
+
+        if (!userIdHeader) {
+          return res.status(400).json({ message: 'Missing x-user-id header' });
+        }
+
+        const userId = parseInt(userIdHeader as string, 10);
+
+        if (isNaN(userId)) {
+          return res.status(400).json({ message: 'Invalid user ID in header' });
+        }
+
+        const user = await userService.getUserByID(userId);
         res.locals.user = user;
         return next();
       }

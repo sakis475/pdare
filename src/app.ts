@@ -16,6 +16,7 @@ import {
   bullBoardbasePath,
   BullRouter,
 } from './queues/bullBoard';
+import { publicapi } from './routes/public.routes';
 
 // initBrowser();
 startWorkers();
@@ -51,6 +52,8 @@ app.use(
   // adminQueueAuthMiddleware,
   BullRouter
 );
+
+app.use(`/public/${process.env.OBS2_PATH}`, publicapi);
 
 // Debugging middleware registration
 console.log(`Registering Bull Board router at path: ${bullBoardbasePath}`);
