@@ -24,7 +24,7 @@ redisConnection();
 const app = express();
 
 const corsOptions = {
-  origin: ['https://servetab.com', 'https://www.servetab.com'],
+  origin: ['https://servetab.app', 'https://www.servetab.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
