@@ -25,19 +25,13 @@ const app = express();
 
 const corsOptions = {
   origin: ['https://servetab.com', 'https://www.servetab.com'],
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'Access-Control-Allow-Methods',
-    'Access-Control-Request-Headers',
-    'Access-Control-Allow-Origin',
-  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-  enablePreflight: true,
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.options('*', cors(corsOptions)); // enable preflight for all routes
 
 app.use(express.json());
 app.use(
