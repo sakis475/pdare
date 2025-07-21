@@ -23,31 +23,15 @@ startWorkers();
 redisConnection();
 const app = express();
 
+app.use(cors());
+app.options('*', cors());
+
 app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
   })
 );
-
-const allowedOrigins = ['https://servetab.app', 'https://www.servetab.app'];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // if you're using cookies or HTTP auth
-  })
-);
-
-app.options('*', cors());
 
 morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 
