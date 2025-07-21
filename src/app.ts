@@ -55,7 +55,7 @@ app.use(
   BullRouter
 );
 
-app.use(`/public/${process.env.OBS2_PATH}`, publicapi);
+app.use(`/public/${process.env.OBS2_PATH}`, cors(), publicapi);
 
 // Debugging middleware registration
 console.log(`Registering Bull Board router at path: ${bullBoardbasePath}`);
