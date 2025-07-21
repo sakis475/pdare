@@ -23,8 +23,20 @@ startWorkers();
 redisConnection();
 const app = express();
 
-app.use(cors());
-app.options('*', cors());
+const corsOptions = {
+  origin: ['https://servetab.com', 'https://www.servetab.com'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Access-Control-Allow-Methods',
+    'Access-Control-Request-Headers',
+  ],
+  credentials: true,
+  enablePreflight: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(
