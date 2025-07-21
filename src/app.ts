@@ -29,7 +29,24 @@ app.use(
     extended: true,
   })
 );
-app.use(cors());
+
+const allowedOrigins = ['https://servetab.app', 'https://www.servetab.app'];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // if you're using cookies or HTTP auth
+  })
+);
+
 morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 
 // app.use(
