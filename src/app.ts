@@ -23,15 +23,7 @@ startWorkers();
 redisConnection();
 const app = express();
 
-const corsOptions = {
-  origin: ['https://servetab.app', 'https://www.servetab.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // enable preflight for all routes
+app.use(cors());
 
 app.use(express.json());
 app.use(
