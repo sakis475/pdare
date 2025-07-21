@@ -30,6 +30,7 @@ const corsOptions = {
     'Authorization',
     'Access-Control-Allow-Methods',
     'Access-Control-Request-Headers',
+    'Access-Control-Allow-Origin',
   ],
   credentials: true,
   enablePreflight: true,
