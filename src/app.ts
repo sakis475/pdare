@@ -47,6 +47,8 @@ app.use(
   })
 );
 
+app.options('*', cors());
+
 morgan.token('body', (req: Request, res) => JSON.stringify(req.body, null, 2));
 
 // app.use(
