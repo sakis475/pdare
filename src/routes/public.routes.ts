@@ -4,6 +4,9 @@ import { sendEmail } from '../lib/sendEmail';
 
 export const publicapi = Router();
 
+publicapi.use(cors()); // enable CORS for all routes in this router
+publicapi.options('*', cors()); // enable preflight on all routes in router
+
 publicapi.post('/contact', async (req, res) => {
   if (!req.body['email']) {
     return res.status(400).send('Email is required');
@@ -56,3 +59,6 @@ publicapi.post('/contact', async (req, res) => {
     return res.status(400).send('CAPTCHA verification failed');
   }
 });
+function cors(): any {
+  throw new Error('Function not implemented.');
+}
