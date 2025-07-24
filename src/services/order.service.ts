@@ -2,6 +2,7 @@ import { Repository } from 'typeorm';
 import { AppDataSource } from '../database/dataSource';
 import { Order } from '../database/entity/Order.entity';
 import { Restaurant } from '../database/entity/Restaurant.entity';
+import { TableService } from './table.service';
 
 export class OrderService {
   orderRepository: Repository<Order>;
@@ -148,5 +149,41 @@ export class OrderService {
     return {
       total: finalCost,
     };
+  }
+
+  async autoCloseOrders() {
+    const ordersToClose = await this.orderRepository
+      .createQueryBuilder('order')
+      .leftJoinAndSelect('order.table', 'table')
+      .leftJoinAndSelect('order.user', 'user')
+      .leftJoinAndSelect('user.restaurant', 'restaurant')
+      .where('order.closedAt IS NULL')
+      .andWhere(
+        `order.createdAt < (NOW() - INTERVAL '1 hour' * restaurant.autoCloseOrderDelayHours)`
+      )
+      .getMany();
+
+    if (!ordersToClose.length) return 0;
+
+    // Update closedAt for orders
+    await this.orderRepository
+      .createQueryBuilder()
+      .update(Order)
+      .set({ closedAt: new Date() })
+      .whereInIds(ordersToClose.map((o) => o.id))
+      .execute();
+
+    // Clear occupiedByOrder for tables
+    const tableIds = ordersToClose.map((o) => o.table.id);
+    if (tableIds.length) {
+      const tableService = new TableService();
+      await tableService.tableRepository
+        .createQueryBuilder()
+        .update()
+        .set({ occupiedByOrder: null })
+        .whereInIds(tableIds)
+        .execute();
+    }
+    return ordersToClose.length;
   }
 }

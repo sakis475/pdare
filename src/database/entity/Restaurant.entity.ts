@@ -52,6 +52,12 @@ export class Restaurant {
 
   @Column({ default: null, nullable: true })
   printersConnectionMethod?: PrintersConnectionMethod;
+
+  @Column({
+    default: 12,
+    nullable: false,
+  })
+  autoCloseOrderDelayHours?: number;
 }
 
 export type PrintersConnectionMethod = 'DesktopApp' | 'SmartphoneClient';

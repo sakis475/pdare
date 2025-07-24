@@ -11,15 +11,13 @@ import { redisConnection } from './database/redis';
 import fs from 'fs';
 import path from 'path';
 import { startWorkers } from './queues/bullWorker';
-import {
-  adminQueueAuthMiddleware,
-  bullBoardbasePath,
-  BullRouter,
-} from './queues/bullBoard';
+import { bullBoardbasePath, BullRouter } from './queues/bullBoard';
 import { publicapi } from './routes/public.routes';
+import { startRepeatableQueues } from './queues/addRepeatableQueues';
 
 // initBrowser();
 startWorkers();
+startRepeatableQueues();
 redisConnection();
 const app = express();
 

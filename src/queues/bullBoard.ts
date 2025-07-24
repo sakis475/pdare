@@ -3,12 +3,16 @@ import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { printQueue } from './bullQueues';
 import { Request, Response, NextFunction } from 'express';
+import { closeOrdersInactiveRepeatableQueue } from './bullRepeatableQueues';
 
 const serverAdapter = new ExpressAdapter();
 
 console.log('Initializing Bull Board...');
 createBullBoard({
-  queues: [new BullMQAdapter(printQueue)],
+  queues: [
+    new BullMQAdapter(printQueue),
+    new BullMQAdapter(closeOrdersInactiveRepeatableQueue),
+  ],
   serverAdapter: serverAdapter,
 });
 
