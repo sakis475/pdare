@@ -84,7 +84,7 @@ export class OrderService {
       .leftJoinAndSelect('orderItems.item', 'items')
       .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
       .leftJoinAndSelect('itemPropertyOfItem.itemProperty', 'itemProperty')
-      .where('user.restaurantId = :restaurantId', {
+      .where('restaurant = :restaurantId', {
         restaurantId: restaurant.id,
       });
     if (fromDate) {
