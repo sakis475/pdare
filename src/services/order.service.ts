@@ -78,8 +78,8 @@ export class OrderService {
     const query = this.orderRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.user', 'user')
-      .leftJoinAndSelect('user.restaurant', 'restaurant')
       .leftJoinAndSelect('order.table', 'table')
+      .leftJoinAndSelect('table.restaurant', 'restaurant')
       .leftJoinAndSelect('order.orderItems', 'orderItems')
       .leftJoinAndSelect('orderItems.item', 'items')
       .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
