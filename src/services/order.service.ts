@@ -84,8 +84,8 @@ export class OrderService {
       .leftJoinAndSelect('orderItems.item', 'items')
       .leftJoinAndSelect('orderItems.itemPropertyOfItem', 'itemPropertyOfItem')
       .leftJoinAndSelect('itemPropertyOfItem.itemProperty', 'itemProperty')
-      .where('restaurant = :restaurantId', {
-        restaurantId: restaurant.id,
+      .where('restaurant.id = :restaurantid', {
+        restaurantid: restaurant.id,
       });
     if (fromDate) {
       query.andWhere('order.createdAt >= :fromDate', {
